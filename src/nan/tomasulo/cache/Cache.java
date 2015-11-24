@@ -117,7 +117,7 @@ public class Cache {
 	public LinkedList<CacheBlock> getSet(short setNum) {
 		LinkedList<CacheBlock> set = new LinkedList<>();
 		int numOfBlocks = 0;
-		int blockIndex = setNum / numOfSets;
+		int blockIndex = setNum *associativity;
 		while (numOfBlocks++ < associativity) {
 			set.add(blocks[blockIndex]);
 			blockIndex++;
