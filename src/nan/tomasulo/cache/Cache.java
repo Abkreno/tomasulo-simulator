@@ -9,7 +9,9 @@ public class Cache {
 
 	private int size; // total size of the cache in words
 	private int blockSize; // size of blocks in words
+	private int numOfBlocks;
 	private int associativity;
+	private int numOfSets; // depends on associativity
 
 	private int hits;
 	private int misses;
@@ -17,10 +19,13 @@ public class Cache {
 	private WritePolicy writePolicy;
 	private CacheType cacheType;
 
-	public Cache(int size, int blockSize, int associativity, WritePolicy writePolicy, CacheType cacheType) {
+	public Cache(int size, int blockSize, int associativity,
+			WritePolicy writePolicy, CacheType cacheType) {
 		this.size = size;
 		this.blockSize = blockSize;
+		this.numOfBlocks = size / blockSize + size % blockSize == 0 ? 0 : 1;
 		this.associativity = associativity;
+		this.numOfSets = numOfBlocks / associativity;
 		this.hits = 0;
 		this.misses = 0;
 		this.writePolicy = writePolicy;
@@ -102,4 +107,12 @@ public class Cache {
 		this.cacheType = cacheType;
 	}
 
+	public short getSetNumber(short address) {
+		address /= blockSize; // remove the offset bits
+		return address % numOfSets;
+	}
+
+	public CacheBlock getCacheBlock(short address) {
+		short setNum = getSetNumber(address);
+	}
 }
