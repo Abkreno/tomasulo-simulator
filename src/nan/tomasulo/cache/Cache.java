@@ -1,5 +1,7 @@
 package nan.tomasulo.cache;
 
+import java.util.LinkedList;
+
 import nan.tomasulo.utils.Constants.CacheType;
 import nan.tomasulo.utils.Constants.WritePolicy;
 
@@ -109,10 +111,22 @@ public class Cache {
 
 	public short getSetNumber(short address) {
 		address /= blockSize; // remove the offset bits
-		return address % numOfSets;
+		return (short) (address % numOfSets);
+	}
+
+	public LinkedList<CacheBlock> getSet(short setNum) {
+		LinkedList<CacheBlock> set = new LinkedList<>();
+		int numOfBlocks = 0;
+		int blockIndex = setNum / numOfSets;
+		while (numOfBlocks++ < associativity) {
+			set.add(blocks[blockIndex]);
+			blockIndex++;
+		}
+		return set;
 	}
 
 	public CacheBlock getCacheBlock(short address) {
 		short setNum = getSetNumber(address);
+		LinkedList<CacheBlock> set = getSet(setNum);
 	}
 }
