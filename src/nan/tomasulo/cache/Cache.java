@@ -109,15 +109,21 @@ public class Cache {
 		this.cacheType = cacheType;
 	}
 
-	public short getSetNumber(short address) {
+	public short getIndex(short address) {
 		address /= blockSize; // remove the offset bits
 		return (short) (address % numOfSets);
+	}
+
+	public short getTag(short address) {
+		address /= blockSize;
+		address /= numOfSets;
+		return address;
 	}
 
 	public LinkedList<CacheBlock> getSet(short setNum) {
 		LinkedList<CacheBlock> set = new LinkedList<>();
 		int numOfBlocks = 0;
-		int blockIndex = setNum *associativity;
+		int blockIndex = setNum * associativity;
 		while (numOfBlocks++ < associativity) {
 			set.add(blocks[blockIndex]);
 			blockIndex++;
@@ -126,7 +132,17 @@ public class Cache {
 	}
 
 	public CacheBlock getCacheBlock(short address) {
-		short setNum = getSetNumber(address);
+		short setNum = getIndex(address);
+		short tag = getTag(address);
 		LinkedList<CacheBlock> set = getSet(setNum);
+		for (CacheBlock block : set) {
+			if (block.getTag() == tag && block.isValid()) {
+				if (block.isDirty()) {
+					// TODO Handle what happens when a block is dirty
+				}
+				return block;
+			}
+		}
+		return null; // the targeted cache block was not found
 	}
 }
