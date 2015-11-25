@@ -2,6 +2,8 @@ package nan.tomasulo.cache;
 
 public class CacheBlock {
 	private int size; // size in words
+	private short tag;
+	private boolean valid, dirty;
 
 	private CacheEntry[] entries;
 
@@ -30,12 +32,14 @@ public class CacheBlock {
 	 */
 	public CacheEntry getEntry(short tag, short offset) {
 		if (offset <= this.entries.length - 1) {
-			if (this.entries[offset] != null && this.entries[offset].getTag() == tag
+			if (this.entries[offset] != null
+					&& this.entries[offset].getTag() == tag
 					&& this.entries[offset].isValid()) {
 				return this.entries[offset];
 			}
 		} else {
-			System.err.println("The offset provided is greater than the offset of the current block");
+			System.err
+					.println("The offset provided is greater than the offset of the current block");
 		}
 
 		return null;
@@ -79,6 +83,30 @@ public class CacheBlock {
 
 	public void setEntries(CacheEntry[] entries) {
 		this.entries = entries;
+	}
+
+	public short getTag() {
+		return tag;
+	}
+
+	public void setTag(short tag) {
+		this.tag = tag;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
 	}
 
 }
