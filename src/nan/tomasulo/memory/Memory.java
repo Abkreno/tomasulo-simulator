@@ -14,6 +14,16 @@ public final class Memory {
 	private static int programSize;
 	private static int programBeginning; // The starting address of the program
 
+	public static void init() {
+		Memory.memorySize = 64 * 1024 / 16;
+		Memory.programSize = -1;
+		Memory.blockSize = memorySize;
+		Memory.numOfBlocks = Memory.memorySize / blockSize + (Memory.memorySize % blockSize == 0 ? 0 : 1);
+		Memory.memoryData = new short[memorySize];
+		Memory.programBeginning = -1;
+		Memory.programData = null;
+	}
+
 	public static void init(int blockSize, int programSize, int programBeginning) {
 		Memory.memorySize = 64 * 1024 / 16;
 		Memory.programSize = programSize;
@@ -21,10 +31,11 @@ public final class Memory {
 		Memory.numOfBlocks = Memory.memorySize / blockSize + (Memory.memorySize % blockSize == 0 ? 0 : 1);
 		Memory.memoryData = new short[memorySize];
 		Memory.programBeginning = programBeginning;
+		Memory.programData = new String[programSize];
 	}
 
 	private Memory() {
-
+		init();
 	}
 
 	/**
@@ -86,8 +97,8 @@ public final class Memory {
 					String.format("Attempt to read instruction from data space for address %d", wordAddress));
 		}
 
-		return Arrays.copyOfRange(programData, (wordAddress / blockSize) * blockSize,
-				Math.min((wordAddress / blockSize) * blockSize + blockSize, memorySize));
+		return Arrays.copyOfRange(programData, (wordAddress - programBeginning - 1 / blockSize) * blockSize,
+				Math.min((wordAddress - programBeginning - 1 / blockSize) * blockSize + blockSize, memorySize));
 	}
 
 	/**
@@ -106,7 +117,7 @@ public final class Memory {
 					String.format("Attempt to write instruction to data space for address %d", wordAddress));
 		}
 
-		programData[wordAddress] = instruction;
+		programData[wordAddress - programBeginning - 1] = instruction;
 	}
 
 	// getters and setters
