@@ -3,6 +3,7 @@ package nan.tomasulo.memory;
 import java.util.Arrays;
 
 import nan.tomasulo.exceptions.InvalidReadException;
+import nan.tomasulo.exceptions.InvalidWriteException;
 
 public final class Memory {
 	private static short[] memoryData;
@@ -54,15 +55,15 @@ public final class Memory {
 	 * 
 	 * @param wordAddress
 	 * @param data
-	 * @throws InvalidReadException
+	 * @throws InvalidWriteException
 	 *             if the address is in program space or greater than the memory
 	 *             space
 	 */
-	public static void writeDataEntry(int wordAddress, short data) throws InvalidReadException {
+	public static void writeDataEntry(int wordAddress, short data) throws InvalidWriteException {
 		if (wordAddress > memorySize) {
-			throw new InvalidReadException("Target address is greater than the memory capacity");
+			throw new InvalidWriteException("Target address is greater than the memory capacity");
 		} else if (wordAddress >= programBeginning && wordAddress <= programBeginning + programSize) {
-			throw new InvalidReadException(
+			throw new InvalidWriteException(
 					String.format("Attempt to write data toinstruction space for address %d", wordAddress));
 		}
 
