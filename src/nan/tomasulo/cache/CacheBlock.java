@@ -7,40 +7,11 @@ public class CacheBlock {
 
 	private CacheEntry[] entries;
 
-	public CacheBlock(int size, CacheEntry[] entries) {
-		this.size = size;
-		this.entries = entries;
-	}
-
 	public CacheBlock(int size) {
 		this.size = size;
 
 		this.entries = new CacheEntry[size];
 		initializeEntries();
-	}
-
-	/**
-	 * Returns a specific entry in the cache block, checks the validity and tag
-	 * before returning it
-	 * 
-	 * @param tag
-	 *            tag of the entry obtained from the memory address
-	 * @param offset
-	 *            the offset of the entry in the current block
-	 * @return the cache entry if it is valid and the tag is the same as the
-	 *         passed tag, null otherwise
-	 */
-	public CacheEntry getEntry(short tag, short offset) {
-		if (offset <= this.entries.length - 1) {
-			if (this.entries[offset] != null) {
-				return this.entries[offset];
-			}
-		} else {
-			System.err
-					.println("The offset provided is greater than the offset of the current block");
-		}
-
-		return null;
 	}
 
 	/**
