@@ -45,8 +45,8 @@ public final class Memory {
 					String.format("Attempt to read data from instruction space for address %d", wordAddress));
 		}
 
-		return Arrays.copyOfRange(memoryData, wordAddress / numOfBlocks,
-				Math.min(wordAddress / numOfBlocks + blockSize, memorySize));
+		return Arrays.copyOfRange(memoryData, (wordAddress / blockSize) * blockSize,
+				Math.min((wordAddress / blockSize) * blockSize + blockSize, memorySize));
 	}
 
 	/**
@@ -86,8 +86,8 @@ public final class Memory {
 					String.format("Attempt to read instruction from data space for address %d", wordAddress));
 		}
 
-		return Arrays.copyOfRange(programData, wordAddress / numOfBlocks,
-				Math.min(wordAddress / numOfBlocks + blockSize, memorySize));
+		return Arrays.copyOfRange(programData, (wordAddress / blockSize) * blockSize,
+				Math.min((wordAddress / blockSize) * blockSize + blockSize, memorySize));
 	}
 
 	/**
