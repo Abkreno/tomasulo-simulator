@@ -1,4 +1,4 @@
-package nan.tomasulo;
+package nan.tomasulo.memory;
 
 import java.util.Arrays;
 
