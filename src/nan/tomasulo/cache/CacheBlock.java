@@ -32,9 +32,7 @@ public class CacheBlock {
 	 */
 	public CacheEntry getEntry(short tag, short offset) {
 		if (offset <= this.entries.length - 1) {
-			if (this.entries[offset] != null
-					&& this.entries[offset].getTag() == tag
-					&& this.entries[offset].isValid()) {
+			if (this.entries[offset] != null) {
 				return this.entries[offset];
 			}
 		} else {
