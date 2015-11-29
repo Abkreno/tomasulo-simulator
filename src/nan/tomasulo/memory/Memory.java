@@ -34,13 +34,12 @@ public final class Memory {
 	 *            the address of the target word
 	 * @return the block that contains the given wordAddress
 	 * @throws InvalidReadException
-	 *             if the address is in program space or greater than the memory
-	 *             space
+	 *             if the address is in program space or out of memory space
 	 * 
 	 */
-	public static short[] readDataBlock(int wordAddress) throws InvalidReadException {
-		if (wordAddress > memorySize) {
-			throw new InvalidReadException("Target address is greater than the memory capacity");
+	public static short[] readDataBlock(short wordAddress) throws InvalidReadException {
+		if (wordAddress > memorySize || wordAddress < 0) {
+			throw new InvalidReadException("Target address is out of memory space");
 		} else if (wordAddress >= programBeginning && wordAddress <= programBeginning + programSize) {
 			throw new InvalidReadException(
 					String.format("Attempt to read data from instruction space for address %d", wordAddress));
@@ -51,23 +50,63 @@ public final class Memory {
 	}
 
 	/**
-	 * Write data to specific address in the memory
+	 * Write data to specific address in the data space
 	 * 
 	 * @param wordAddress
 	 * @param data
 	 * @throws InvalidWriteException
-	 *             if the address is in program space or greater than the memory
-	 *             space
+	 *             if the address is in program space or out of memory space
 	 */
-	public static void writeDataEntry(int wordAddress, short data) throws InvalidWriteException {
-		if (wordAddress > memorySize) {
-			throw new InvalidWriteException("Target address is greater than the memory capacity");
+	public static void writeDataEntry(short wordAddress, short data) throws InvalidWriteException {
+		if (wordAddress > memorySize || wordAddress < 0) {
+			throw new InvalidWriteException("Target address is out of memory space");
 		} else if (wordAddress >= programBeginning && wordAddress <= programBeginning + programSize) {
 			throw new InvalidWriteException(
-					String.format("Attempt to write data toinstruction space for address %d", wordAddress));
+					String.format("Attempt to write data to instruction space for address %d", wordAddress));
 		}
 
 		memoryData[wordAddress] = data;
+	}
+
+	/**
+	 * Reads the block that contains the provided word address from program
+	 * space
+	 * 
+	 * @param wordAddress
+	 *            the address of the target word
+	 * @return the block that contains the given wordAddress
+	 * @throws InvalidReadException
+	 *             if the address is in data space or out of memory space
+	 */
+	public static String[] readInstructionBlock(short wordAddress) throws InvalidReadException {
+		if (wordAddress > memorySize || wordAddress < 0) {
+			throw new InvalidReadException("Target address is out of memory space");
+		} else if (wordAddress < programBeginning || wordAddress > programBeginning + programSize) {
+			throw new InvalidReadException(
+					String.format("Attempt to read instruction from data space for address %d", wordAddress));
+		}
+
+		return Arrays.copyOfRange(programData, wordAddress / numOfBlocks,
+				Math.min(wordAddress / numOfBlocks + blockSize, memorySize));
+	}
+
+	/**
+	 * Write instruction to specific address in the program space
+	 * 
+	 * @param wordAddress
+	 * @param instruction
+	 * @throws InvalidWriteException
+	 *             if the address is in data space or out of memory space
+	 */
+	public static void writeProgramEntry(short wordAddress, String instruction) throws InvalidWriteException {
+		if (wordAddress > memorySize || wordAddress < 0) {
+			throw new InvalidWriteException("Target address is out of memory space");
+		} else if (wordAddress < programBeginning || wordAddress > programBeginning + programSize) {
+			throw new InvalidWriteException(
+					String.format("Attempt to write instruction to data space for address %d", wordAddress));
+		}
+
+		programData[wordAddress] = instruction;
 	}
 
 	// getters and setters
