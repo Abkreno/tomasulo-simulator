@@ -12,9 +12,9 @@ public final class Memory {
 	private static int blockSize; // Block Size = # of words inside the block
 	private static int numOfBlocks;
 	private static int programSize;
-	private static short programBeginning; // The starting address of the
+	private static int programBeginning; // The starting address of the program
 
-	public static void init(int blockSize, int programSize, short programBeginning) {
+	public static void init(int blockSize, int programSize, int programBeginning) {
 		Memory.memorySize = 64 * 1024 / 16;
 		Memory.programSize = programSize;
 		Memory.blockSize = blockSize;
@@ -37,7 +37,7 @@ public final class Memory {
 	 *             if the address is in program space or out of memory space
 	 * 
 	 */
-	public static short[] readDataBlock(short wordAddress) throws InvalidReadException {
+	public static short[] readDataBlock(int wordAddress) throws InvalidReadException {
 		if (wordAddress > memorySize || wordAddress < 0) {
 			throw new InvalidReadException("Target address is out of memory space");
 		} else if (wordAddress >= programBeginning && wordAddress <= programBeginning + programSize) {
@@ -57,7 +57,7 @@ public final class Memory {
 	 * @throws InvalidWriteException
 	 *             if the address is in program space or out of memory space
 	 */
-	public static void writeDataEntry(short wordAddress, short data) throws InvalidWriteException {
+	public static void writeDataEntry(int wordAddress, short data) throws InvalidWriteException {
 		if (wordAddress > memorySize || wordAddress < 0) {
 			throw new InvalidWriteException("Target address is out of memory space");
 		} else if (wordAddress >= programBeginning && wordAddress <= programBeginning + programSize) {
@@ -78,7 +78,7 @@ public final class Memory {
 	 * @throws InvalidReadException
 	 *             if the address is in data space or out of memory space
 	 */
-	public static String[] readInstructionBlock(short wordAddress) throws InvalidReadException {
+	public static String[] readInstructionBlock(int wordAddress) throws InvalidReadException {
 		if (wordAddress > memorySize || wordAddress < 0) {
 			throw new InvalidReadException("Target address is out of memory space");
 		} else if (wordAddress < programBeginning || wordAddress > programBeginning + programSize) {
@@ -98,7 +98,7 @@ public final class Memory {
 	 * @throws InvalidWriteException
 	 *             if the address is in data space or out of memory space
 	 */
-	public static void writeProgramEntry(short wordAddress, String instruction) throws InvalidWriteException {
+	public static void writeProgramEntry(int wordAddress, String instruction) throws InvalidWriteException {
 		if (wordAddress > memorySize || wordAddress < 0) {
 			throw new InvalidWriteException("Target address is out of memory space");
 		} else if (wordAddress < programBeginning || wordAddress > programBeginning + programSize) {
@@ -159,11 +159,11 @@ public final class Memory {
 		Memory.programSize = programSize;
 	}
 
-	public static short getProgramBeginning() {
+	public static int getProgramBeginning() {
 		return programBeginning;
 	}
 
-	public static void setProgramBeginning(short programBeginning) {
+	public static void setProgramBeginning(int programBeginning) {
 		Memory.programBeginning = programBeginning;
 	}
 
