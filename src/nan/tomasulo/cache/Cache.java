@@ -18,11 +18,7 @@ public class Cache {
 	private int hits;
 	private int misses;
 
-	private WritePolicy writePolicy;
-	private CacheType cacheType;
-
-	public Cache(int size, int blockSize, int associativity,
-			WritePolicy writePolicy, CacheType cacheType) {
+	public Cache(int size, int blockSize, int associativity) {
 		this.size = size;
 		this.blockSize = blockSize;
 		this.numOfBlocks = size / blockSize + size % blockSize == 0 ? 0 : 1;
@@ -30,9 +26,7 @@ public class Cache {
 		this.numOfSets = numOfBlocks / associativity;
 		this.hits = 0;
 		this.misses = 0;
-		this.writePolicy = writePolicy;
-		this.cacheType = cacheType;
-
+		
 		this.blocks = new CacheBlock[size / blockSize];
 		initializeBlocks();
 	}
@@ -92,23 +86,7 @@ public class Cache {
 	public void setMisses(int misses) {
 		this.misses = misses;
 	}
-
-	public WritePolicy getWritePolicy() {
-		return writePolicy;
-	}
-
-	public void setWritePolicy(WritePolicy writePolicy) {
-		this.writePolicy = writePolicy;
-	}
-
-	public CacheType getCacheType() {
-		return cacheType;
-	}
-
-	public void setCacheType(CacheType cacheType) {
-		this.cacheType = cacheType;
-	}
-
+	
 	public short getIndex(short address) {
 		address /= blockSize; // remove the offset bits
 		return (short) (address % numOfSets);
