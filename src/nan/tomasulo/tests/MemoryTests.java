@@ -16,7 +16,7 @@ public class MemoryTests {
 	public void testReadFromDataSpace() throws InvalidReadException {
 		Memory.init(16, 256, 500);
 
-		assertArrayEquals(new short[16], Memory.readDataBlock(1));
+		assertArrayEquals(new Short[16], Memory.readDataBlock(1));
 
 	}
 
@@ -52,8 +52,8 @@ public class MemoryTests {
 			Memory.writeDataEntry(i, (short) (i * 2));
 		}
 
-		short[] b1 = new short[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 };
-		short[] b2 = new short[16];
+		Short[] b1 = new Short[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 };
+		Short[] b2 = new Short[16];
 
 		for (int i = 0; i < b2.length; i++) {
 			b2[i] = (short) ((short) 32 + (i * 2));
