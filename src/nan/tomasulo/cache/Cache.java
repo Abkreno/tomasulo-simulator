@@ -26,9 +26,16 @@ public class Cache {
 		this.numOfSets = numOfBlocks / associativity;
 		this.hits = 0;
 		this.misses = 0;
-		
+
 		this.blocks = new CacheBlock[size / blockSize];
 		initializeBlocks();
+	}
+
+	/*
+	 * cacheInfo is [ size , blockSize , associativity ]
+	 */
+	public Cache(int[] cacheInfo) {
+		this(cacheInfo[0], cacheInfo[1], cacheInfo[2]);
 	}
 
 	private void initializeBlocks() {
@@ -86,7 +93,7 @@ public class Cache {
 	public void setMisses(int misses) {
 		this.misses = misses;
 	}
-	
+
 	public short getIndex(short address) {
 		address /= blockSize; // remove the offset bits
 		return (short) (address % numOfSets);
