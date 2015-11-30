@@ -1,18 +1,25 @@
 package nan.tomasulo;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.Scanner;
+
+import nan.tomasulo.cache.Caches;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		BufferedReader bf = new BufferedReader(InputStreamReader(System.in));
+		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter Number of Caches:");
-		int n = Integer.parseInt(bf.readLine());
-		String[][] cacheDescription = new String[n][];
+		int n = Integer.parseInt(sc.nextLine());
+		int[][] cachesInfo = new int[n][];
+		String[] line;
 		for (int i = 0; i < n; i++) {
 			System.out.println("Enter the description of level " + (i + 1)
 					+ " cache in the form S,L,m :");
-			cacheDescription[i] = bf.readLine().split(",");
+			line = sc.nextLine().split(",");
+			for (int j = 0; j < 3; j++) {
+				cachesInfo[i][j] = Integer.parseInt(line[j]);
+			}
 		}
+		Caches.initCaches(cachesInfo);
+		sc.close();
 	}
 }
