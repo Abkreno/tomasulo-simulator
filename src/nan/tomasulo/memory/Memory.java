@@ -6,7 +6,7 @@ import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 
 public final class Memory {
-	private static short[] memoryData;
+	private static Short[] memoryData;
 	private static String[] programData;
 	private static int memorySize;
 	private static int blockSize; // Block Size = # of words inside the block
@@ -19,7 +19,7 @@ public final class Memory {
 		Memory.programSize = -1;
 		Memory.blockSize = memorySize;
 		Memory.numOfBlocks = Memory.memorySize / blockSize + (Memory.memorySize % blockSize == 0 ? 0 : 1);
-		Memory.memoryData = new short[memorySize];
+		Memory.memoryData = new Short[memorySize];
 		Memory.programBeginning = -1;
 		Memory.programData = null;
 	}
@@ -29,7 +29,7 @@ public final class Memory {
 		Memory.programSize = programSize;
 		Memory.blockSize = blockSize;
 		Memory.numOfBlocks = Memory.memorySize / blockSize + (Memory.memorySize % blockSize == 0 ? 0 : 1);
-		Memory.memoryData = new short[memorySize];
+		Memory.memoryData = new Short[memorySize];
 		Memory.programBeginning = programBeginning;
 		Memory.programData = new String[programSize];
 	}
@@ -48,7 +48,7 @@ public final class Memory {
 	 *             if the address is in program space or out of memory space
 	 * 
 	 */
-	public static short[] readDataBlock(int wordAddress) throws InvalidReadException {
+	public static Short[] readDataBlock(int wordAddress) throws InvalidReadException {
 		if (wordAddress > memorySize || wordAddress < 0) {
 			throw new InvalidReadException("Target address is out of memory space");
 		} else if (wordAddress >= programBeginning && wordAddress <= programBeginning + programSize) {
@@ -122,11 +122,11 @@ public final class Memory {
 
 	// getters and setters
 
-	public static short[] getMemoryData() {
+	public static Short[] getMemoryData() {
 		return memoryData;
 	}
 
-	public static void setMemoryData(short[] memoryData) {
+	public static void setMemoryData(Short[] memoryData) {
 		Memory.memoryData = memoryData;
 	}
 
