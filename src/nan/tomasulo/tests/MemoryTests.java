@@ -45,14 +45,16 @@ public class MemoryTests {
 	}
 
 	@Test
-	public void testWriteToDataSpace() throws InvalidWriteException, InvalidReadException {
+	public void testWriteToDataSpace() throws InvalidWriteException,
+			InvalidReadException {
 		Memory.init(16, 256, 500);
 
 		for (int i = 0; i < 32; i++) {
 			Memory.writeDataEntry(i, (short) (i * 2));
 		}
 
-		Short[] b1 = new Short[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30 };
+		Short[] b1 = new Short[] { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22,
+				24, 26, 28, 30 };
 		Short[] b2 = new Short[16];
 
 		for (int i = 0; i < b2.length; i++) {
