@@ -116,8 +116,11 @@ public class Cache {
 
 	public short getTag(short address) {
 		address /= blockSize;
-		address /= numOfSets;
-		return address;
+		return (short) (address / numOfSets);
+	}
+
+	public short getOffset(short address) {
+		return (short) (address % blockSize);
 	}
 
 	public LinkedList<CacheBlock> getSet(short setNum) {
@@ -137,12 +140,17 @@ public class Cache {
 		LinkedList<CacheBlock> set = getSet(setNum);
 		for (CacheBlock block : set) {
 			if (block.getTag() == tag && block.isValid()) {
-				if (block.isDirty()) {
-					// TODO Handle what happens when a block is dirty
-				}
 				return block;
 			}
 		}
 		return null; // the targeted cache block was not found
+	}
+
+	public CacheEntry getCacheEntry(short address) {
+		CacheBlock block = getCacheBlock(address);
+		if (block == null)
+			return null; // the block was not found search in a lower cache
+		short offset = getOffset(address);
+		return block.getEntry(offset);
 	}
 }
