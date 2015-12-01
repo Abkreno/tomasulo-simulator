@@ -15,7 +15,6 @@ public class Parser {
 		String[] lines = program.split("\n");
 
 		Memory.setProgramSize(lines.length - 1);
-		Memory.setProgramData(new String[Memory.getProgramSize()]);
 
 		int startingLocation = 0;
 		// starting point of the program
@@ -26,7 +25,7 @@ public class Parser {
 
 		for (int i = 1; i < lines.length; i++) {
 			try {
-				Memory.writeProgramEntry(startingLocation + i, lines[i]);
+				Memory.writeDataEntry(startingLocation + i, lines[i]);
 			} catch (InvalidWriteException e) {
 				e.printStackTrace();
 			}
