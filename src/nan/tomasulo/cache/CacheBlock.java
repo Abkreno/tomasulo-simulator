@@ -96,6 +96,7 @@ public class CacheBlock {
 		for (int i = 0; i < entries.length; i++) {
 			entries[i].setData(nEntries[i].getData());
 		}
+		setValid(true);
 	}
 
 }

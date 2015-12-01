@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.memory.Memory;
-import nan.tomasulo.utils.Constants;
 import nan.tomasulo.utils.Constants.WritePolicy;
 
 public class Caches {
@@ -28,28 +27,29 @@ public class Caches {
 		return instructionCaches;
 	}
 
-	public CacheBlock readDataBlock(short address, int currLevel)
-			throws InvalidReadException {
-		if (currLevel == Constants.CACHE_LEVELS) {
-			// Base case ,reached memory
+	public CacheBlock readCacheBlock(short address, int currLevel,
+			LinkedList<Cache> caches) throws InvalidReadException {
+		if (currLevel == caches.size()) {
+			// Base case (reached main memory)
 			// when data is not found in any upper level
 			Object[] data = Memory.readDataBlock(address);
 			CacheBlock block = new CacheBlock(data);
 			return block;
 		}
-		Cache currCache = Caches.getDataCaches().get(currLevel);
+		Cache currCache = caches.get(currLevel);
 		CacheBlock block = currCache.getCacheBlock(address);
 		if (!block.isValid() || block.getTag() != currCache.getTag(address)) {
 			// Not found here try lower level
 
-			// before anything make sure the block is not dirty
+			// make sure the block is not dirty
 			if (block.isValid()
 					&& currCache.getWritePolicy() == WritePolicy.WRITE_BACK
 					&& block.isDirty()) {
 				// TODO Write the block to Main Memory
+				block.setDirty(false);
 			}
 			// then update the current block with the result from lower level
-			block.update(readDataBlock(address, currLevel + 1));
+			block.update(readCacheBlock(address, currLevel + 1, caches));
 		}
 		return block;
 	}
