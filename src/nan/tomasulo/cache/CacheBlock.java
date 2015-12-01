@@ -1,5 +1,7 @@
 package nan.tomasulo.cache;
 
+import nan.tomasulo.utils.Constants;
+
 public class CacheBlock {
 	private int size; // size in words
 	private short tag;
@@ -7,11 +9,16 @@ public class CacheBlock {
 
 	private CacheEntry[] entries;
 
-	public CacheBlock(int size) {
-		this.size = size;
-
+	public CacheBlock() {
+		this.size = Constants.BLOCK_SIZE;
 		this.entries = new CacheEntry[size];
 		initializeEntries();
+	}
+
+	public CacheBlock(Object[] data) {
+		this.size = Constants.BLOCK_SIZE;
+		this.entries = new CacheEntry[size];
+		initializeEntries(data);
 	}
 
 	/**
@@ -33,6 +40,12 @@ public class CacheBlock {
 	private void initializeEntries() {
 		for (int i = 0; i < entries.length; i++) {
 			entries[i] = new CacheEntry();
+		}
+	}
+
+	private void initializeEntries(Object[] data) {
+		for (int i = 0; i < entries.length; i++) {
+			entries[i] = new CacheEntry(data[i]);
 		}
 	}
 
@@ -76,6 +89,13 @@ public class CacheBlock {
 
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
+	}
+
+	public void update(CacheBlock block) {
+		CacheEntry nEntries[] = block.getEntries();
+		for (int i = 0; i < entries.length; i++) {
+			entries[i].setData(nEntries[i].getData());
+		}
 	}
 
 }
