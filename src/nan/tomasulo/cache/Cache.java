@@ -18,11 +18,15 @@ public class Cache {
 	private int hits;
 	private int misses;
 
-	public Cache(int size, int blockSize, int associativity) {
+	private WritePolicy writePolicy;
+
+	public Cache(int size, int blockSize, int associativity,
+			WritePolicy writePolicy) {
 		this.size = size;
 		this.blockSize = blockSize;
 		this.numOfBlocks = size / blockSize + size % blockSize == 0 ? 0 : 1;
 		this.associativity = associativity;
+		this.setWritePolicy(writePolicy);
 		this.numOfSets = numOfBlocks / associativity;
 		this.hits = 0;
 		this.misses = 0;
@@ -34,8 +38,8 @@ public class Cache {
 	/*
 	 * cacheInfo is [ size , blockSize , associativity ]
 	 */
-	public Cache(int[] cacheInfo) {
-		this(cacheInfo[0], cacheInfo[1], cacheInfo[2]);
+	public Cache(int[] cacheInfo, WritePolicy writePolicy) {
+		this(cacheInfo[0], cacheInfo[1], cacheInfo[2], writePolicy);
 	}
 
 	private void initializeBlocks() {
@@ -76,6 +80,14 @@ public class Cache {
 
 	public void setAssociativity(int associativity) {
 		this.associativity = associativity;
+	}
+
+	public WritePolicy getWritePolicy() {
+		return writePolicy;
+	}
+
+	public void setWritePolicy(WritePolicy writePolicy) {
+		this.writePolicy = writePolicy;
 	}
 
 	public int getHits() {
@@ -138,4 +150,5 @@ public class Cache {
 		short offset = getOffset(address);
 		return block.getEntry(offset);
 	}
+
 }

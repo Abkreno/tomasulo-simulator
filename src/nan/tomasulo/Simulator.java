@@ -7,6 +7,9 @@ import nan.tomasulo.cache.Caches;
 public class Simulator {
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
+		System.out
+				.println("Enter Cache Policy 0 (for Write Through) / 1 (for Write Back): ");
+		int policy = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Number of Caches:");
 		int n = Integer.parseInt(sc.nextLine());
 		int[][] cachesInfo = new int[n][3];
@@ -19,7 +22,7 @@ public class Simulator {
 				cachesInfo[i][j] = Integer.parseInt(line[j]);
 			}
 		}
-		Caches.initCaches(cachesInfo);
+		Caches.initCaches(cachesInfo, policy);
 		sc.close();
 	}
 }

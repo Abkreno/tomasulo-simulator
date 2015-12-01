@@ -2,28 +2,26 @@ package nan.tomasulo.cache;
 
 import java.util.LinkedList;
 
-public class Caches {
-	private static Cache dataCacheL1, instructionCacheL1;
-	private static LinkedList<Cache> caches; // Lower Level Caches
+import nan.tomasulo.utils.Constants.WritePolicy;
 
-	public static void initCaches(int cacheInfo[][]) {
-		caches = new LinkedList<>();
-		dataCacheL1 = new Cache(cacheInfo[0]);
-		instructionCacheL1 = new Cache(cacheInfo[0]);
-		for (int i = 1; i < cacheInfo.length; i++) {
-			caches.add(new Cache(cacheInfo[i]));
+public class Caches {
+	private static LinkedList<Cache> dataCaches, instructionCaches;
+
+	public static void initCaches(int cacheInfo[][], int policy) {
+		dataCaches = new LinkedList<>();
+		instructionCaches = new LinkedList<>();
+		for (int i = 0; i < cacheInfo.length; i++) {
+			dataCaches.add(new Cache(cacheInfo[i],
+					policy == 0 ? WritePolicy.WRITE_THROUGH
+							: WritePolicy.WRITE_BACK));
 		}
 	}
 
-	public static Cache getDataCacheL1() {
-		return dataCacheL1;
+	public static LinkedList<Cache> getDataCaches() {
+		return dataCaches;
 	}
 
-	public static Cache getInstructionCacheL1() {
-		return instructionCacheL1;
-	}
-
-	public static LinkedList<Cache> getCaches() {
-		return caches;
+	public static LinkedList<Cache> getInstructionCaches() {
+		return instructionCaches;
 	}
 }
