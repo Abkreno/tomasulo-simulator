@@ -31,16 +31,24 @@ public class Caches {
 	public CacheBlock readDataBlock(short address, int currLevel)
 			throws InvalidReadException {
 		if (currLevel == Constants.CACHE_LEVELS) {
-			// Base case ,reached when data is not found in any upper level
+			// Base case ,reached memory
+			// when data is not found in any upper level
 			Object[] data = Memory.readDataBlock(address);
 			CacheBlock block = new CacheBlock(data);
 			return block;
 		}
 		Cache currCache = Caches.getDataCaches().get(currLevel);
 		CacheBlock block = currCache.getCacheBlock(address);
-		if (block == null) {
+		if (!block.isValid() || block.getTag() != currCache.getTag(address)) {
 			// Not found here try lower level
-			// update the current block with the result from lower level
+
+			// before anything make sure the block is not dirty
+			if (block.isValid()
+					&& currCache.getWritePolicy() == WritePolicy.WRITE_BACK
+					&& block.isDirty()) {
+				// TODO Write the block to Main Memory
+			}
+			// then update the current block with the result from lower level
 			block.update(readDataBlock(address, currLevel + 1));
 		}
 		return block;
