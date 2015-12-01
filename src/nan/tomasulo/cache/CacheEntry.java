@@ -16,7 +16,7 @@ public class CacheEntry {
 	public String toString() {
 		return data.toString();
 	}
-	
+
 	public Object getData() {
 		return data;
 	}
