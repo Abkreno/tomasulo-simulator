@@ -140,15 +140,7 @@ public class Cache {
 				return block;
 			}
 		}
-		return null; // the targeted cache block was not found
+		// TODO instead of null return the LRU block
+		return null;
 	}
-
-	public CacheEntry getCacheEntry(short address) {
-		CacheBlock block = getCacheBlock(address);
-		if (block == null)
-			return null; // the block was not found search in a lower cache
-		short offset = getOffset(address);
-		return block.getEntry(offset);
-	}
-
 }
