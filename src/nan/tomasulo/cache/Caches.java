@@ -36,7 +36,8 @@ public class Caches {
 	}
 
 	public static CacheBlock readCacheBlock(short address, int currLevel,
-			LinkedList<Cache> caches) throws InvalidReadException {
+			LinkedList<Cache> caches) throws InvalidReadException,
+			InvalidWriteException {
 		if (currLevel == caches.size()) {
 			// Base case (reached main memory)
 			// when data is not found in any upper level
@@ -54,12 +55,15 @@ public class Caches {
 			if (block.isValid()
 					&& currCache.getWritePolicy() == WritePolicy.WRITE_BACK
 					&& block.isDirty()) {
-				// TODO Write the block to Main Memory
+				Memory.writeBlock(block.getAddress(), block.getEntries());
 				block.setDirty(false);
 			}
 			currCache.setMisses(currCache.getMisses() + 1);
 			// then update the current block with the result from lower level
 			block.update(readCacheBlock(address, currLevel + 1, caches));
+			block.setTag(currCache.getTag(address));
+			block.setAddress((short) ((address / block.getSize()) * block
+					.getSize()));
 		}
 		currCache.setHits(currCache.getHits() + 1);
 		return block;

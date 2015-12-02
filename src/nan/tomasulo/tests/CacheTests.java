@@ -1,8 +1,7 @@
 package nan.tomasulo.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 import nan.tomasulo.Parser;
@@ -78,18 +77,42 @@ public class CacheTests {
 	}
 
 	@Test
-	public void testWriteToCacheBlock() throws InvalidWriteException,
+	public void testWriteThrough() throws InvalidWriteException,
 			InvalidReadException {
-		int[][] cachesInfo = new int[2][]; // two caches
+		int[][] cachesInfo = new int[1][]; // two caches
 		// 512 words , 16 word per block , direct map , write through
 		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
-		// 1024 words , 16 word per block , direct map , write through
-		cachesInfo[1] = new int[] { 1024, 16, 1, 0 }; // 64 blocks
 		Caches.initCaches(cachesInfo);
-		LinkedList<Cache> dataCaches = Caches.getDataCaches();
-		Cache cacheL1 = dataCaches.get(0);
-		Cache cacheL2 = dataCaches.get(1);
 		Memory.init(16, 128, 1024);
+		Processor p = new Processor();
 
+		// 0 at block (0/16 = 0 % 32 = 0)
+		p.writeData((short) 0, new Short((short) 75));
+		// 2048 at block ( 2048/16 = 128 % 32 = 0)
+		p.writeData((short) 2048, new Short((short) 105));
+		Short data1 = p.fetchData((short) 0);
+		Short data2 = p.fetchData((short) 2048);
+		assertTrue("data1 should be 75 , data2 should be 105",
+				data1.equals((short) 75) && data2.equals((short) 105));
+	}
+
+	@Test
+	public void testWriteBack() throws InvalidWriteException,
+			InvalidReadException {
+		int[][] cachesInfo = new int[1][]; // two caches
+		// 512 words , 16 word per block , direct map , write back
+		cachesInfo[0] = new int[] { 512, 16, 1, 1 }; // 32 blocks
+		Caches.initCaches(cachesInfo);
+		Memory.init(16, 128, 1024);
+		Processor p = new Processor();
+
+		// 0 at block (0/16 = 0 % 32 = 0)
+		p.writeData((short) 0, new Short((short) 75));
+		// 2048 at block ( 2048/16 = 128 % 32 = 0)
+		p.writeData((short) 2048, new Short((short) 105));
+		Short data1 = p.fetchData((short) 0);
+		Short data2 = p.fetchData((short) 2048);
+		assertTrue("data1 should be 75 , data2 should be 105",
+				data1.equals((short) 75) && data2.equals((short) 105));
 	}
 }

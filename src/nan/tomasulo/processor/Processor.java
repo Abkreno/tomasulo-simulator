@@ -17,7 +17,8 @@ public class Processor {
 
 	}
 
-	public Short fetchData(short address) throws InvalidReadException {
+	public Short fetchData(short address) throws InvalidReadException,
+			InvalidWriteException {
 		CacheBlock block = Caches.readCacheBlock(address, 0,
 				Caches.getDataCaches());
 		short offset = (short) (address % block.getSize());
@@ -26,7 +27,7 @@ public class Processor {
 	}
 
 	public String fetchInstruction(short instructionNumber)
-			throws InvalidReadException {
+			throws InvalidReadException, InvalidWriteException {
 		short address = (short) (instructionNumber + Memory
 				.getProgramBeginning());
 		CacheBlock block = Caches.readCacheBlock(address, 0,

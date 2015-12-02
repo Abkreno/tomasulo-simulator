@@ -6,7 +6,8 @@ import nan.tomasulo.utils.Constants;
 
 public class CacheBlock {
 	private int size; // size in words
-	private short tag;
+	private short tag, address;
+
 	private boolean valid, dirty;
 
 	private CacheEntry[] entries;
@@ -77,6 +78,14 @@ public class CacheBlock {
 
 	public void setTag(short tag) {
 		this.tag = tag;
+	}
+
+	public short getAddress() {
+		return address;
+	}
+
+	public void setAddress(short address) {
+		this.address = address;
 	}
 
 	public boolean isValid() {

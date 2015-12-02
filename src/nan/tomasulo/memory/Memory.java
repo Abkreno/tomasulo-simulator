@@ -2,6 +2,7 @@ package nan.tomasulo.memory;
 
 import java.util.Arrays;
 
+import nan.tomasulo.cache.CacheEntry;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.utils.Constants;
@@ -74,14 +75,15 @@ public final class Memory {
 		if (wordAddress > memorySize || wordAddress < 0) {
 			throw new InvalidWriteException(
 					"Target address is out of memory space");
-		} else if (data instanceof Short && wordAddress >= programBeginning
+		} else if ((data instanceof Short) && wordAddress >= programBeginning
 				&& wordAddress < programBeginning + programSize) {
 			throw new InvalidWriteException(
 					String.format(
 							"Attempt to write data to instruction space for address %d",
 							wordAddress));
-		} else if (data instanceof String && wordAddress < programBeginning
-				|| wordAddress > programBeginning + programSize) {
+		} else if ((data instanceof String)
+				&& (wordAddress < programBeginning || wordAddress > programBeginning
+						+ programSize)) {
 			throw new InvalidWriteException(
 					String.format(
 							"Attempt to write instruction to data space for address %d",
@@ -139,6 +141,13 @@ public final class Memory {
 
 	public static void setProgramBeginning(short programBeginning) {
 		Memory.programBeginning = programBeginning;
+	}
+
+	public static void writeBlock(int startingAddress, CacheEntry[] entries)
+			throws InvalidWriteException {
+		for (int i = 0; i < entries.length; i++) {
+			writeDataEntry(i + startingAddress, entries[i].getData());
+		}
 	}
 
 }
