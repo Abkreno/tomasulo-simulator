@@ -27,7 +27,7 @@ public class Caches {
 		return instructionCaches;
 	}
 
-	public CacheBlock readCacheBlock(short address, int currLevel,
+	public static CacheBlock readCacheBlock(short address, int currLevel,
 			LinkedList<Cache> caches) throws InvalidReadException {
 		if (currLevel == caches.size()) {
 			// Base case (reached main memory)
