@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import nan.tomasulo.cache.CacheBlock;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
+import nan.tomasulo.memory.Memory;
 
 public class Processor {
 	LinkedList<Process> processes;
@@ -23,7 +24,9 @@ public class Processor {
 		return data;
 	}
 
-	public String fetchInstruction(short address) throws InvalidReadException {
+	public String fetchInstruction(short instructionNumber)
+			throws InvalidReadException {
+		short address = instructionNumber + Memory.getProgramBeginning();
 		CacheBlock block = Caches.readCacheBlock(address, 0,
 				Caches.getInstructionCaches());
 		short offset = (short) (address % block.getSize());

@@ -11,7 +11,8 @@ public final class Memory {
 	private static int blockSize; // Block Size = # of words inside the block
 	private static int numOfBlocks;
 	private static int programSize;
-	private static int programBeginning; // The starting address of the program
+	private static short programBeginning; // The starting address of the
+											// program
 
 	public static void init() {
 		Memory.memorySize = 64 * 1024 / 16;
@@ -23,7 +24,8 @@ public final class Memory {
 		Memory.programBeginning = -1;
 	}
 
-	public static void init(int blockSize, int programSize, int programBeginning) {
+	public static void init(int blockSize, int programSize,
+			short programBeginning) {
 		Memory.memorySize = 64 * 1024 / 16;
 		Memory.programSize = programSize;
 		Memory.blockSize = blockSize;
@@ -131,11 +133,11 @@ public final class Memory {
 		Memory.programSize = programSize;
 	}
 
-	public static int getProgramBeginning() {
+	public static short getProgramBeginning() {
 		return programBeginning;
 	}
 
-	public static void setProgramBeginning(int programBeginning) {
+	public static void setProgramBeginning(short programBeginning) {
 		Memory.programBeginning = programBeginning;
 	}
 
