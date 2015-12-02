@@ -66,9 +66,15 @@ public class Caches {
 			return;
 		}
 		Cache currCache = caches.get(currLevel);
-		// Read the block using readCacheBlock to handle if the block is not in
-		// current level
-		CacheBlock block = readCacheBlock(address, currLevel, caches);
+		CacheBlock block;
+		if (currLevel == 0) {
+			// Read the block using readCacheBlock to handle if the block is not
+			// in current level
+			block = readCacheBlock(address, currLevel, caches);
+		} else {
+			// the block has been read in level 0
+			block = currCache.getCacheBlock(address);
+		}
 		if (currCache.getWritePolicy() == WritePolicy.WRITE_BACK) {
 			// Write here and set dirty
 			CacheEntry entry = block.getEntries()[currCache.getOffset(address)];
