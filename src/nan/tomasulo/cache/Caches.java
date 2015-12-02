@@ -32,8 +32,8 @@ public class Caches {
 		if (currLevel == caches.size()) {
 			// Base case (reached main memory)
 			// when data is not found in any upper level
-			Object[] data = Memory.readDataBlock(address);
-			CacheBlock block = new CacheBlock(data, caches.get(0)
+			Object[] memData = Memory.readDataBlock(address);
+			CacheBlock block = new CacheBlock(memData, caches.get(0)
 					.getBlockSize());
 			return block;
 		}
@@ -53,5 +53,30 @@ public class Caches {
 			block.update(readCacheBlock(address, currLevel + 1, caches));
 		}
 		return block;
+	}
+
+	public static void writeCacheBlock(short address, int currLevel,
+			Object data, LinkedList<Cache> caches) throws InvalidReadException {
+		if (currLevel == caches.size()) {
+			// Base case (reached main memory)
+			Object[] memData = Memory.readDataBlock(address);
+			memData[address % Memory.getBlockSize()] = data;
+			return;
+		}
+		Cache currCache = caches.get(currLevel);
+		// Read the block using readCacheBlock to handle if the block is not in
+		// current level
+		CacheBlock block = readCacheBlock(address, currLevel, caches);
+		if (currCache.getWritePolicy() == WritePolicy.WRITE_BACK) {
+			// Write here and set dirty
+			CacheEntry entry = block.getEntries()[currCache.getOffset(address)];
+			entry.setData(data);
+			block.setDirty(true);
+		} else if (currCache.getWritePolicy() == WritePolicy.WRITE_THROUGH) {
+			// Write here and write in the next level
+			CacheEntry entry = block.getEntries()[currCache.getOffset(address)];
+			entry.setData(data);
+			writeCacheBlock(address, currLevel + 1, data, caches);
+		}
 	}
 }
