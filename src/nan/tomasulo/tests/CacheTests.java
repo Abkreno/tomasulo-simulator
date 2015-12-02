@@ -5,24 +5,26 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import nan.tomasulo.Parser;
 import nan.tomasulo.cache.Cache;
 import nan.tomasulo.cache.CacheBlock;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.memory.Memory;
+import nan.tomasulo.processor.Processor;
 
 import org.junit.Test;
 
 public class CacheTests {
 	@Test
-	public void testReadCacheBlock() throws InvalidWriteException,
+	public void testReadDataFromCacheBlock() throws InvalidWriteException,
 			InvalidReadException {
 		int[][] cachesInfo = new int[2][]; // two caches
 		// 512 words , 16 word per block , direct map , write through
-		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 64 blocks
+		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
 		// 1024 words , 16 word per block , direct map , write through
-		cachesInfo[1] = new int[] { 1024, 16, 1, 0 }; // 32 blocks
+		cachesInfo[1] = new int[] { 1024, 16, 1, 0 }; // 64 blocks
 		Caches.initCaches(cachesInfo);
 		LinkedList<Cache> dataCaches = Caches.getDataCaches();
 		Cache cacheL1 = dataCaches.get(0);
@@ -58,6 +60,38 @@ public class CacheTests {
 				cacheL2.getHits() == 1);
 		assertTrue("Number of misses of Cache Level 2 should be 1",
 				cacheL2.getMisses() == 1);
+
+	}
+
+	@Test
+	public void testReadInstructionFromCacheBlock()
+			throws InvalidWriteException, InvalidReadException {
+		int[][] cachesInfo = new int[1][]; // two caches
+		// 512 words , 16 word per block , direct map , write through
+		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
+		Caches.initCaches(cachesInfo);
+		Parser.copyProgramToMemory("program_1.in");
+		Processor p = new Processor();
+		String instruction = p.fetchInstruction((short) 0);
+		assertTrue("first instruction is ADD R1,R2,R3",
+				instruction.equals("ADD R1,R2,R3"));
+		p.writeData(Memory.getProgramBeginning(), new Short((short) 1));
+
+	}
+
+	@Test
+	public void testWriteToCacheBlock() throws InvalidWriteException,
+			InvalidReadException {
+		int[][] cachesInfo = new int[2][]; // two caches
+		// 512 words , 16 word per block , direct map , write through
+		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
+		// 1024 words , 16 word per block , direct map , write through
+		cachesInfo[1] = new int[] { 1024, 16, 1, 0 }; // 64 blocks
+		Caches.initCaches(cachesInfo);
+		LinkedList<Cache> dataCaches = Caches.getDataCaches();
+		Cache cacheL1 = dataCaches.get(0);
+		Cache cacheL2 = dataCaches.get(1);
+		Memory.init(16, 128, 1024);
 
 	}
 }

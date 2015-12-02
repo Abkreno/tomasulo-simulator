@@ -9,13 +9,14 @@ import java.nio.file.Paths;
 
 public class Utilities {
 	public static String readFile(String filename) {
-		try (BufferedReader br = new BufferedReader(new FileReader(new File("raw/" + filename)))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(new File(
+				"raw/" + filename)))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 
 			while (line != null) {
 				sb.append(line);
-				sb.append(System.lineSeparator());
+				sb.append("/");
 				line = br.readLine();
 			}
 			return sb.toString();

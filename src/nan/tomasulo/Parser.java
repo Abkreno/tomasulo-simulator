@@ -12,20 +12,17 @@ public class Parser {
 	 */
 	public static void copyProgramToMemory(String filename) {
 		String program = Utilities.readFile(filename);
-		String[] lines = program.split("\n");
-
-		Memory.setProgramSize(lines.length - 1);
+		String[] lines = program.split("/");
 
 		short startingLocation = 0;
 		// starting point of the program
 		if (lines[0].split(" ")[0].equalsIgnoreCase(".ORG")) {
-			startingLocation = Short.parseShort(lines[0].split(" ")[1]);
-			Memory.setProgramBeginning(startingLocation);
+			startingLocation = (short) Integer.parseInt(lines[0].split(" ")[1]);
 		}
-
+		Memory.init(16, lines.length, startingLocation);
 		for (int i = 1; i < lines.length; i++) {
 			try {
-				Memory.writeDataEntry(startingLocation + i, lines[i]);
+				Memory.writeDataEntry(startingLocation + i - 1, lines[i]);
 			} catch (InvalidWriteException e) {
 				e.printStackTrace();
 			}

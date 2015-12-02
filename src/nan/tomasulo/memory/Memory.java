@@ -74,7 +74,7 @@ public final class Memory {
 			throw new InvalidWriteException(
 					"Target address is out of memory space");
 		} else if (data instanceof Short && wordAddress >= programBeginning
-				&& wordAddress <= programBeginning + programSize) {
+				&& wordAddress < programBeginning + programSize) {
 			throw new InvalidWriteException(
 					String.format(
 							"Attempt to write data to instruction space for address %d",

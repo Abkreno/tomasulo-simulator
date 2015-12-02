@@ -2,7 +2,6 @@ package nan.tomasulo.cache;
 
 import java.util.LinkedList;
 
-import nan.tomasulo.utils.Constants.CacheType;
 import nan.tomasulo.utils.Constants.WritePolicy;
 
 public class Cache {
@@ -24,7 +23,7 @@ public class Cache {
 			WritePolicy writePolicy) {
 		this.size = size;
 		this.blockSize = blockSize;
-		this.numOfBlocks = size / blockSize + size % blockSize == 0 ? 0 : 1;
+		this.numOfBlocks = size / blockSize + (size % blockSize == 0 ? 0 : 1);
 		this.associativity = associativity;
 		this.setWritePolicy(writePolicy);
 		this.numOfSets = numOfBlocks / associativity;
@@ -33,13 +32,6 @@ public class Cache {
 
 		this.blocks = new CacheBlock[size / blockSize];
 		initializeBlocks();
-	}
-
-	/*
-	 * cacheInfo is [ size , blockSize , associativity ]
-	 */
-	public Cache(int[] cacheInfo, WritePolicy writePolicy) {
-		this(cacheInfo[0], cacheInfo[1], cacheInfo[2], writePolicy);
 	}
 
 	private void initializeBlocks() {
@@ -104,6 +96,22 @@ public class Cache {
 
 	public void setMisses(int misses) {
 		this.misses = misses;
+	}
+
+	public int getNumOfBlocks() {
+		return numOfBlocks;
+	}
+
+	public void setNumOfBlocks(int numOfBlocks) {
+		this.numOfBlocks = numOfBlocks;
+	}
+
+	public int getNumOfSets() {
+		return numOfSets;
+	}
+
+	public void setNumOfSets(int numOfSets) {
+		this.numOfSets = numOfSets;
 	}
 
 	public short getIndex(short address) {

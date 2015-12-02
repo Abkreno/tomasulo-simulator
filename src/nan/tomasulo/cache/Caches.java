@@ -3,6 +3,7 @@ package nan.tomasulo.cache;
 import java.util.LinkedList;
 
 import nan.tomasulo.exceptions.InvalidReadException;
+import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.utils.Constants.WritePolicy;
 
@@ -13,7 +14,14 @@ public class Caches {
 		dataCaches = new LinkedList<>();
 		instructionCaches = new LinkedList<>();
 		for (int i = 0; i < cacheInfo.length; i++) {
-			dataCaches.add(new Cache(cacheInfo[i],
+			dataCaches.add(new Cache(cacheInfo[i][0], cacheInfo[i][1],
+					cacheInfo[i][2],
+					cacheInfo[i][3] == 0 ? WritePolicy.WRITE_THROUGH
+							: WritePolicy.WRITE_BACK));
+		}
+		for (int i = 0; i < cacheInfo.length; i++) {
+			instructionCaches.add(new Cache(cacheInfo[i][0], cacheInfo[i][1],
+					cacheInfo[i][2],
 					cacheInfo[i][3] == 0 ? WritePolicy.WRITE_THROUGH
 							: WritePolicy.WRITE_BACK));
 		}
@@ -58,11 +66,11 @@ public class Caches {
 	}
 
 	public static void writeCacheBlock(short address, int currLevel,
-			Object data, LinkedList<Cache> caches) throws InvalidReadException {
+			Object data, LinkedList<Cache> caches) throws InvalidReadException,
+			InvalidWriteException {
 		if (currLevel == caches.size()) {
 			// Base case (reached main memory)
-			Object[] memData = Memory.readDataBlock(address);
-			memData[address % Memory.getBlockSize()] = data;
+			Memory.writeDataEntry(address, data);
 			return;
 		}
 		Cache currCache = caches.get(currLevel);

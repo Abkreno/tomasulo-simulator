@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import nan.tomasulo.cache.CacheBlock;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
+import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.memory.Memory;
 
 public class Processor {
@@ -36,12 +37,12 @@ public class Processor {
 	}
 
 	public void writeData(short address, Short data)
-			throws InvalidReadException {
+			throws InvalidReadException, InvalidWriteException {
 		Caches.writeCacheBlock(address, 0, data, Caches.getDataCaches());
 	}
 
 	public void writeInstruction(short instructionNumber, Short data)
-			throws InvalidReadException {
+			throws InvalidReadException, InvalidWriteException {
 		short address = (short) (instructionNumber + Memory
 				.getProgramBeginning());
 		Caches.writeCacheBlock(address, 0, data, Caches.getInstructionCaches());
