@@ -135,12 +135,14 @@ public class Cache {
 		short setNum = getIndex(address);
 		short tag = getTag(address);
 		LinkedList<CacheBlock> set = getSet(setNum);
+		CacheBlock LRU = null;
 		for (CacheBlock block : set) {
 			if (block.getTag() == tag && block.isValid()) {
 				return block;
+			} else if (LRU == null) {
+				LRU = block;
 			}
 		}
-		// TODO instead of null return the LRU block
-		return null;
+		return LRU;
 	}
 }

@@ -12,12 +12,14 @@ public class CacheBlock {
 	public CacheBlock() {
 		this.size = Constants.BLOCK_SIZE;
 		this.entries = new CacheEntry[size];
+		this.valid = false;
 		initializeEntries();
 	}
 
 	public CacheBlock(Object[] data) {
 		this.size = Constants.BLOCK_SIZE;
 		this.entries = new CacheEntry[size];
+		this.valid = true;
 		initializeEntries(data);
 	}
 
