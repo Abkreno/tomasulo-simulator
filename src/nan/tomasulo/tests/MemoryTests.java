@@ -20,30 +20,6 @@ public class MemoryTests {
 
 	}
 
-	@Test(expected = InvalidReadException.class)
-	public void testReadDataAtFirstInstruction() throws InvalidReadException {
-		Memory.init(16, 256, 500);
-
-		Memory.readDataBlock(500);
-
-	}
-
-	@Test(expected = InvalidReadException.class)
-	public void testReadDataFromProgramSpace() throws InvalidReadException {
-		Memory.init(16, 256, 500);
-
-		Memory.readDataBlock(550);
-
-	}
-
-	@Test(expected = InvalidReadException.class)
-	public void testReadDataAtLastInstruction() throws InvalidReadException {
-		Memory.init(16, 256, 500);
-
-		Memory.readDataBlock(756);
-
-	}
-
 	@Test
 	public void testWriteToDataSpace() throws InvalidWriteException,
 			InvalidReadException {

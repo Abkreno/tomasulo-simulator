@@ -33,7 +33,8 @@ public class Caches {
 			// Base case (reached main memory)
 			// when data is not found in any upper level
 			Object[] data = Memory.readDataBlock(address);
-			CacheBlock block = new CacheBlock(data);
+			CacheBlock block = new CacheBlock(data, caches.get(0)
+					.getBlockSize());
 			return block;
 		}
 		Cache currCache = caches.get(currLevel);

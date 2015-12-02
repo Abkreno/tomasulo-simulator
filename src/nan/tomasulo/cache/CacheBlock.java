@@ -9,15 +9,15 @@ public class CacheBlock {
 
 	private CacheEntry[] entries;
 
-	public CacheBlock() {
-		this.size = Constants.BLOCK_SIZE;
+	public CacheBlock(int size) {
+		this.size = size;
 		this.entries = new CacheEntry[size];
 		this.valid = false;
 		initializeEntries();
 	}
 
-	public CacheBlock(Object[] data) {
-		this.size = Constants.BLOCK_SIZE;
+	public CacheBlock(Object[] data, int size) {
+		this.size = size;
 		this.entries = new CacheEntry[size];
 		this.valid = true;
 		initializeEntries(data);

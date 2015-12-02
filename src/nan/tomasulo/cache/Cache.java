@@ -44,7 +44,7 @@ public class Cache {
 
 	private void initializeBlocks() {
 		for (int i = 0; i < blocks.length; i++) {
-			blocks[i] = new CacheBlock();
+			blocks[i] = new CacheBlock(blockSize);
 		}
 	}
 
