@@ -75,8 +75,6 @@ public class CacheTests {
 		String instruction = p.fetchInstruction((short) 0);
 		assertTrue("first instruction is ADD R1,R2,R3",
 				instruction.equals("ADD R1,R2,R3"));
-		p.writeData(Memory.getProgramBeginning(), new Short((short) 1));
-
 	}
 
 	@Test

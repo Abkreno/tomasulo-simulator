@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
+import nan.tomasulo.utils.Constants;
 
 public final class Memory {
 	private static Object[] memoryData;
