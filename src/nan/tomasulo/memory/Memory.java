@@ -82,7 +82,7 @@ public final class Memory {
 							"Attempt to write data to instruction space for address %d",
 							wordAddress));
 		} else if ((data instanceof String)
-				&& (wordAddress < programBeginning || wordAddress > programBeginning
+				&& (wordAddress < programBeginning || wordAddress >= programBeginning
 						+ programSize)) {
 			throw new InvalidWriteException(
 					String.format(
