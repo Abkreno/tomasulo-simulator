@@ -49,9 +49,11 @@ public class Caches {
 				// TODO Write the block to Main Memory
 				block.setDirty(false);
 			}
+			currCache.setMisses(currCache.getMisses() + 1);
 			// then update the current block with the result from lower level
 			block.update(readCacheBlock(address, currLevel + 1, caches));
 		}
+		currCache.setHits(currCache.getHits() + 1);
 		return block;
 	}
 

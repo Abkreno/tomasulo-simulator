@@ -1,5 +1,7 @@
 package nan.tomasulo.cache;
 
+import java.util.Arrays;
+
 import nan.tomasulo.utils.Constants;
 
 public class CacheBlock {
@@ -101,4 +103,7 @@ public class CacheBlock {
 		setValid(true);
 	}
 
+	public String toString() {
+		return Arrays.toString(entries);
+	}
 }

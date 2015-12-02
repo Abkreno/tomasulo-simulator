@@ -131,6 +131,11 @@ public class Cache {
 		return set;
 	}
 
+	public String toString() {
+		return String
+				.format("Misses = %d / Hits = %d ", getMisses(), getHits());
+	}
+
 	public CacheBlock getCacheBlock(short address) {
 		short setNum = getIndex(address);
 		short tag = getTag(address);

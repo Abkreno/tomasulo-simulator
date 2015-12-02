@@ -24,15 +24,14 @@ public final class Memory {
 		Memory.programBeginning = -1;
 	}
 
-	public static void init(int blockSize, int programSize,
-			short programBeginning) {
+	public static void init(int blockSize, int programSize, int programBeginning) {
 		Memory.memorySize = 64 * 1024 / 16;
 		Memory.programSize = programSize;
 		Memory.blockSize = blockSize;
 		Memory.numOfBlocks = Memory.memorySize / blockSize
 				+ (Memory.memorySize % blockSize == 0 ? 0 : 1);
 		Memory.memoryData = new Object[memorySize];
-		Memory.programBeginning = programBeginning;
+		Memory.programBeginning = (short) programBeginning;
 	}
 
 	private Memory() {

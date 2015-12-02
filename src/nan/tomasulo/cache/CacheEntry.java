@@ -14,7 +14,7 @@ public class CacheEntry {
 
 	@Override
 	public String toString() {
-		return data.toString();
+		return data == null ? null : data.toString();
 	}
 
 	public Object getData() {
