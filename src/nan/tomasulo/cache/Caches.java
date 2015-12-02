@@ -9,12 +9,12 @@ import nan.tomasulo.utils.Constants.WritePolicy;
 public class Caches {
 	private static LinkedList<Cache> dataCaches, instructionCaches;
 
-	public static void initCaches(int cacheInfo[][], int policy) {
+	public static void initCaches(int cacheInfo[][]) {
 		dataCaches = new LinkedList<>();
 		instructionCaches = new LinkedList<>();
 		for (int i = 0; i < cacheInfo.length; i++) {
 			dataCaches.add(new Cache(cacheInfo[i],
-					policy == 0 ? WritePolicy.WRITE_THROUGH
+					cacheInfo[i][3] == 0 ? WritePolicy.WRITE_THROUGH
 							: WritePolicy.WRITE_BACK));
 		}
 	}
