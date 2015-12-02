@@ -26,11 +26,24 @@ public class Processor {
 
 	public String fetchInstruction(short instructionNumber)
 			throws InvalidReadException {
-		short address = instructionNumber + Memory.getProgramBeginning();
+		short address = (short) (instructionNumber + Memory
+				.getProgramBeginning());
 		CacheBlock block = Caches.readCacheBlock(address, 0,
 				Caches.getInstructionCaches());
 		short offset = (short) (address % block.getSize());
 		String instruction = (String) block.getEntries()[offset].getData();
 		return instruction;
+	}
+
+	public void writeData(short address, Short data)
+			throws InvalidReadException {
+		Caches.writeCacheBlock(address, 0, data, Caches.getDataCaches());
+	}
+
+	public void writeInstruction(short instructionNumber, Short data)
+			throws InvalidReadException {
+		short address = (short) (instructionNumber + Memory
+				.getProgramBeginning());
+		Caches.writeCacheBlock(address, 0, data, Caches.getInstructionCaches());
 	}
 }

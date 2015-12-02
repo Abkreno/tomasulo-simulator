@@ -16,10 +16,10 @@ public class Parser {
 
 		Memory.setProgramSize(lines.length - 1);
 
-		int startingLocation = 0;
+		short startingLocation = 0;
 		// starting point of the program
 		if (lines[0].split(" ")[0].equalsIgnoreCase(".ORG")) {
-			startingLocation = Integer.parseInt(lines[0].split(" ")[1]);
+			startingLocation = Short.parseShort(lines[0].split(" ")[1]);
 			Memory.setProgramBeginning(startingLocation);
 		}
 
