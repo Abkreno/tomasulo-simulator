@@ -30,4 +30,11 @@ public class Processor {
 		String instruction = (String) block.getEntries()[offset].getData();
 		return instruction;
 	}
+	
+	public void writeData(short address,Object data){
+		
+	}
+	public void writeInstruction(short address,Object data){
+		
+	}
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
+import nan.tomasulo.utils.Constants;
 
 public final class Memory {
 	private static Object[] memoryData;
@@ -23,10 +24,10 @@ public final class Memory {
 		Memory.programBeginning = -1;
 	}
 
-	public static void init(int blockSize, int programSize, int programBeginning) {
+	public static void init(int programSize, int programBeginning) {
 		Memory.memorySize = 64 * 1024 / 16;
 		Memory.programSize = programSize;
-		Memory.blockSize = blockSize;
+		Memory.blockSize = Constants.BLOCK_SIZE;
 		Memory.numOfBlocks = Memory.memorySize / blockSize
 				+ (Memory.memorySize % blockSize == 0 ? 0 : 1);
 		Memory.memoryData = new Object[memorySize];
