@@ -3,6 +3,7 @@ package nan.tomasulo;
 import java.util.Scanner;
 
 import nan.tomasulo.cache.Caches;
+import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
 
@@ -30,6 +31,9 @@ public class Simulator {
 		Processor p = new Processor();
 		while (true) {
 			p.nextClockCycle();
+			Instruction in = new Instruction(p.fetchInstruction(p.getPc()));
+			p.setPc((short) (p.getPc() + 1));
+			System.out.println(in.toString());
 			if (p.getPc() > Memory.getProgramSize())
 				break;
 			sc.nextLine();

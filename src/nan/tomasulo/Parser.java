@@ -32,4 +32,46 @@ public class Parser {
 
 	}
 
+	public static boolean checTypeImmArithmetic(String type) {
+		return type.equalsIgnoreCase("ADDI");
+	}
+
+	public static boolean checTypeArithmetic(String type) {
+		return type.equalsIgnoreCase("ADD") || type.equalsIgnoreCase("SUB")
+				|| type.equalsIgnoreCase("NAND")
+				|| type.equalsIgnoreCase("MUL");
+	}
+
+	public static boolean checkTypeRet(String type) {
+		return type.equalsIgnoreCase("RET");
+	}
+
+	public static boolean checkTypeUncondBranch(String type) {
+		return type.equalsIgnoreCase("JMP");
+	}
+
+	public static boolean checkTypeCall(String type) {
+		return type.equalsIgnoreCase("JALR");
+	}
+
+	public static boolean checkTypeLoadStore(String type) {
+		return type.equalsIgnoreCase("LW") || type.equalsIgnoreCase("SW");
+	}
+
+	public static boolean checkTypeCondBranch(String type) {
+		return type.equalsIgnoreCase("BREQ");
+	}
+
+	public static int parseRegisters(String in) {
+		if (in.contains("0x")) {
+			return Integer.parseInt(in.substring(2), 16);
+		}
+		if (in.contains("0b")) {
+			return Integer.parseInt(in.substring(2), 2);
+		}
+		if (in.contains("R") || in.contains("r"))
+			return Integer.parseInt(in.substring(1));
+		return Integer.parseInt(in);
+	}
+
 }

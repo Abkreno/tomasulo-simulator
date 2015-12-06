@@ -8,11 +8,11 @@ public class LoadUnit extends ReservationStation {
 	@Override
 	public void resetTimer(int t) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public int execute(String op) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

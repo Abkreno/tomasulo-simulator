@@ -4,21 +4,44 @@ import nan.tomasulo.cache.CacheBlock;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
+import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.reservation_stations.AddUnit;
 import nan.tomasulo.reservation_stations.LoadUnit;
 import nan.tomasulo.reservation_stations.MultUnit;
+import nan.tomasulo.reservation_stations.StoreUnit;
 
 public class Processor {
 	private AddUnit[] addUnits;
 	private MultUnit[] multUnits;
 	private LoadUnit[] loadUnits;
 	private StoreUnit[] storeUnits;
+	private Instruction currentInstruction;
+
+	// max number of instructions to issue in 1 cycle
+	private int maxIssuesPerCycle;
 
 	private short pc;
 
 	public Processor() throws InvalidReadException, InvalidWriteException {
 		this.pc = 0;
+		this.currentInstruction = new Instruction();
+	}
+
+	public Instruction getCurrentInstruction() {
+		return currentInstruction;
+	}
+
+	public void setCurrentInstruction(Instruction currentInstruction) {
+		this.currentInstruction = currentInstruction;
+	}
+
+	public int getMaxIssuesPerC() {
+		return maxIssuesPerCycle;
+	}
+
+	public void setMaxIssuesPerC(int maxIssuesPerC) {
+		this.maxIssuesPerCycle = maxIssuesPerC;
 	}
 
 	public short getPc() {
@@ -61,6 +84,10 @@ public class Processor {
 		this.storeUnits = storeUnits;
 	}
 
+	private void incrementPC(int value) {
+		this.pc += value;
+	}
+
 	public Short fetchData(short address) throws InvalidReadException,
 			InvalidWriteException {
 		CacheBlock block = Caches.readCacheBlock(address, 0,
@@ -95,5 +122,23 @@ public class Processor {
 
 	public void nextClockCycle() throws InvalidReadException,
 			InvalidWriteException {
+		int numOfIssues = 0;
+		while (numOfIssues < maxIssuesPerCycle) {
+			if (currentInstruction.isIssued()
+					|| issueInstruction(currentInstruction)) {
+				numOfIssues++;
+				incrementPC(1);
+				currentInstruction = new Instruction(fetchInstruction(pc));
+			} else {
+				// failed to issue the currentInstruction stall the pc
+				break;
+			}
+		}
 	}
+
+	private boolean issueInstruction(Instruction currentInstruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

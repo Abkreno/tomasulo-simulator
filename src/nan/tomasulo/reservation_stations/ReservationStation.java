@@ -5,6 +5,7 @@ public abstract class ReservationStation {
 	private int qj, qv; // values to be written to source operands
 	private int timer;
 	private boolean busy = false;
+	private String operation;
 
 	public ReservationStation() {
 		this.vj = 0;
@@ -46,6 +47,14 @@ public abstract class ReservationStation {
 		this.qv = qv;
 	}
 
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
 	public abstract void resetTimer(int t);
 
 	public int getTimer() {
@@ -60,5 +69,5 @@ public abstract class ReservationStation {
 		this.busy = busy;
 	}
 
-	public abstract int execute(String op);
+	public abstract int execute();
 }

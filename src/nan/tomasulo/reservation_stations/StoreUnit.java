@@ -1,6 +1,4 @@
-package nan.tomasulo.processor;
-
-import nan.tomasulo.reservation_stations.ReservationStation;
+package nan.tomasulo.reservation_stations;
 
 public class StoreUnit extends ReservationStation {
 	public StoreUnit() {
@@ -14,7 +12,7 @@ public class StoreUnit extends ReservationStation {
 	}
 
 	@Override
-	public int execute(String op) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

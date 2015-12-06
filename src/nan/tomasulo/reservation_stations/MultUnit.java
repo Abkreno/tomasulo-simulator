@@ -12,7 +12,7 @@ public class MultUnit extends ReservationStation {
 	}
 
 	@Override
-	public int execute(String op) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
