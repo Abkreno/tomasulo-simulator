@@ -35,6 +35,52 @@ public class Caches {
 		return instructionCaches;
 	}
 
+	/*
+	 * Recursive method to caculate the total access delay to read a certain
+	 * address without actually reading or changing the cache/main memory
+	 * contents
+	 */
+	public static int calculateReadAccessDelay(short address, int currLevel,
+			LinkedList<Cache> caches) {
+		if (currLevel == caches.size())
+			return Memory.getAccessDelay();
+		Cache currCache = caches.get(currLevel);
+		CacheBlock block = currCache.getCacheBlock(address);
+		int delay = currCache.getAccessDelay();
+		if (!block.isValid() || block.getTag() != currCache.getTag(address)) {
+			// Not found here add the access delay of lower level
+
+			if (block.isValid()
+					&& currCache.getWritePolicy() == WritePolicy.WRITE_BACK
+					&& block.isDirty()) {
+				// if the block is dirty increment access delay for memory
+				delay += Memory.getAccessDelay();
+			}
+			// then update the access delay with access delay of lower level
+			delay += calculateReadAccessDelay(address, currLevel + 1, caches);
+		}
+		return delay;
+	}
+
+	public static int calculateWriteAccessDelay(short address, int currLevel,
+			LinkedList<Cache> caches) throws InvalidReadException,
+			InvalidWriteException {
+		if (currLevel == caches.size())
+			return Memory.getAccessDelay();
+		Cache currCache = caches.get(currLevel);
+		int delay = currCache.getAccessDelay();
+		if (currLevel == 0) {
+			// increment the delay for reading the block for first time
+			delay += calculateReadAccessDelay(address, currLevel, caches);
+		}
+		if (currCache.getWritePolicy() == WritePolicy.WRITE_THROUGH) {
+			// if the policy is write_through increment by delay for writing to
+			// lower levels
+			delay += calculateWriteAccessDelay(address, currLevel + 1, caches);
+		}
+		return delay;
+	}
+
 	public static CacheBlock readCacheBlock(short address, int currLevel,
 			LinkedList<Cache> caches) throws InvalidReadException,
 			InvalidWriteException {
