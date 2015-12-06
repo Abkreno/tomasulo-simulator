@@ -17,9 +17,11 @@ public class Cache {
 	private int hits;
 	private int misses;
 
+	private int accessDelay; // number of cycles to access the cache
+
 	private WritePolicy writePolicy;
 
-	public Cache(int size, int blockSize, int associativity,
+	public Cache(int size, int blockSize, int associativity, int accessDelay,
 			WritePolicy writePolicy) {
 		this.size = size;
 		this.blockSize = blockSize;
@@ -29,7 +31,7 @@ public class Cache {
 		this.numOfSets = numOfBlocks / associativity;
 		this.hits = 0;
 		this.misses = 0;
-
+		this.accessDelay = accessDelay;
 		this.blocks = new CacheBlock[size / blockSize];
 		initializeBlocks();
 	}
@@ -112,6 +114,14 @@ public class Cache {
 
 	public void setNumOfSets(int numOfSets) {
 		this.numOfSets = numOfSets;
+	}
+
+	public int getAccessDelay() {
+		return accessDelay;
+	}
+
+	public void setAccessDelay(int accessDelay) {
+		this.accessDelay = accessDelay;
 	}
 
 	public short getIndex(short address) {

@@ -71,7 +71,7 @@ public class CacheTests {
 		Caches.initCaches(cachesInfo);
 		Parser.copyProgramToMemory("program_1.in");
 		Processor p = new Processor();
-		String instruction = p.fetchInstruction((short) 0);
+		String instruction = Caches.fetchInstruction((short) 0);
 		assertTrue("first instruction is ADD R1,R2,R3",
 				instruction.equals("ADD R1,R2,R3"));
 	}
@@ -90,8 +90,8 @@ public class CacheTests {
 		p.writeData((short) 0, new Short((short) 75));
 		// 2048 at block ( 2048/16 = 128 % 32 = 0)
 		p.writeData((short) 2048, new Short((short) 105));
-		Short data1 = p.fetchData((short) 0);
-		Short data2 = p.fetchData((short) 2048);
+		Short data1 = Caches.fetchData((short) 0);
+		Short data2 = Caches.fetchData((short) 2048);
 		assertTrue("data1 should be 75 , data2 should be 105",
 				data1.equals((short) 75) && data2.equals((short) 105));
 	}
@@ -110,8 +110,8 @@ public class CacheTests {
 		p.writeData((short) 0, new Short((short) 75));
 		// 2048 at block ( 2048/16 = 128 % 32 = 0)
 		p.writeData((short) 2048, new Short((short) 105));
-		Short data1 = p.fetchData((short) 0);
-		Short data2 = p.fetchData((short) 2048);
+		Short data1 = Caches.fetchData((short) 0);
+		Short data2 = Caches.fetchData((short) 2048);
 		assertTrue("data1 should be 75 , data2 should be 105",
 				data1.equals((short) 75) && data2.equals((short) 105));
 	}

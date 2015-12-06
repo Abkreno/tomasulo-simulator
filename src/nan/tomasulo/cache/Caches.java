@@ -15,14 +15,14 @@ public class Caches {
 		instructionCaches = new LinkedList<>();
 		for (int i = 0; i < cacheInfo.length; i++) {
 			dataCaches.add(new Cache(cacheInfo[i][0], cacheInfo[i][1],
-					cacheInfo[i][2],
-					cacheInfo[i][3] == 0 ? WritePolicy.WRITE_THROUGH
+					cacheInfo[i][2], cacheInfo[i][3],
+					cacheInfo[i][4] == 0 ? WritePolicy.WRITE_THROUGH
 							: WritePolicy.WRITE_BACK));
 		}
 		for (int i = 0; i < cacheInfo.length; i++) {
 			instructionCaches.add(new Cache(cacheInfo[i][0], cacheInfo[i][1],
-					cacheInfo[i][2],
-					cacheInfo[i][3] == 0 ? WritePolicy.WRITE_THROUGH
+					cacheInfo[i][2], cacheInfo[i][3],
+					cacheInfo[i][4] == 0 ? WritePolicy.WRITE_THROUGH
 							: WritePolicy.WRITE_BACK));
 		}
 	}
