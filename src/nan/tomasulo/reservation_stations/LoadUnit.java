@@ -6,7 +6,7 @@ public class LoadUnit extends ReservationStation {
 	}
 
 	@Override
-	public void resetTimer(int t) {
+	public void resetTimer() {
 		// TODO Auto-generated method stub
 
 	}

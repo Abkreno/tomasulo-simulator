@@ -1,6 +1,5 @@
 package nan.tomasulo.processor;
 
-import nan.tomasulo.cache.CacheBlock;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
@@ -88,26 +87,6 @@ public class Processor {
 		this.pc += value;
 	}
 
-	public Short fetchData(short address) throws InvalidReadException,
-			InvalidWriteException {
-		CacheBlock block = Caches.readCacheBlock(address, 0,
-				Caches.getDataCaches());
-		short offset = (short) (address % block.getSize());
-		Short data = (Short) block.getEntries()[offset].getData();
-		return data;
-	}
-
-	public String fetchInstruction(short instructionNumber)
-			throws InvalidReadException, InvalidWriteException {
-		short address = (short) (instructionNumber + Memory
-				.getProgramBeginning());
-		CacheBlock block = Caches.readCacheBlock(address, 0,
-				Caches.getInstructionCaches());
-		short offset = (short) (address % block.getSize());
-		String instruction = (String) block.getEntries()[offset].getData();
-		return instruction;
-	}
-
 	public void writeData(short address, Short data)
 			throws InvalidReadException, InvalidWriteException {
 		Caches.writeCacheBlock(address, 0, data, Caches.getDataCaches());
@@ -128,9 +107,10 @@ public class Processor {
 					|| issueInstruction(currentInstruction)) {
 				numOfIssues++;
 				incrementPC(1);
-				currentInstruction = new Instruction(fetchInstruction(pc));
+				currentInstruction = new Instruction(
+						Caches.fetchInstruction(pc));
 			} else {
-				// failed to issue the currentInstruction stall the pc
+				// failed to issue the current instruction stall the pc
 				break;
 			}
 		}

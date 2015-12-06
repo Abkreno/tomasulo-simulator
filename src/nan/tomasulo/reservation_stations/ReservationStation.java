@@ -55,7 +55,7 @@ public abstract class ReservationStation {
 		this.operation = operation;
 	}
 
-	public abstract void resetTimer(int t);
+	public abstract void resetTimer();
 
 	public int getTimer() {
 		return timer;

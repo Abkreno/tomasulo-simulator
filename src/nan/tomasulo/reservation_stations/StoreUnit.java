@@ -6,9 +6,10 @@ public class StoreUnit extends ReservationStation {
 	}
 
 	@Override
-	public void resetTimer(int t) {
+	public void resetTimer() {
 		// TODO Auto-generated method stub
-
+		// Set the timer to the delay of fetching the calculated address from
+		// caches
 	}
 
 	@Override

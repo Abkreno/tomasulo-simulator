@@ -31,7 +31,7 @@ public class Simulator {
 		Processor p = new Processor();
 		while (true) {
 			p.nextClockCycle();
-			Instruction in = new Instruction(p.fetchInstruction(p.getPc()));
+			Instruction in = new Instruction(Caches.fetchInstruction(p.getPc()));
 			p.setPc((short) (p.getPc() + 1));
 			System.out.println(in.toString());
 			if (p.getPc() > Memory.getProgramSize())

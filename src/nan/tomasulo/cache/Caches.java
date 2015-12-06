@@ -99,4 +99,25 @@ public class Caches {
 			writeCacheBlock(address, currLevel + 1, data, caches);
 		}
 	}
+
+	public static Short fetchData(short address) throws InvalidReadException,
+			InvalidWriteException {
+		CacheBlock block = Caches.readCacheBlock(address, 0,
+				Caches.getDataCaches());
+		short offset = (short) (address % block.getSize());
+		Short data = (Short) block.getEntries()[offset].getData();
+		return data;
+	}
+
+	public static String fetchInstruction(short instructionNumber)
+			throws InvalidReadException, InvalidWriteException {
+		short address = (short) (instructionNumber + Memory
+				.getProgramBeginning());
+		CacheBlock block = Caches.readCacheBlock(address, 0,
+				Caches.getInstructionCaches());
+		short offset = (short) (address % block.getSize());
+		String instruction = (String) block.getEntries()[offset].getData();
+		return instruction;
+	}
+
 }
