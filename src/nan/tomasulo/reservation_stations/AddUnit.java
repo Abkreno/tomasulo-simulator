@@ -1,16 +1,16 @@
-package nan.tomasulo.processor;
+package nan.tomasulo.reservation_stations;
 
-public class LoadUnit extends ReservationStation {
-	public LoadUnit() {
+public class AddUnit extends ReservationStation {
+	public AddUnit() {
 		super();
 	}
 
 	@Override
 	public void resetTimer(int t) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public int execute(String op) {
 		// TODO Auto-generated method stub

@@ -1,4 +1,4 @@
-package nan.tomasulo.processor;
+package nan.tomasulo.reservation_stations;
 
 public class MultUnit extends ReservationStation {
 	public MultUnit() {

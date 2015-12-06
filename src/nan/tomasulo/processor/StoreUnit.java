@@ -1,5 +1,7 @@
 package nan.tomasulo.processor;
 
+import nan.tomasulo.reservation_stations.ReservationStation;
+
 public class StoreUnit extends ReservationStation {
 	public StoreUnit() {
 		super();

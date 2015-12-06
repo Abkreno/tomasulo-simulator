@@ -1,4 +1,4 @@
-package nan.tomasulo.processor;
+package nan.tomasulo.reservation_stations;
 
 public abstract class ReservationStation {
 	private int vj, vk; // values of source operands
