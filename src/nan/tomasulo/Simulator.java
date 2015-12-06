@@ -30,7 +30,7 @@ public class Simulator {
 		Processor p = new Processor();
 		while (true) {
 			p.nextClockCycle();
-			if (p.getPc() == Memory.getProgramSize())
+			if (p.getPc() > Memory.getProgramSize())
 				break;
 			sc.nextLine();
 		}

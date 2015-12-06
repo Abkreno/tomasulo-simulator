@@ -1,4 +1,4 @@
-package Register;
+package nan.tomasulo.registers;
 
 public class RegisterFile 
 {

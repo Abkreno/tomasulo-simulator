@@ -14,6 +14,7 @@ public class Processor {
 	private MultUnit[] multUnits;
 	private LoadUnit[] loadUnits;
 	private StoreUnit[] storeUnits;
+
 	private short pc;
 
 	public Processor() throws InvalidReadException, InvalidWriteException {
@@ -26,6 +27,38 @@ public class Processor {
 
 	public void setPc(short pc) {
 		this.pc = pc;
+	}
+
+	public AddUnit[] getAddUnits() {
+		return addUnits;
+	}
+
+	public void setAddUnits(AddUnit[] addUnits) {
+		this.addUnits = addUnits;
+	}
+
+	public MultUnit[] getMultUnits() {
+		return multUnits;
+	}
+
+	public void setMultUnits(MultUnit[] multUnits) {
+		this.multUnits = multUnits;
+	}
+
+	public LoadUnit[] getLoadUnits() {
+		return loadUnits;
+	}
+
+	public void setLoadUnits(LoadUnit[] loadUnits) {
+		this.loadUnits = loadUnits;
+	}
+
+	public StoreUnit[] getStoreUnits() {
+		return storeUnits;
+	}
+
+	public void setStoreUnits(StoreUnit[] storeUnits) {
+		this.storeUnits = storeUnits;
 	}
 
 	public Short fetchData(short address) throws InvalidReadException,
@@ -62,6 +95,5 @@ public class Processor {
 
 	public void nextClockCycle() throws InvalidReadException,
 			InvalidWriteException {
-		String instruction = fetchInstruction(pc);
 	}
 }
