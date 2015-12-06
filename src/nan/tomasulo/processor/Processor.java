@@ -9,7 +9,6 @@ import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.memory.Memory;
 
 public class Processor {
-	private LinkedList<Process> processes;
 	private AddUnit[] addUnits;
 	private MultUnit[] multUnits;
 	private LoadUnit[] loadUnits;
@@ -18,14 +17,6 @@ public class Processor {
 
 	public Processor() throws InvalidReadException, InvalidWriteException {
 		this.pc = 0;
-	}
-
-	public LinkedList<Process> getProcesses() {
-		return processes;
-	}
-
-	public void setProcesses(LinkedList<Process> processes) {
-		this.processes = processes;
 	}
 
 	public short getPc() {
