@@ -3,6 +3,8 @@ package nan.tomasulo;
 import java.util.Scanner;
 
 import nan.tomasulo.cache.Caches;
+import nan.tomasulo.memory.Memory;
+import nan.tomasulo.processor.Processor;
 
 public class Simulator {
 	public static void main(String[] args) throws Exception {
@@ -24,6 +26,14 @@ public class Simulator {
 			cachesInfo[i][3] = Integer.parseInt(sc.nextLine());
 		}
 		Caches.initCaches(cachesInfo);
+		Parser.copyProgramToMemory("program_1.in");
+		Processor p = new Processor();
+		while (true) {
+			p.nextClockCycle();
+			if (p.getPc() == Memory.getProgramSize())
+				break;
+			sc.nextLine();
+		}
 		sc.close();
 	}
 }

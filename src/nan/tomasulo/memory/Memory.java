@@ -17,7 +17,7 @@ public final class Memory {
 											// program
 
 	public static void init() {
-		Memory.memorySize = 64 * 1024 / 16;
+		Memory.memorySize = 64 * 1024 / 2;
 		Memory.programSize = -1;
 		Memory.blockSize = memorySize;
 		Memory.numOfBlocks = Memory.memorySize / blockSize
@@ -27,7 +27,7 @@ public final class Memory {
 	}
 
 	public static void init(int blockSize, int programSize, int programBeginning) {
-		Memory.memorySize = 64 * 1024 / 16;
+		Memory.memorySize = 64 * 1024 / 2;
 		Memory.programSize = programSize;
 		Memory.blockSize = blockSize;
 		Memory.numOfBlocks = Memory.memorySize / blockSize

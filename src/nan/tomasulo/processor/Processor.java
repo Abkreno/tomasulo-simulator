@@ -9,12 +9,31 @@ import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.memory.Memory;
 
 public class Processor {
-	LinkedList<Process> processes;
-	LinkedList<ReservationStation> reservationStations;
-	RegisterResultStatus registerResultStatus;
+	private LinkedList<Process> processes;
+	private AddUnit[] addUnits;
+	private MultUnit[] multUnits;
+	private LoadUnit[] loadUnits;
+	private StoreUnit[] storeUnits;
+	private short pc;
 
-	public Processor() {
+	public Processor() throws InvalidReadException, InvalidWriteException {
+		this.pc = 0;
+	}
 
+	public LinkedList<Process> getProcesses() {
+		return processes;
+	}
+
+	public void setProcesses(LinkedList<Process> processes) {
+		this.processes = processes;
+	}
+
+	public short getPc() {
+		return pc;
+	}
+
+	public void setPc(short pc) {
+		this.pc = pc;
 	}
 
 	public Short fetchData(short address) throws InvalidReadException,
@@ -47,5 +66,10 @@ public class Processor {
 		short address = (short) (instructionNumber + Memory
 				.getProgramBeginning());
 		Caches.writeCacheBlock(address, 0, data, Caches.getInstructionCaches());
+	}
+
+	public void nextClockCycle() throws InvalidReadException,
+			InvalidWriteException {
+		String instruction = fetchInstruction(pc);
 	}
 }

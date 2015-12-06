@@ -18,8 +18,10 @@ public class Parser {
 		// starting point of the program
 		if (lines[0].split(" ")[0].equalsIgnoreCase(".ORG")) {
 			startingLocation = (short) Integer.parseInt(lines[0].split(" ")[1]);
+			Memory.init(16, lines.length - 1, startingLocation);
+		} else {
+			Memory.init(16, lines.length, startingLocation);
 		}
-		Memory.init(16, lines.length, startingLocation);
 		for (int i = 1; i < lines.length; i++) {
 			try {
 				Memory.writeDataEntry(startingLocation + i - 1, lines[i]);
