@@ -15,6 +15,7 @@ public final class Memory {
 	private static int programSize;
 	private static short programBeginning; // The starting address of the
 											// program
+	private static int accessDelay;
 
 	public static void init() {
 		Memory.memorySize = 64 * 1024 / 2;
@@ -141,6 +142,14 @@ public final class Memory {
 
 	public static void setProgramBeginning(short programBeginning) {
 		Memory.programBeginning = programBeginning;
+	}
+
+	public static int getAccessDelay() {
+		return Memory.accessDelay;
+	}
+
+	public static void setAccessDelay(int accessDelay) {
+		Memory.accessDelay = accessDelay;
 	}
 
 	public static void writeBlock(int startingAddress, CacheEntry[] entries)

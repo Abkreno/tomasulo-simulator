@@ -70,7 +70,7 @@ public class CacheTests {
 		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Parser.copyProgramToMemory("program_1.in");
-		Processor p = new Processor();
+		Processor p = new Processor(1);
 		String instruction = Caches.fetchInstruction((short) 0);
 		assertTrue("first instruction is ADD R1,R2,R3",
 				instruction.equals("ADD R1,R2,R3"));
@@ -84,7 +84,7 @@ public class CacheTests {
 		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Memory.init(16, 128, 1024);
-		Processor p = new Processor();
+		Processor p = new Processor(1);
 
 		// 0 at block (0/16 = 0 % 32 = 0)
 		p.writeData((short) 0, new Short((short) 75));
@@ -104,7 +104,7 @@ public class CacheTests {
 		cachesInfo[0] = new int[] { 512, 16, 1, 1 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Memory.init(16, 128, 1024);
-		Processor p = new Processor();
+		Processor p = new Processor(1);
 
 		// 0 at block (0/16 = 0 % 32 = 0)
 		p.writeData((short) 0, new Short((short) 75));

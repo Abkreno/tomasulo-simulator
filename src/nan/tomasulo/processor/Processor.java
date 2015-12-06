@@ -22,8 +22,13 @@ public class Processor {
 
 	private short pc;
 
-	public Processor() throws InvalidReadException, InvalidWriteException {
+	private boolean halted;
+
+	public Processor(int maxIssuesPerCycle) throws InvalidReadException,
+			InvalidWriteException {
+		this.maxIssuesPerCycle = maxIssuesPerCycle;
 		this.pc = 0;
+		this.halted = false;
 		this.currentInstruction = new Instruction();
 	}
 
@@ -49,6 +54,22 @@ public class Processor {
 
 	public void setPc(short pc) {
 		this.pc = pc;
+	}
+
+	public int getMaxIssuesPerCycle() {
+		return maxIssuesPerCycle;
+	}
+
+	public void setMaxIssuesPerCycle(int maxIssuesPerCycle) {
+		this.maxIssuesPerCycle = maxIssuesPerCycle;
+	}
+
+	public boolean isHalted() {
+		return halted;
+	}
+
+	public void setHalted(boolean halt) {
+		this.halted = halt;
 	}
 
 	public AddUnit[] getAddUnits() {

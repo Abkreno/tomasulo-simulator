@@ -10,8 +10,9 @@ import nan.tomasulo.processor.Processor;
 public class Simulator {
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
-
-		System.out.println("Enter Number of Caches:");
+		System.out.println("Enter Memory Access Delay :");
+		Memory.setAccessDelay(Integer.parseInt(sc.nextLine()));
+		System.out.println("Enter Number of Caches :");
 		int n = Integer.parseInt(sc.nextLine());
 		int[][] cachesInfo = new int[n][5];
 		String[] line;
@@ -29,14 +30,16 @@ public class Simulator {
 			cachesInfo[i][4] = Integer.parseInt(sc.nextLine());
 		}
 		Caches.initCaches(cachesInfo);
+		System.out.println("Enter Processor's max issues per cycle :");
+		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
 		Parser.copyProgramToMemory("program_1.in");
-		Processor p = new Processor();
+		Processor p = new Processor(maxIssuesPerCycle);
 		while (true) {
 			p.nextClockCycle();
 			Instruction in = new Instruction(Caches.fetchInstruction(p.getPc()));
 			p.setPc((short) (p.getPc() + 1));
 			System.out.println(in.toString());
-			if (p.getPc() > Memory.getProgramSize())
+			if (p.isHalted())
 				break;
 			sc.nextLine();
 		}
