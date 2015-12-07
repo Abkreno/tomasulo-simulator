@@ -8,6 +8,9 @@ import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
+import nan.tomasulo.registers.RegisterFile;
+import nan.tomasulo.registers.RegisterStats;
+import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class Processor {
 
@@ -108,13 +111,22 @@ public class Processor {
 	}
 
 	private void updatePC(Instruction fetchedInsruction) {
-		incrementPC(1);
+		int imm = fetchedInsruction.getImm();
 		if (Parser.checkTypeCondBranch(fetchedInsruction.getType())) {
-
+			if (imm < 0) {
+				// take the branch
+				incrementPC(1 + imm);
+			} else {
+				incrementPC(1);
+			}
 		} else if (Parser.checkTypeUncondBranch(fetchedInsruction.getType())) {
 
-		} else if (Parser.checkTypeCall(fetchedInsruction.getType())) {
+			int regNum = fetchedInsruction.getRd();
+			short regValue = RegisterFile.getCorrectRegisterData(regNum);
+			incrementPC(1 + regValue + imm);
 
+		} else if (Parser.checkTypeCall(fetchedInsruction.getType())) {
+			
 		} else if (Parser.checkTypeRet(fetchedInsruction.getType())) {
 
 		} else {

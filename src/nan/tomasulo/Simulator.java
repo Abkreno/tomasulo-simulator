@@ -47,8 +47,7 @@ public class Simulator {
 				storeUnits, branchUnits);
 		System.out.println("Enter Processor's max issues per cycle :");
 		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
-		System.out
-				.println("Enter max number of Instructions in Instruction the Buffer :");
+		System.out.println("Enter Instruction Buffer Size :");
 		int maxNumOfInstInBuffer = Integer.parseInt(sc.nextLine());
 		Processor p = new Processor(maxIssuesPerCycle, maxNumOfInstInBuffer);
 		while (true) {

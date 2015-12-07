@@ -7,7 +7,6 @@ public abstract class ReservationStation {
 	private int qj, qv; // values to be written to source operands
 	private int id, robEntry;
 	private int timer;
-	private int correctValue; // needed to predict branches correctly
 	private boolean busy = false;
 	private String operation;
 	private static int stationID = 1;
@@ -75,14 +74,6 @@ public abstract class ReservationStation {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getCorrectValue() {
-		return correctValue;
-	}
-
-	public void setCorrectValue(int correctValue) {
-		this.correctValue = correctValue;
 	}
 
 	public String getOperation() {
