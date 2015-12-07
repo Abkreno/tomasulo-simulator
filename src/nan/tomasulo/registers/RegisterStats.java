@@ -7,7 +7,7 @@ public class RegisterStats {
 		return registerStats[index];
 	}
 
-	public static void setRegisterStats(int index, int value) {
+	public static void updateRegisterStats(int index, int value) {
 		RegisterStats.registerStats[index] = value;
 	}
 

@@ -33,7 +33,19 @@ public class Simulator {
 		System.out.println("Enter Processor's max issues per cycle :");
 		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
 		Parser.copyProgramToMemory("program_1.in");
-		Processor p = new Processor(maxIssuesPerCycle);
+		System.out.println("Enter Number of AddUnits");
+		int addUnits = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter Number of MultUnits");
+		int multUnits = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter Number of LoadUnits");
+		int loadUnits = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter Number of StoreUnits");
+		int storeUnits = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter Number of BranchUnits");
+		int branchUnits = Integer.parseInt(sc.nextLine());
+
+		Processor p = new Processor(maxIssuesPerCycle, addUnits, multUnits,
+				loadUnits, storeUnits, branchUnits);
 		while (true) {
 			p.nextClockCycle();
 			Instruction in = new Instruction(Caches.fetchInstruction(p.getPc()));

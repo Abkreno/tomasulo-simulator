@@ -83,7 +83,7 @@ public class CacheTests {
 		cachesInfo[0] = new int[] { 512, 16, 1, 1, 0 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Memory.init(16, 128, 1024);
-		Processor p = new Processor(1);
+		Processor p = new Processor(1, 3, 3, 3, 3, 3);
 
 		// 0 at block (0/16 = 0 % 32 = 0)
 		p.writeData((short) 0, new Short((short) 75));
@@ -103,7 +103,7 @@ public class CacheTests {
 		cachesInfo[0] = new int[] { 512, 16, 1, 1, 1 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Memory.init(16, 128, 1024);
-		Processor p = new Processor(1);
+		Processor p = new Processor(1, 3, 3, 3, 3, 3);
 
 		// 0 at block (0/16 = 0 % 32 = 0)
 		p.writeData((short) 0, new Short((short) 75));

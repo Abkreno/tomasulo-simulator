@@ -20,7 +20,7 @@ public class SimulatorTest {
 		cachesInfo[0] = new int[] { 128, 16, 1, 1, 0 };
 		Caches.initCaches(cachesInfo);
 		Parser.copyProgramToMemory("program_1.in");
-		Processor p = new Processor(maxIssuesPerCycle);
+		Processor p = new Processor(maxIssuesPerCycle, 3, 3, 3, 3, 3);
 		while (true) {
 			p.nextClockCycle();
 			Instruction in = new Instruction(Caches.fetchInstruction(p.getPc()));
