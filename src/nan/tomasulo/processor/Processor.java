@@ -9,13 +9,11 @@ import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.registers.RegisterFile;
-import nan.tomasulo.registers.RegisterStats;
-import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class Processor {
-
+	private static int clock = 0;
 	// max number of instructions to issue in 1 cycle
-	private int maxIssuesPerCycle, instructionQueueSize;
+	private int maxIssuesPerCycle, maxFetchesPerCycle, instructionQueueMaxSize;
 
 	private short pc;
 
@@ -23,12 +21,13 @@ public class Processor {
 
 	private LinkedList<Instruction> instructionsQueue;
 
-	public Processor(int maxIssuesPerCycle, int instructionQueueSize)
+	public Processor(int m, int instructionQueueSize)
 			throws InvalidReadException, InvalidWriteException {
-		this.maxIssuesPerCycle = maxIssuesPerCycle;
+		this.maxIssuesPerCycle = m;
+		this.maxFetchesPerCycle = m;
 		this.pc = 0;
 		this.halted = false;
-		this.instructionQueueSize = instructionQueueSize;
+		this.instructionQueueMaxSize = instructionQueueSize;
 		this.instructionsQueue = new LinkedList<>();
 	}
 
@@ -45,11 +44,11 @@ public class Processor {
 	}
 
 	public int getInstructionQueueSize() {
-		return instructionQueueSize;
+		return instructionQueueMaxSize;
 	}
 
 	public void setInstructionQueueSize(int instructionQueueSize) {
-		this.instructionQueueSize = instructionQueueSize;
+		this.instructionQueueMaxSize = instructionQueueSize;
 	}
 
 	public void setMaxIssuesPerC(int maxIssuesPerC) {
@@ -72,6 +71,14 @@ public class Processor {
 		this.maxIssuesPerCycle = maxIssuesPerCycle;
 	}
 
+	public int getMaxFetchesPerCycle() {
+		return maxFetchesPerCycle;
+	}
+
+	public void setMaxFetchesPerCycle(int maxFetchesPerCycle) {
+		this.maxFetchesPerCycle = maxFetchesPerCycle;
+	}
+
 	public boolean isHalted() {
 		return halted;
 	}
@@ -80,7 +87,7 @@ public class Processor {
 		this.halted = halt;
 	}
 
-	private void incrementPC(int value) {
+	private void incrementPc(int value) {
 		this.pc += value;
 	}
 
@@ -98,16 +105,35 @@ public class Processor {
 
 	public void nextClockCycle() throws InvalidReadException,
 			InvalidWriteException {
-		int numOfIssues = 0;
-		Instruction fetchedInsruction;
-		while (numOfIssues < maxIssuesPerCycle) {
-			fetchedInsruction = new Instruction(Caches.fetchInstruction(pc));
 
-			instructionsQueue.add(fetchedInsruction);
-			numOfIssues++;
-			updatePC(fetchedInsruction);
-
+		int numOfFetches = 0;
+		Instruction insruction;
+		while (instructionsQueue.size() < instructionQueueMaxSize
+				&& numOfFetches < maxFetchesPerCycle
+				&& pc < Memory.getProgramSize()) {
+			insruction = new Instruction(Caches.fetchInstruction(pc), pc);
+			instructionsQueue.addLast(insruction);
+			numOfFetches++;
+			updatePC(insruction);
 		}
+
+		int numOfIssues = 0;
+		while (instructionsQueue.size() > 0 && numOfIssues < maxIssuesPerCycle) {
+			insruction = instructionsQueue.getFirst();
+			if (issueInstruction(insruction)) {
+				numOfIssues++;
+				instructionsQueue.removeFirst().setIssuedTime(clock);
+			} else {
+				// Couldn't issue , stall
+				break;
+			}
+		}
+
+		clock++;
+	}
+
+	private boolean issueInstruction(Instruction currentInstruction) {
+		return false;
 	}
 
 	private void updatePC(Instruction fetchedInsruction) {
@@ -115,26 +141,31 @@ public class Processor {
 		if (Parser.checkTypeCondBranch(fetchedInsruction.getType())) {
 			if (imm < 0) {
 				// take the branch
-				incrementPC(1 + imm);
+				incrementPc(1 + imm);
 			} else {
-				incrementPC(1);
+				incrementPc(1);
 			}
 		} else if (Parser.checkTypeUncondBranch(fetchedInsruction.getType())) {
 
 			int regNum = fetchedInsruction.getRd();
 			short regValue = RegisterFile.getCorrectRegisterData(regNum);
-			incrementPC(1 + regValue + imm);
+			incrementPc(1 + regValue + imm);
 
 		} else if (Parser.checkTypeCall(fetchedInsruction.getType())) {
-			
+
+			int regNum = fetchedInsruction.getRs();
+			short regValue = RegisterFile.getCorrectRegisterData(regNum);
+			setPc(regValue);
+
 		} else if (Parser.checkTypeRet(fetchedInsruction.getType())) {
 
-		} else {
-		}
-	}
+			int regNum = fetchedInsruction.getRd();
+			short regValue = RegisterFile.getCorrectRegisterData(regNum);
+			setPc(regValue);
 
-	private boolean issueInstruction(Instruction currentInstruction) {
-		return false;
+		} else {
+			incrementPc(1);
+		}
 	}
 
 }

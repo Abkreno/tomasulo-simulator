@@ -4,6 +4,7 @@ public class ROBEntry {
 	private short correctValue, value;
 	private String type;
 	private boolean ready;
+	private int dstRegNumber;
 
 	public ROBEntry() {
 		this.correctValue = 0;
@@ -41,6 +42,14 @@ public class ROBEntry {
 
 	public void setReady(boolean ready) {
 		this.ready = ready;
+	}
+
+	public int getDstRegNumber() {
+		return dstRegNumber;
+	}
+
+	public void setDstRegNumber(int dstRegNumber) {
+		this.dstRegNumber = dstRegNumber;
 	}
 
 }

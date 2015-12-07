@@ -4,14 +4,16 @@ import nan.tomasulo.Parser;
 
 public class Instruction {
 	private String type;
-	private int rd, rs, rt, imm;
+	private int rd, rs, rt, imm, address;
+	private int issuedTime, executedTime, writtenTime, commitedTime;
 	private boolean issued;
 
 	public Instruction() {
 		this.issued = true;
 	}
 
-	public Instruction(String instruction) {
+	public Instruction(String instruction, int address) {
+		this.address = address;
 		String[] split = instruction.split(" ");
 		this.type = split[0];
 		this.issued = false;
@@ -95,12 +97,52 @@ public class Instruction {
 		this.imm = imm;
 	}
 
+	public int getAddress() {
+		return address;
+	}
+
+	public void setAddress(int address) {
+		this.address = address;
+	}
+
 	public boolean isIssued() {
 		return issued;
 	}
 
 	public void setIssued(boolean issued) {
 		this.issued = issued;
+	}
+
+	public int getIssuedTime() {
+		return issuedTime;
+	}
+
+	public void setIssuedTime(int issuedTime) {
+		this.issuedTime = issuedTime;
+	}
+
+	public int getExecutedTime() {
+		return executedTime;
+	}
+
+	public void setExecutedTime(int executedTime) {
+		this.executedTime = executedTime;
+	}
+
+	public int getWrittenTime() {
+		return writtenTime;
+	}
+
+	public void setWrittenTime(int writtenTime) {
+		this.writtenTime = writtenTime;
+	}
+
+	public int getCommitedTime() {
+		return commitedTime;
+	}
+
+	public void setCommitedTime(int commitedTime) {
+		this.commitedTime = commitedTime;
 	}
 
 	public String toString() {
