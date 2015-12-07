@@ -15,11 +15,7 @@ import nan.tomasulo.reservation_stations.MultUnit;
 import nan.tomasulo.reservation_stations.StoreUnit;
 
 public class Processor {
-	private AddUnit[] addUnits;
-	private MultUnit[] multUnits;
-	private LoadUnit[] loadUnits;
-	private StoreUnit[] storeUnits;
-	private BranchUnit[] branchUnits;
+
 
 	// max number of instructions to issue in 1 cycle
 	private int maxIssuesPerCycle;
@@ -30,39 +26,15 @@ public class Processor {
 
 	private LinkedList<Instruction> instructionsQueue;
 
-	public Processor(int maxIssuesPerCycle, int numOfAddU, int numOfMultU,
-			int numOfLoadU, int numOfStoreU, int numOfBranchU)
+	public Processor(int maxIssuesPerCycle)
 			throws InvalidReadException, InvalidWriteException {
 		this.maxIssuesPerCycle = maxIssuesPerCycle;
 		this.pc = 0;
 		this.halted = false;
 		this.instructionsQueue = new LinkedList<>();
-		initFunctionalUnits(numOfAddU, numOfMultU, numOfLoadU, numOfStoreU, numOfBranchU);
+		
 	}
 
-	private void initFunctionalUnits(int numOfAddU, int numOfMultU, int numOfLoadU,
-			int numOfStoreU, int numOfBranchU) {
-		this.addUnits = new AddUnit[numOfAddU];
-		for (int i = 0; i < addUnits.length; i++) {
-			addUnits[i] = new AddUnit();
-		}
-		this.multUnits = new MultUnit[numOfMultU];
-		for (int i = 0; i < multUnits.length; i++) {
-			multUnits[i] = new MultUnit();
-		}
-		this.storeUnits = new StoreUnit[numOfStoreU];
-		for (int i = 0; i < storeUnits.length; i++) {
-			storeUnits[i] = new StoreUnit();
-		}
-		this.loadUnits = new LoadUnit[numOfLoadU];
-		for (int i = 0; i < loadUnits.length; i++) {
-			loadUnits[i] = new LoadUnit();
-		}
-		this.branchUnits = new BranchUnit[numOfBranchU];
-		for (int i = 0; i < branchUnits.length; i++) {
-			branchUnits[i] = new BranchUnit();
-		}
-	}
 
 	public LinkedList<Instruction> getInstructionsQueue() {
 		return instructionsQueue;
@@ -104,37 +76,6 @@ public class Processor {
 		this.halted = halt;
 	}
 
-	public AddUnit[] getAddUnits() {
-		return addUnits;
-	}
-
-	public void setAddUnits(AddUnit[] addUnits) {
-		this.addUnits = addUnits;
-	}
-
-	public MultUnit[] getMultUnits() {
-		return multUnits;
-	}
-
-	public void setMultUnits(MultUnit[] multUnits) {
-		this.multUnits = multUnits;
-	}
-
-	public LoadUnit[] getLoadUnits() {
-		return loadUnits;
-	}
-
-	public void setLoadUnits(LoadUnit[] loadUnits) {
-		this.loadUnits = loadUnits;
-	}
-
-	public StoreUnit[] getStoreUnits() {
-		return storeUnits;
-	}
-
-	public void setStoreUnits(StoreUnit[] storeUnits) {
-		this.storeUnits = storeUnits;
-	}
 
 	private void incrementPC(int value) {
 		this.pc += value;

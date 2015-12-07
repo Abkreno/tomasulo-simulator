@@ -6,6 +6,7 @@ import nan.tomasulo.cache.Caches;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
+import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class Simulator {
 	public static void main(String[] args) throws Exception {
@@ -43,9 +44,9 @@ public class Simulator {
 		int storeUnits = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Number of BranchUnits");
 		int branchUnits = Integer.parseInt(sc.nextLine());
-
-		Processor p = new Processor(maxIssuesPerCycle, addUnits, multUnits,
-				loadUnits, storeUnits, branchUnits);
+		FunctionalUnits.initFunctionalUnits(addUnits, multUnits, loadUnits,
+				storeUnits, branchUnits);
+		Processor p = new Processor(maxIssuesPerCycle);
 		while (true) {
 			p.nextClockCycle();
 			Instruction in = new Instruction(Caches.fetchInstruction(p.getPc()));
