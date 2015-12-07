@@ -3,6 +3,9 @@ package nan.tomasulo.reservation_stations;
 import nan.tomasulo.instructions.Instruction;
 
 public class BranchUnit extends ReservationStation {
+	
+	public static int executionTime;
+	
 	private int predicedAddress, correctAddress;
 
 	public BranchUnit() {
@@ -24,12 +27,6 @@ public class BranchUnit extends ReservationStation {
 
 	public void setCorrectAddress(int correctAddress) {
 		this.correctAddress = correctAddress;
-	}
-
-	@Override
-	public void resetTimer() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

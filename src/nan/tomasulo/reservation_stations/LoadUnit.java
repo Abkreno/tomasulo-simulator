@@ -8,12 +8,6 @@ public class LoadUnit extends ReservationStation {
 	}
 
 	@Override
-	public void resetTimer() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;

@@ -31,8 +31,7 @@ public class Simulator {
 			cachesInfo[i][4] = Integer.parseInt(sc.nextLine());
 		}
 		Caches.initCaches(cachesInfo);
-		System.out.println("Enter Processor's max issues per cycle :");
-		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
+
 		Parser.copyProgramToMemory("program_1.in");
 		System.out.println("Enter Number of AddUnits");
 		int addUnits = Integer.parseInt(sc.nextLine());
@@ -46,7 +45,12 @@ public class Simulator {
 		int branchUnits = Integer.parseInt(sc.nextLine());
 		FunctionalUnits.initFunctionalUnits(addUnits, multUnits, loadUnits,
 				storeUnits, branchUnits);
-		Processor p = new Processor(maxIssuesPerCycle);
+		System.out.println("Enter Processor's max issues per cycle :");
+		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
+		System.out
+				.println("Enter max number of Instructions in Instruction the Buffer :");
+		int maxNumOfInstInBuffer = Integer.parseInt(sc.nextLine());
+		Processor p = new Processor(maxIssuesPerCycle, maxNumOfInstInBuffer);
 		while (true) {
 			p.nextClockCycle();
 			Instruction in = new Instruction(Caches.fetchInstruction(p.getPc()));

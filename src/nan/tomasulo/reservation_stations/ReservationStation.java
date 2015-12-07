@@ -7,6 +7,7 @@ public abstract class ReservationStation {
 	private int qj, qv; // values to be written to source operands
 	private int id, robEntry;
 	private int timer;
+	private int correctValue; // needed to predict branches correctly
 	private boolean busy = false;
 	private String operation;
 	private static int stationID = 1;
@@ -68,6 +69,22 @@ public abstract class ReservationStation {
 		this.robEntry = robEntry;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getCorrectValue() {
+		return correctValue;
+	}
+
+	public void setCorrectValue(int correctValue) {
+		this.correctValue = correctValue;
+	}
+
 	public String getOperation() {
 		return operation;
 	}
@@ -76,7 +93,9 @@ public abstract class ReservationStation {
 		this.operation = operation;
 	}
 
-	public abstract void resetTimer();
+	public void setTimer(int time) {
+		this.timer = time;
+	}
 
 	public int getTimer() {
 		return timer;

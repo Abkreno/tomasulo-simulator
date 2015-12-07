@@ -8,17 +8,11 @@ import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
-import nan.tomasulo.reservation_stations.AddUnit;
-import nan.tomasulo.reservation_stations.BranchUnit;
-import nan.tomasulo.reservation_stations.LoadUnit;
-import nan.tomasulo.reservation_stations.MultUnit;
-import nan.tomasulo.reservation_stations.StoreUnit;
 
 public class Processor {
 
-
 	// max number of instructions to issue in 1 cycle
-	private int maxIssuesPerCycle;
+	private int maxIssuesPerCycle, instructionQueueSize;
 
 	private short pc;
 
@@ -26,15 +20,14 @@ public class Processor {
 
 	private LinkedList<Instruction> instructionsQueue;
 
-	public Processor(int maxIssuesPerCycle)
+	public Processor(int maxIssuesPerCycle, int instructionQueueSize)
 			throws InvalidReadException, InvalidWriteException {
 		this.maxIssuesPerCycle = maxIssuesPerCycle;
 		this.pc = 0;
 		this.halted = false;
+		this.instructionQueueSize = instructionQueueSize;
 		this.instructionsQueue = new LinkedList<>();
-		
 	}
-
 
 	public LinkedList<Instruction> getInstructionsQueue() {
 		return instructionsQueue;
@@ -46,6 +39,14 @@ public class Processor {
 
 	public int getMaxIssuesPerC() {
 		return maxIssuesPerCycle;
+	}
+
+	public int getInstructionQueueSize() {
+		return instructionQueueSize;
+	}
+
+	public void setInstructionQueueSize(int instructionQueueSize) {
+		this.instructionQueueSize = instructionQueueSize;
 	}
 
 	public void setMaxIssuesPerC(int maxIssuesPerC) {
@@ -75,7 +76,6 @@ public class Processor {
 	public void setHalted(boolean halt) {
 		this.halted = halt;
 	}
-
 
 	private void incrementPC(int value) {
 		this.pc += value;

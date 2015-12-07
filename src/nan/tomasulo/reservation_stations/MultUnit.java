@@ -3,14 +3,10 @@ package nan.tomasulo.reservation_stations;
 import nan.tomasulo.instructions.Instruction;
 
 public class MultUnit extends ReservationStation {
+	public static int executionTime;
+
 	public MultUnit() {
 		super();
-	}
-
-	@Override
-	public void resetTimer() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
