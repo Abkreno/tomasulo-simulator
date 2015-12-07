@@ -1,6 +1,9 @@
 package nan.tomasulo.reservation_stations;
 
 public class BranchUnit extends ReservationStation {
+	public BranchUnit() {
+		super();
+	}
 
 	@Override
 	public void resetTimer() {

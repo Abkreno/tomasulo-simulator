@@ -21,9 +21,9 @@ public class CacheTests {
 			InvalidReadException {
 		int[][] cachesInfo = new int[2][]; // two caches
 		// 512 words , 16 word per block , direct map , write through
-		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
+		cachesInfo[0] = new int[] { 512, 16, 1, 1, 0 }; // 32 blocks
 		// 1024 words , 16 word per block , direct map , write through
-		cachesInfo[1] = new int[] { 1024, 16, 1, 0 }; // 64 blocks
+		cachesInfo[1] = new int[] { 1024, 16, 1, 1, 0 }; // 64 blocks
 		Caches.initCaches(cachesInfo);
 		LinkedList<Cache> dataCaches = Caches.getDataCaches();
 		Cache cacheL1 = dataCaches.get(0);
@@ -67,10 +67,9 @@ public class CacheTests {
 			throws InvalidWriteException, InvalidReadException {
 		int[][] cachesInfo = new int[1][]; // two caches
 		// 512 words , 16 word per block , direct map , write through
-		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
+		cachesInfo[0] = new int[] { 512, 16, 1, 1, 0 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Parser.copyProgramToMemory("program_1.in");
-		Processor p = new Processor(1);
 		String instruction = Caches.fetchInstruction((short) 0);
 		assertTrue("first instruction is ADD R1,R2,R3",
 				instruction.equals("ADD R1,R2,R3"));
@@ -81,7 +80,7 @@ public class CacheTests {
 			InvalidReadException {
 		int[][] cachesInfo = new int[1][]; // two caches
 		// 512 words , 16 word per block , direct map , write through
-		cachesInfo[0] = new int[] { 512, 16, 1, 0 }; // 32 blocks
+		cachesInfo[0] = new int[] { 512, 16, 1, 1, 0 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Memory.init(16, 128, 1024);
 		Processor p = new Processor(1);
@@ -101,7 +100,7 @@ public class CacheTests {
 			InvalidReadException {
 		int[][] cachesInfo = new int[1][]; // two caches
 		// 512 words , 16 word per block , direct map , write back
-		cachesInfo[0] = new int[] { 512, 16, 1, 1 }; // 32 blocks
+		cachesInfo[0] = new int[] { 512, 16, 1, 1, 1 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
 		Memory.init(16, 128, 1024);
 		Processor p = new Processor(1);

@@ -1,7 +1,5 @@
 package nan.tomasulo.tests;
 
-import java.util.Scanner;
-
 import nan.tomasulo.Parser;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
