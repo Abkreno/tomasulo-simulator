@@ -1,13 +1,18 @@
 package nan.tomasulo.reservation_stations;
 
+import nan.tomasulo.instructions.Instruction;
+
 public abstract class ReservationStation {
 	private int vj, vk; // values of source operands
 	private int qj, qv; // values to be written to source operands
+	private int id, robEntry;
 	private int timer;
 	private boolean busy = false;
 	private String operation;
+	private static int stationID = 1;
 
 	public ReservationStation() {
+		this.id = stationID++;
 		this.vj = 0;
 		this.vk = 0;
 		this.qj = 0;
@@ -47,6 +52,22 @@ public abstract class ReservationStation {
 		this.qv = qv;
 	}
 
+	public int getIndex() {
+		return id;
+	}
+
+	public void setIndex(int index) {
+		this.id = index;
+	}
+
+	public int getRobEntry() {
+		return robEntry;
+	}
+
+	public void setRobEntry(int robEntry) {
+		this.robEntry = robEntry;
+	}
+
 	public String getOperation() {
 		return operation;
 	}
@@ -70,4 +91,6 @@ public abstract class ReservationStation {
 	}
 
 	public abstract int execute();
+
+	public abstract void reserve(Instruction instruction);
 }

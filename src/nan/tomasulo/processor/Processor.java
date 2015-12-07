@@ -1,5 +1,8 @@
 package nan.tomasulo.processor;
 
+import java.util.LinkedList;
+
+import nan.tomasulo.Parser;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
@@ -15,7 +18,6 @@ public class Processor {
 	private MultUnit[] multUnits;
 	private LoadUnit[] loadUnits;
 	private StoreUnit[] storeUnits;
-	private Instruction currentInstruction;
 
 	// max number of instructions to issue in 1 cycle
 	private int maxIssuesPerCycle;
@@ -24,20 +26,22 @@ public class Processor {
 
 	private boolean halted;
 
+	private LinkedList<Instruction> instructionsQueue;
+
 	public Processor(int maxIssuesPerCycle) throws InvalidReadException,
 			InvalidWriteException {
 		this.maxIssuesPerCycle = maxIssuesPerCycle;
 		this.pc = 0;
 		this.halted = false;
-		this.currentInstruction = new Instruction();
+		this.instructionsQueue = new LinkedList<>();
 	}
 
-	public Instruction getCurrentInstruction() {
-		return currentInstruction;
+	public LinkedList<Instruction> getInstructionsQueue() {
+		return instructionsQueue;
 	}
 
-	public void setCurrentInstruction(Instruction currentInstruction) {
-		this.currentInstruction = currentInstruction;
+	public void setInstructionsQueue(LinkedList<Instruction> instructionsQueue) {
+		this.instructionsQueue = instructionsQueue;
 	}
 
 	public int getMaxIssuesPerC() {
@@ -123,22 +127,32 @@ public class Processor {
 	public void nextClockCycle() throws InvalidReadException,
 			InvalidWriteException {
 		int numOfIssues = 0;
+		Instruction fetchedInsruction;
 		while (numOfIssues < maxIssuesPerCycle) {
-			if (currentInstruction.isIssued()
-					|| issueInstruction(currentInstruction)) {
-				numOfIssues++;
-				incrementPC(1);
-				currentInstruction = new Instruction(
-						Caches.fetchInstruction(pc));
-			} else {
-				// failed to issue the current instruction stall the pc
-				break;
-			}
+			fetchedInsruction = new Instruction(Caches.fetchInstruction(pc));
+
+			instructionsQueue.add(fetchedInsruction);
+			numOfIssues++;
+			updatePC(fetchedInsruction);
+
+		}
+	}
+
+	private void updatePC(Instruction fetchedInsruction) {
+		incrementPC(1);
+		if (Parser.checkTypeCondBranch(fetchedInsruction.getType())) {
+
+		} else if (Parser.checkTypeUncondBranch(fetchedInsruction.getType())) {
+
+		} else if (Parser.checkTypeCall(fetchedInsruction.getType())) {
+
+		} else if (Parser.checkTypeRet(fetchedInsruction.getType())) {
+
+		} else {
 		}
 	}
 
 	private boolean issueInstruction(Instruction currentInstruction) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

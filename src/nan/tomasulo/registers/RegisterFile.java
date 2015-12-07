@@ -1,7 +1,7 @@
 package nan.tomasulo.registers;
 
 public class RegisterFile {
-	private static Register[] registers = new Register[32];
+	private static Register[] registers = new Register[8];
 
 	public static void setRegister(int index, short data) {
 		if (index == 0)
