@@ -3,10 +3,10 @@ package nan.tomasulo.reservation_stations;
 import nan.tomasulo.instructions.Instruction;
 
 public class MultUnit extends ReservationStation {
-	public static int executionTime;
 
-	public MultUnit() {
+	public MultUnit(int executionTime) {
 		super();
+		setExecutionTime(executionTime);
 	}
 
 	@Override

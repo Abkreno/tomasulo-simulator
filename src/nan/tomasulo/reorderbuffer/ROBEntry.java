@@ -52,4 +52,12 @@ public class ROBEntry {
 		this.dstRegNumber = dstRegNumber;
 	}
 
+	public void resetEntry() {
+		this.ready = false;
+		this.dstRegNumber = 0;
+		this.correctValue = 0;
+		this.type = null;
+		this.value = 0;
+	}
+
 }

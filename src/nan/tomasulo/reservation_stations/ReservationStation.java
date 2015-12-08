@@ -10,6 +10,7 @@ public abstract class ReservationStation {
 	private boolean busy = false;
 	private String operation;
 	private static int stationID = 1;
+	private int executionTime;
 
 	public ReservationStation() {
 		this.id = stationID++;
@@ -74,6 +75,14 @@ public abstract class ReservationStation {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getExecutionTime() {
+		return executionTime;
+	}
+
+	public void setExecutionTime(int executionTime) {
+		this.executionTime = executionTime;
 	}
 
 	public String getOperation() {

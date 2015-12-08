@@ -3,14 +3,12 @@ package nan.tomasulo.reservation_stations;
 import nan.tomasulo.instructions.Instruction;
 
 public class BranchUnit extends ReservationStation {
-	
-	public static int executionTime;
-	
+
 	private int predicedAddress, correctAddress;
 
-	public BranchUnit() {
+	public BranchUnit(int executionTime) {
 		super();
-
+		setExecutionTime(executionTime);
 	}
 
 	public int getPredictedAddress() {

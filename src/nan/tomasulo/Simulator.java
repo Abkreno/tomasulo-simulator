@@ -6,6 +6,7 @@ import nan.tomasulo.cache.Caches;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
+import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class Simulator {
@@ -35,16 +36,25 @@ public class Simulator {
 		Parser.copyProgramToMemory("program_1.in");
 		System.out.println("Enter Number of AddUnits");
 		int addUnits = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter AddUnits Delay");
+		int addUnitsDelay = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Number of MultUnits");
 		int multUnits = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter MultUnits Delay");
+		int multUnitsDelay = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Number of LoadUnits");
 		int loadUnits = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Number of StoreUnits");
 		int storeUnits = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Number of BranchUnits");
 		int branchUnits = Integer.parseInt(sc.nextLine());
-		FunctionalUnits.initFunctionalUnits(addUnits, multUnits, loadUnits,
-				storeUnits, branchUnits);
+		System.out.println("Enter BranchUnits Delay");
+		int branchUnitsDelay = Integer.parseInt(sc.nextLine());
+		FunctionalUnits.initFunctionalUnits(addUnits, addUnitsDelay, multUnits,
+				multUnitsDelay, loadUnits, storeUnits, branchUnits,
+				branchUnitsDelay);
+		System.out.println("Enter ReorderBuffer Size :");
+		ReorderBuffer.init(Integer.parseInt(sc.nextLine()));
 		System.out.println("Enter Processor's max issues per cycle :");
 		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Instruction Buffer Size :");

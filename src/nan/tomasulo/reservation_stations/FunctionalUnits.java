@@ -8,19 +8,20 @@ public class FunctionalUnits {
 	private static BranchUnit[] branchUnits;
 	private static ReservationStation[] reservationStations;
 
-	public static void initFunctionalUnits(int numOfAddU, int numOfMultU,
-			int numOfLoadU, int numOfStoreU, int numOfBranchU) {
+	public static void initFunctionalUnits(int numOfAddU, int addUnitsDelay,
+			int numOfMultU, int multUnitsDelay, int numOfLoadU,
+			int numOfStoreU, int numOfBranchU, int branchUnitsDelay) {
 		reservationStations = new ReservationStation[numOfAddU + numOfMultU
 				+ numOfLoadU + numOfStoreU + numOfBranchU];
 		int c = 0;
 		addUnits = new AddUnit[numOfAddU];
 		for (int i = 0; i < addUnits.length; i++) {
-			addUnits[i] = new AddUnit();
+			addUnits[i] = new AddUnit(addUnitsDelay);
 			reservationStations[c++] = addUnits[i];
 		}
 		multUnits = new MultUnit[numOfMultU];
 		for (int i = 0; i < multUnits.length; i++) {
-			multUnits[i] = new MultUnit();
+			multUnits[i] = new MultUnit(multUnitsDelay);
 			reservationStations[c++] = multUnits[i];
 		}
 		storeUnits = new StoreUnit[numOfStoreU];
@@ -35,7 +36,7 @@ public class FunctionalUnits {
 		}
 		branchUnits = new BranchUnit[numOfBranchU];
 		for (int i = 0; i < branchUnits.length; i++) {
-			branchUnits[i] = new BranchUnit();
+			branchUnits[i] = new BranchUnit(branchUnitsDelay);
 			reservationStations[c++] = branchUnits[i];
 		}
 	}
