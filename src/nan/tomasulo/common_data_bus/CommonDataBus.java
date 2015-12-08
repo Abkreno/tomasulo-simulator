@@ -27,7 +27,6 @@ public class CommonDataBus {
 			if (currStation.getQj() == robEntry) {
 				currStation.setQj(-1);
 				currStation.setVj(data);
-				System.out.println("here");
 			}
 			if (currStation.getQk() == robEntry) {
 				currStation.setQk(-1);

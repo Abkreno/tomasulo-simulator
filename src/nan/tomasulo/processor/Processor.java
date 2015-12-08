@@ -16,8 +16,8 @@ import nan.tomasulo.reservation_stations.MultUnit;
 import nan.tomasulo.reservation_stations.ReservationStation;
 
 public class Processor {
-	private static int clock = 0;
-	// max number of instructions to issue in 1 cycle
+	private static int clock = 1;
+
 	private int pipeLineWidth, instructionQueueMaxSize;
 
 	private short pc;
@@ -134,12 +134,14 @@ public class Processor {
 			ReservationStation currStation = reservationStationsQueue.get(i);
 			if (!currStation.isBusy()) {
 				reservationStationsQueue.remove(currStation);
-
 				i--;
 			} else {
 				currStation.update();
 			}
 		}
+		if (instructionsQueue.isEmpty() && pc >= Memory.getProgramSize()
+				&& reservationStationsQueue.isEmpty())
+			setHalted(true);
 		clock++;
 	}
 

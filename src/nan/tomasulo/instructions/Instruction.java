@@ -146,6 +146,15 @@ public class Instruction {
 	}
 
 	public String toString() {
-		return rd + " " + rs + " " + rt + " " + imm;
+		return type + " " + rd + " " + rs + " " + rt + " " + imm;
+	}
+
+	public String getLog() {
+		StringBuffer log = new StringBuffer("Instruction " + toString() + "\t");
+		log.append("Issued At " + issuedTime + "\t");
+		log.append("Executed At " + executedTime + "\t");
+		log.append("Written Back At " + writtenTime + "\t");
+		log.append("Commited At " + commitedTime);
+		return log.toString();
 	}
 }
