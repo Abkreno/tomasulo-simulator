@@ -6,11 +6,13 @@ public class FunctionalUnits {
 	private static LoadUnit[] loadUnits;
 	private static StoreUnit[] storeUnits;
 	private static BranchUnit[] branchUnits;
+	private static LogicalUnit[] logicalUnits;
 	private static ReservationStation[] reservationStations;
 
 	public static void initFunctionalUnits(int numOfAddU, int addUnitsDelay,
 			int numOfMultU, int multUnitsDelay, int numOfLoadU,
-			int numOfStoreU, int numOfBranchU, int branchUnitsDelay) {
+			int numOfStoreU, int numOfBranchU, int branchUnitsDelay,
+			int numOfLogicU, int logicUnitsdelay) {
 		reservationStations = new ReservationStation[numOfAddU + numOfMultU
 				+ numOfLoadU + numOfStoreU + numOfBranchU];
 		int c = 0;
@@ -38,6 +40,11 @@ public class FunctionalUnits {
 		for (int i = 0; i < branchUnits.length; i++) {
 			branchUnits[i] = new BranchUnit(branchUnitsDelay);
 			reservationStations[c++] = branchUnits[i];
+		}
+		logicalUnits = new LogicalUnit[numOfLogicU];
+		for (int i = 0; i < logicalUnits.length; i++) {
+			logicalUnits[i] = new LogicalUnit(logicUnitsdelay);
+			reservationStations[c++] = logicalUnits[i];
 		}
 	}
 
