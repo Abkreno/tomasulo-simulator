@@ -132,7 +132,24 @@ public class Processor {
 		clock++;
 	}
 
-	private boolean issueInstruction(Instruction currentInstruction) {
+	private boolean issueInstruction(Instruction instruction) {
+		// Find a reservation station and an ROB entry for the instruction
+		if (Parser.checkTypeMult(instruction.getType())) {
+
+		} else if (Parser.checTypeArithmetic(instruction.getType())) {
+
+		} else if (Parser.checTypeImmArithmetic(instruction.getType())) {
+
+		} else if (Parser.checkTypeLoadStore(instruction.getType())) {
+
+		} else if (Parser.checkTypeCondBranch(instruction.getType())) {
+
+		} else if (Parser.checkTypeCall(instruction.getType())) {
+
+		} else {
+			// JMP / RET
+			return true;
+		}
 		return false;
 	}
 

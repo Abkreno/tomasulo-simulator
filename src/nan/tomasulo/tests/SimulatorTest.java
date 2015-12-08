@@ -23,7 +23,8 @@ public class SimulatorTest {
 		Processor p = new Processor(maxIssuesPerCycle, 4);
 		while (true) {
 			p.nextClockCycle();
-			Instruction in = new Instruction(Caches.fetchInstruction(p.getPc()));
+			Instruction in = new Instruction(
+					Caches.fetchInstruction(p.getPc()), p.getPc());
 			p.setPc((short) (p.getPc() + 1));
 			System.out.println(in.toString());
 			if (p.isHalted())

@@ -36,6 +36,10 @@ public class Parser {
 		return type.equalsIgnoreCase("ADDI");
 	}
 
+	public static boolean checkTypeMult(String type) {
+		return type.equalsIgnoreCase("MUL");
+	}
+
 	public static boolean checTypeArithmetic(String type) {
 		return type.equalsIgnoreCase("ADD") || type.equalsIgnoreCase("SUB")
 				|| type.equalsIgnoreCase("NAND")
