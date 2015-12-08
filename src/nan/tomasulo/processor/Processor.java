@@ -9,13 +9,14 @@ import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.registers.RegisterFile;
+import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 import nan.tomasulo.reservation_stations.MultUnit;
 
 public class Processor {
 	private static int clock = 0;
 	// max number of instructions to issue in 1 cycle
-	private int maxIssuesPerCycle, maxFetchesPerCycle, instructionQueueMaxSize;
+	private int pipeLineWidth, instructionQueueMaxSize;
 
 	private short pc;
 
@@ -23,10 +24,9 @@ public class Processor {
 
 	private LinkedList<Instruction> instructionsQueue;
 
-	public Processor(int m, int instructionQueueSize)
+	public Processor(int pipeLineWidth, int instructionQueueSize)
 			throws InvalidReadException, InvalidWriteException {
-		this.maxIssuesPerCycle = m;
-		this.maxFetchesPerCycle = m;
+		this.pipeLineWidth = pipeLineWidth;
 		this.pc = 0;
 		this.halted = false;
 		this.instructionQueueMaxSize = instructionQueueSize;
@@ -42,7 +42,7 @@ public class Processor {
 	}
 
 	public int getMaxIssuesPerC() {
-		return maxIssuesPerCycle;
+		return pipeLineWidth;
 	}
 
 	public int getInstructionQueueSize() {
@@ -54,7 +54,7 @@ public class Processor {
 	}
 
 	public void setMaxIssuesPerC(int maxIssuesPerC) {
-		this.maxIssuesPerCycle = maxIssuesPerC;
+		this.pipeLineWidth = maxIssuesPerC;
 	}
 
 	public short getPc() {
@@ -65,20 +65,12 @@ public class Processor {
 		this.pc = pc;
 	}
 
-	public int getMaxIssuesPerCycle() {
-		return maxIssuesPerCycle;
+	public int getPipeLineWidth() {
+		return pipeLineWidth;
 	}
 
-	public void setMaxIssuesPerCycle(int maxIssuesPerCycle) {
-		this.maxIssuesPerCycle = maxIssuesPerCycle;
-	}
-
-	public int getMaxFetchesPerCycle() {
-		return maxFetchesPerCycle;
-	}
-
-	public void setMaxFetchesPerCycle(int maxFetchesPerCycle) {
-		this.maxFetchesPerCycle = maxFetchesPerCycle;
+	public void setPipeLineWidth(int pipeLineWidth) {
+		this.pipeLineWidth = pipeLineWidth;
 	}
 
 	public boolean isHalted() {
@@ -111,8 +103,7 @@ public class Processor {
 		int numOfFetches = 0;
 		Instruction insruction;
 		while (instructionsQueue.size() < instructionQueueMaxSize
-				&& numOfFetches < maxFetchesPerCycle
-				&& pc < Memory.getProgramSize()) {
+				&& numOfFetches < pipeLineWidth && pc < Memory.getProgramSize()) {
 			insruction = new Instruction(Caches.fetchInstruction(pc), pc);
 			instructionsQueue.addLast(insruction);
 			numOfFetches++;
@@ -120,7 +111,7 @@ public class Processor {
 		}
 
 		int numOfIssues = 0;
-		while (instructionsQueue.size() > 0 && numOfIssues < maxIssuesPerCycle) {
+		while (instructionsQueue.size() > 0 && numOfIssues < pipeLineWidth) {
 			insruction = instructionsQueue.getFirst();
 			if (issueInstruction(insruction)) {
 				numOfIssues++;
@@ -130,15 +121,18 @@ public class Processor {
 				break;
 			}
 		}
-
 		clock++;
 	}
 
 	private boolean issueMultInstruction(Instruction instruction) {
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
 		MultUnit[] multUnits = FunctionalUnits.getMultUnits();
 		for (int i = 0; i < multUnits.length; i++) {
 			if (!multUnits[i].isBusy()) {
-				
+				int robEntry = ReorderBuffer.reserveSlot();
+				multUnits[i].reserve(instruction, robEntry);
+				return true;
 			}
 		}
 		return false;

@@ -1,7 +1,6 @@
 package nan.tomasulo.registers;
 
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
-import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class RegisterFile {
 	private static Register[] registers = new Register[8];
@@ -17,7 +16,7 @@ public class RegisterFile {
 	}
 
 	public static short getCorrectRegisterData(int regNum) {
-		int robEntry = RegisterStat.getRegisterStats(regNum);
+		int robEntry = RegisterStat.getRegisterROBEntry(regNum);
 		short regValue = 0;
 		if (robEntry == -1) {
 			// No ROB entry is using this register as destination so

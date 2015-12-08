@@ -1,12 +1,16 @@
 package nan.tomasulo.tests;
 
+import java.util.Scanner;
+
 import nan.tomasulo.Parser;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
-import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
+import nan.tomasulo.registers.RegisterStat;
+import nan.tomasulo.reorderbuffer.ReorderBuffer;
+import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class SimulatorTest {
 	static int memAccessDelay = 10;
@@ -19,16 +23,24 @@ public class SimulatorTest {
 		// S ,L ,m ,accessDelay , policy
 		cachesInfo[0] = new int[] { 128, 16, 1, 1, 0 };
 		Caches.initCaches(cachesInfo);
-		Parser.copyProgramToMemory("program_1.in");
+
+		FunctionalUnits.initFunctionalUnits(2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+		// sherif
+		// salama
+		// is
+		// here
+
+		ReorderBuffer.init(4);
+		RegisterStat.init(8);
+
+		Parser.copyProgramToMemory("program_2.in");
 		Processor p = new Processor(maxIssuesPerCycle, 4);
+		Scanner sc = new Scanner(System.in);
 		while (true) {
 			p.nextClockCycle();
-			Instruction in = new Instruction(
-					Caches.fetchInstruction(p.getPc()), p.getPc());
-			p.setPc((short) (p.getPc() + 1));
-			System.out.println(in.toString());
 			if (p.isHalted())
 				break;
+			sc.nextLine();
 		}
 	}
 }

@@ -16,15 +16,17 @@ public class Parser {
 
 		short startingLocation = 0;
 		// starting point of the program
+		int org = 0;
 		if (lines[0].split(" ")[0].equalsIgnoreCase(".ORG")) {
 			startingLocation = (short) Integer.parseInt(lines[0].split(" ")[1]);
-			Memory.init(16, lines.length - 1, startingLocation);
-		} else {
-			Memory.init(16, lines.length, startingLocation);
+			org = 1;
 		}
-		for (int i = 1; i < lines.length; i++) {
+		Memory.init(16, lines.length - org, startingLocation);
+
+		for (int i = org; i < lines.length; i++) {
 			try {
-				Memory.writeDataEntry(startingLocation + i - 1, lines[i]);
+				Memory.writeDataEntry(startingLocation + i - org,
+						lines[i - org]);
 			} catch (InvalidWriteException e) {
 				e.printStackTrace();
 			}

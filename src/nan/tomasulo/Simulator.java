@@ -23,11 +23,11 @@ public class Simulator {
 		ReorderBuffer.init(Integer.parseInt(sc.nextLine()));
 		RegisterStat.init(8);
 
-		System.out.println("Enter Processor's max issues per cycle :");
-		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter Pipeline width :");
+		int pipeLineWidth = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Instruction Buffer Size :");
 		int maxNumOfInstInBuffer = Integer.parseInt(sc.nextLine());
-		Processor p = new Processor(maxIssuesPerCycle, maxNumOfInstInBuffer);
+		Processor p = new Processor(pipeLineWidth, maxNumOfInstInBuffer);
 		while (true) {
 			p.nextClockCycle();
 			Instruction in = new Instruction(

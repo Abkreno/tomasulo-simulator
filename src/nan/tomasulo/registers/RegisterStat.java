@@ -16,7 +16,7 @@ public class RegisterStat {
 	 * @return the index of the ROB entry that is using this register as its
 	 *         destination
 	 */
-	public static int getRegisterStats(int registerNum) {
+	public static int getRegisterROBEntry(int registerNum) {
 		return registerStats[registerNum];
 	}
 

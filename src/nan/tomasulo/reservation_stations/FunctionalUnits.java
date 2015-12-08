@@ -14,7 +14,7 @@ public class FunctionalUnits {
 			int numOfStoreU, int numOfBranchU, int branchUnitsDelay,
 			int numOfLogicU, int logicUnitsdelay) {
 		reservationStations = new ReservationStation[numOfAddU + numOfMultU
-				+ numOfLoadU + numOfStoreU + numOfBranchU];
+				+ numOfLoadU + numOfStoreU + numOfBranchU + numOfLogicU];
 		int c = 0;
 		addUnits = new AddUnit[numOfAddU];
 		for (int i = 0; i < addUnits.length; i++) {

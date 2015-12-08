@@ -42,7 +42,6 @@ public class ReorderBuffer {
 		freeSlots++;
 		return true;
 	}
-
 	public static int reserveSlot() {
 		if (freeSlots == 0)
 			return -1;
