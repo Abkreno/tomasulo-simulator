@@ -56,13 +56,13 @@ public class MultUnit extends ReservationStation {
 			setQj(srcRegROBEntry);
 		}
 
-		int dstRegROBEntry = RegisterStat.getRegisterROBEntry(instruction
-				.getRd());
-		if (dstRegROBEntry == -1) {
-			setVk(RegisterFile.getRegisterData(instruction.getRd()));
+		int tmpRegROBEntry = RegisterStat.getRegisterROBEntry(instruction
+				.getRt());
+		if (tmpRegROBEntry == -1) {
+			setVk(RegisterFile.getRegisterData(instruction.getRt()));
 			setQk(-1);
 		} else {
-			setQk(dstRegROBEntry);
+			setQk(tmpRegROBEntry);
 		}
 
 		setBusy(true);
@@ -71,7 +71,7 @@ public class MultUnit extends ReservationStation {
 		setOperation(instruction.getType());
 		setInstruction(instruction);
 		setCurrStage(ISSUED);
-		RegisterStat.updateRegisterStats(getDst(), robEntry);
+		RegisterStat.updateRegisterStats(instruction.getRd(), robEntry);
 	}
 
 }

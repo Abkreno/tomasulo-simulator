@@ -16,7 +16,7 @@ import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class SimulatorTest {
 	static int memAccessDelay = 10;
-	static int maxIssuesPerCycle = 1;
+	static int pipelineWidth = 1;
 
 	public static void main(String[] args) throws InvalidReadException,
 			InvalidWriteException {
@@ -37,7 +37,7 @@ public class SimulatorTest {
 		RegisterFile.init();
 		CommonDataBus.setMaxNumOfWritesPerCycle(1);
 		Parser.copyProgramToMemory("program_2.in");
-		Processor p = new Processor(maxIssuesPerCycle, 4);
+		Processor p = new Processor(pipelineWidth, 4);
 		Scanner sc = new Scanner(System.in);
 		while (true) {
 			p.nextClockCycle();

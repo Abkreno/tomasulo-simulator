@@ -1,1 +1,2 @@
 MUL R1,R2,R3
+MUL R1,R1,R3

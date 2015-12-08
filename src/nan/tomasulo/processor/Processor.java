@@ -26,7 +26,7 @@ public class Processor {
 
 	private LinkedList<Instruction> instructionsQueue;
 
-	private LinkedList<ReservationStation> reservationStationsQueue;
+	private static LinkedList<ReservationStation> reservationStationsQueue = new LinkedList<>();;
 
 	public Processor(int pipeLineWidth, int instructionQueueSize)
 			throws InvalidReadException, InvalidWriteException {
@@ -35,7 +35,6 @@ public class Processor {
 		this.halted = false;
 		this.instructionQueueMaxSize = instructionQueueSize;
 		this.instructionsQueue = new LinkedList<>();
-		this.reservationStationsQueue = new LinkedList<>();
 	}
 
 	public LinkedList<Instruction> getInstructionsQueue() {
@@ -46,13 +45,8 @@ public class Processor {
 		this.instructionsQueue = instructionsQueue;
 	}
 
-	public LinkedList<ReservationStation> getReservationStationsQueue() {
+	public static LinkedList<ReservationStation> getReservationStationsQueue() {
 		return reservationStationsQueue;
-	}
-
-	public void setReservationStationsQueue(
-			LinkedList<ReservationStation> issuedInstructionsQueue) {
-		this.reservationStationsQueue = issuedInstructionsQueue;
 	}
 
 	public int getMaxIssuesPerC() {
@@ -140,6 +134,7 @@ public class Processor {
 			ReservationStation currStation = reservationStationsQueue.get(i);
 			if (!currStation.isBusy()) {
 				reservationStationsQueue.remove(currStation);
+
 				i--;
 			} else {
 				currStation.update();
