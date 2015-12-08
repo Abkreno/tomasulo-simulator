@@ -18,6 +18,8 @@ public abstract class ReservationStation {
 	private static int stationID = 1;
 	private int executionTime;
 	private int currStage;
+	private short result;
+	private Instruction instruction;
 
 	public ReservationStation() {
 		this.id = stationID++;
@@ -27,6 +29,7 @@ public abstract class ReservationStation {
 		this.qk = 0;
 		this.busy = false;
 		this.currStage = FINISHED;
+		this.instruction = null;
 	}
 
 	public void reset() {
@@ -36,6 +39,7 @@ public abstract class ReservationStation {
 		this.qk = 0;
 		this.busy = false;
 		this.currStage = FINISHED;
+		this.instruction = null;
 	}
 
 	public int getVj() {
@@ -106,6 +110,10 @@ public abstract class ReservationStation {
 		return executionTime;
 	}
 
+	public void setExecutionTime(int executionTime) {
+		this.executionTime = executionTime;
+	}
+
 	public int getCurrStage() {
 		return currStage;
 	}
@@ -114,8 +122,12 @@ public abstract class ReservationStation {
 		this.currStage = currStage;
 	}
 
-	public void setExecutionTime(int executionTime) {
-		this.executionTime = executionTime;
+	public short getResult() {
+		return result;
+	}
+
+	public void setResult(short result) {
+		this.result = result;
 	}
 
 	public String getOperation() {
@@ -142,7 +154,15 @@ public abstract class ReservationStation {
 		this.busy = busy;
 	}
 
-	public abstract int execute();
+	public Instruction getInstruction() {
+		return instruction;
+	}
+
+	public void setInstruction(Instruction instruction) {
+		this.instruction = instruction;
+	}
+
+	public abstract void update();
 
 	public abstract void reserve(Instruction instruction, int robEntry);
 }

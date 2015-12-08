@@ -9,10 +9,10 @@ public class LogicalUnit extends ReservationStation {
 	}
 
 	@Override
-	public int execute() {
+	public void update() {
 		// TODO Auto-generated method stub
-		return 0;
 	}
+
 
 	@Override
 	public void reserve(Instruction instruction, int robEntry) {

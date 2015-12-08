@@ -3,6 +3,7 @@ package nan.tomasulo;
 import java.util.Scanner;
 
 import nan.tomasulo.cache.Caches;
+import nan.tomasulo.common_data_bus.CommonDataBus;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
@@ -27,6 +28,10 @@ public class Simulator {
 		int pipeLineWidth = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Instruction Buffer Size :");
 		int maxNumOfInstInBuffer = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter Number of Common data buses :");
+		CommonDataBus
+				.setMaxNumOfWritesPerCycle(Integer.parseInt(sc.nextLine()));
+
 		Processor p = new Processor(pipeLineWidth, maxNumOfInstInBuffer);
 		while (true) {
 			p.nextClockCycle();

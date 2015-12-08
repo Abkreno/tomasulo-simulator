@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import nan.tomasulo.Parser;
 import nan.tomasulo.cache.Caches;
+import nan.tomasulo.common_data_bus.CommonDataBus;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.instructions.Instruction;
@@ -12,6 +13,7 @@ import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 import nan.tomasulo.reservation_stations.MultUnit;
+import nan.tomasulo.reservation_stations.ReservationStation;
 
 public class Processor {
 	private static int clock = 0;
@@ -24,6 +26,8 @@ public class Processor {
 
 	private LinkedList<Instruction> instructionsQueue;
 
+	private LinkedList<ReservationStation> reservationStationsQueue;
+
 	public Processor(int pipeLineWidth, int instructionQueueSize)
 			throws InvalidReadException, InvalidWriteException {
 		this.pipeLineWidth = pipeLineWidth;
@@ -31,6 +35,7 @@ public class Processor {
 		this.halted = false;
 		this.instructionQueueMaxSize = instructionQueueSize;
 		this.instructionsQueue = new LinkedList<>();
+		this.reservationStationsQueue = new LinkedList<>();
 	}
 
 	public LinkedList<Instruction> getInstructionsQueue() {
@@ -39,6 +44,15 @@ public class Processor {
 
 	public void setInstructionsQueue(LinkedList<Instruction> instructionsQueue) {
 		this.instructionsQueue = instructionsQueue;
+	}
+
+	public LinkedList<ReservationStation> getReservationStationsQueue() {
+		return reservationStationsQueue;
+	}
+
+	public void setReservationStationsQueue(
+			LinkedList<ReservationStation> issuedInstructionsQueue) {
+		this.reservationStationsQueue = issuedInstructionsQueue;
 	}
 
 	public int getMaxIssuesPerC() {
@@ -99,7 +113,7 @@ public class Processor {
 
 	public void nextClockCycle() throws InvalidReadException,
 			InvalidWriteException {
-
+		CommonDataBus.resetCommonDataBus();
 		int numOfFetches = 0;
 		Instruction insruction;
 		while (instructionsQueue.size() < instructionQueueMaxSize
@@ -121,6 +135,16 @@ public class Processor {
 				break;
 			}
 		}
+
+		for (int i = 0; i < reservationStationsQueue.size(); i++) {
+			ReservationStation currStation = reservationStationsQueue.get(i);
+			if (!currStation.isBusy()) {
+				reservationStationsQueue.remove(currStation);
+				i--;
+			} else {
+				currStation.update();
+			}
+		}
 		clock++;
 	}
 
@@ -132,6 +156,7 @@ public class Processor {
 			if (!multUnits[i].isBusy()) {
 				int robEntry = ReorderBuffer.reserveSlot();
 				multUnits[i].reserve(instruction, robEntry);
+				reservationStationsQueue.add(multUnits[i]);
 				return true;
 			}
 		}
@@ -226,6 +251,10 @@ public class Processor {
 		} else {
 			incrementPc(1);
 		}
+	}
+
+	public static int getClock() {
+		return clock;
 	}
 
 }

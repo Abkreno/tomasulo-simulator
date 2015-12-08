@@ -5,6 +5,12 @@ import nan.tomasulo.reorderbuffer.ReorderBuffer;
 public class RegisterFile {
 	private static Register[] registers = new Register[8];
 
+	public static void init() {
+		for (int i = 0; i < registers.length; i++) {
+			registers[i] = new Register((short) 0);
+		}
+	}
+
 	public static void setRegisterData(int index, short data) {
 		if (index == 0)
 			return;

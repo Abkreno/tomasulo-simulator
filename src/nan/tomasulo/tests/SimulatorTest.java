@@ -4,10 +4,12 @@ import java.util.Scanner;
 
 import nan.tomasulo.Parser;
 import nan.tomasulo.cache.Caches;
+import nan.tomasulo.common_data_bus.CommonDataBus;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
+import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.registers.RegisterStat;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
@@ -32,7 +34,8 @@ public class SimulatorTest {
 
 		ReorderBuffer.init(4);
 		RegisterStat.init(8);
-
+		RegisterFile.init();
+		CommonDataBus.setMaxNumOfWritesPerCycle(1);
 		Parser.copyProgramToMemory("program_2.in");
 		Processor p = new Processor(maxIssuesPerCycle, 4);
 		Scanner sc = new Scanner(System.in);

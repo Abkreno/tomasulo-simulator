@@ -1,12 +1,15 @@
 package nan.tomasulo.common_data_bus;
 
-import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 import nan.tomasulo.reservation_stations.ReservationStation;
 
 public class CommonDataBus {
 	private static int maxNumOfWritesPerCycle;
 	private static int currCycleWrites;
+
+	public static void setMaxNumOfWritesPerCycle(int max) {
+		maxNumOfWritesPerCycle = max;
+	}
 
 	public static boolean deliver(int robEntry, short data) {
 		if (currCycleWrites == 0)
