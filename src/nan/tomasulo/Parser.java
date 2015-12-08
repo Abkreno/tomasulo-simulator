@@ -32,7 +32,7 @@ public class Parser {
 
 	}
 
-	public static boolean checTypeImmArithmetic(String type) {
+	public static boolean checkTypeImmArithmetic(String type) {
 		return type.equalsIgnoreCase("ADDI");
 	}
 
@@ -40,7 +40,11 @@ public class Parser {
 		return type.equalsIgnoreCase("MUL");
 	}
 
-	public static boolean checTypeArithmetic(String type) {
+	public static boolean checkTypeLogical(String type) {
+		return type.equalsIgnoreCase("NAND");
+	}
+
+	public static boolean checkTypeArithmetic(String type) {
 		return type.equalsIgnoreCase("ADD") || type.equalsIgnoreCase("SUB")
 				|| type.equalsIgnoreCase("NAND")
 				|| type.equalsIgnoreCase("MUL");

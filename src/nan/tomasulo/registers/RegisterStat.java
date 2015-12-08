@@ -1,7 +1,14 @@
 package nan.tomasulo.registers;
 
-public class RegisterStats {
-	private static int[] registerStats = new int[8];
+public class RegisterStat {
+	private static int[] registerStats;
+
+	public static void init(int size) {
+		registerStats = new int[size];
+		for (int i = 0; i < registerStats.length; i++) {
+			registerStats[i] = -1;
+		}
+	}
 
 	/**
 	 * 
@@ -14,7 +21,7 @@ public class RegisterStats {
 	}
 
 	public static void updateRegisterStats(int index, int value) {
-		RegisterStats.registerStats[index] = value;
+		RegisterStat.registerStats[index] = value;
 	}
 
 }

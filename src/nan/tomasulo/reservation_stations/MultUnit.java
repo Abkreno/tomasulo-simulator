@@ -16,7 +16,7 @@ public class MultUnit extends ReservationStation {
 	}
 
 	@Override
-	public void reserve(Instruction instruction) {
+	public void reserve(Instruction instruction, int robEntry) {
 		// TODO Auto-generated method stub
 
 	}

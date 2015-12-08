@@ -38,11 +38,11 @@ public class Instruction {
 			imm = b;
 		} else if (Parser.checkTypeRet(type)) {
 			rd = a;
-		} else if (Parser.checTypeArithmetic(type)) {
+		} else if (Parser.checkTypeArithmetic(type)) {
 			rd = a;
 			rs = b;
 			rt = c;
-		} else if (Parser.checTypeImmArithmetic(type)) {
+		} else if (Parser.checkTypeImmArithmetic(type)) {
 			rd = a;
 			rs = b;
 			imm = c;

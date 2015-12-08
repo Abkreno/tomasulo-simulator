@@ -9,6 +9,8 @@ import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.registers.RegisterFile;
+import nan.tomasulo.reservation_stations.FunctionalUnits;
+import nan.tomasulo.reservation_stations.MultUnit;
 
 public class Processor {
 	private static int clock = 0;
@@ -132,25 +134,72 @@ public class Processor {
 		clock++;
 	}
 
+	private boolean issueMultInstruction(Instruction instruction) {
+		MultUnit[] multUnits = FunctionalUnits.getMultUnits();
+		for (int i = 0; i < multUnits.length; i++) {
+			if (!multUnits[i].isBusy()) {
+
+			}
+		}
+		return false;
+	}
+
+	private boolean issueArithmeticInstruction(Instruction instruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean issueImmArithmeticInstruction(Instruction instruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean issueLogicalInstruction(Instruction instruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean issueStoreInstruction(Instruction instruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean issueLoadInstruction(Instruction instruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean issueCallInstruction(Instruction instruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean issueCondBranchInstruction(Instruction instruction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	private boolean issueInstruction(Instruction instruction) {
 		// Find a reservation station and an ROB entry for the instruction
 		if (Parser.checkTypeMult(instruction.getType())) {
-
-		} else if (Parser.checTypeArithmetic(instruction.getType())) {
-
-		} else if (Parser.checTypeImmArithmetic(instruction.getType())) {
-
+			return issueMultInstruction(instruction);
+		} else if (Parser.checkTypeLogical(instruction.getType())) {
+			return issueLogicalInstruction(instruction);
+		} else if (Parser.checkTypeArithmetic(instruction.getType())) {
+			return issueArithmeticInstruction(instruction);
+		} else if (Parser.checkTypeImmArithmetic(instruction.getType())) {
+			return issueImmArithmeticInstruction(instruction);
 		} else if (Parser.checkTypeLoadStore(instruction.getType())) {
-
+			return instruction.getType().equals("LW") ? issueLoadInstruction(instruction)
+					: issueStoreInstruction(instruction);
 		} else if (Parser.checkTypeCondBranch(instruction.getType())) {
-
+			return issueCondBranchInstruction(instruction);
 		} else if (Parser.checkTypeCall(instruction.getType())) {
-
+			return issueCallInstruction(instruction);
 		} else {
 			// JMP / RET
 			return true;
 		}
-		return false;
 	}
 
 	private void updatePC(Instruction fetchedInsruction) {

@@ -6,12 +6,42 @@ import nan.tomasulo.cache.Caches;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
+import nan.tomasulo.registers.RegisterStat;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class Simulator {
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
+
+		getMemoryInputs(sc);
+		Parser.copyProgramToMemory("program_1.in");
+
+		getFuncUnitsInputs(sc);
+
+		System.out.println("Enter ReorderBuffer Size :");
+		ReorderBuffer.init(Integer.parseInt(sc.nextLine()));
+		RegisterStat.init(8);
+
+		System.out.println("Enter Processor's max issues per cycle :");
+		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
+		System.out.println("Enter Instruction Buffer Size :");
+		int maxNumOfInstInBuffer = Integer.parseInt(sc.nextLine());
+		Processor p = new Processor(maxIssuesPerCycle, maxNumOfInstInBuffer);
+		while (true) {
+			p.nextClockCycle();
+			Instruction in = new Instruction(
+					Caches.fetchInstruction(p.getPc()), p.getPc());
+			p.setPc((short) (p.getPc() + 1));
+			System.out.println(in.toString());
+			if (p.isHalted())
+				break;
+			sc.nextLine();
+		}
+		sc.close();
+	}
+
+	static void getMemoryInputs(Scanner sc) {
 		System.out.println("Enter Memory Access Delay :");
 		Memory.setAccessDelay(Integer.parseInt(sc.nextLine()));
 		System.out.println("Enter Number of Caches :");
@@ -32,44 +62,36 @@ public class Simulator {
 			cachesInfo[i][4] = Integer.parseInt(sc.nextLine());
 		}
 		Caches.initCaches(cachesInfo);
+	}
 
-		Parser.copyProgramToMemory("program_1.in");
+	static void getFuncUnitsInputs(Scanner sc) {
 		System.out.println("Enter Number of AddUnits");
 		int addUnits = Integer.parseInt(sc.nextLine());
+
 		System.out.println("Enter AddUnits Delay");
 		int addUnitsDelay = Integer.parseInt(sc.nextLine());
+
 		System.out.println("Enter Number of MultUnits");
 		int multUnits = Integer.parseInt(sc.nextLine());
+
 		System.out.println("Enter MultUnits Delay");
 		int multUnitsDelay = Integer.parseInt(sc.nextLine());
+
 		System.out.println("Enter Number of LoadUnits");
 		int loadUnits = Integer.parseInt(sc.nextLine());
+
 		System.out.println("Enter Number of StoreUnits");
 		int storeUnits = Integer.parseInt(sc.nextLine());
+
 		System.out.println("Enter Number of BranchUnits");
 		int branchUnits = Integer.parseInt(sc.nextLine());
+
 		System.out.println("Enter BranchUnits Delay");
 		int branchUnitsDelay = Integer.parseInt(sc.nextLine());
+
 		FunctionalUnits.initFunctionalUnits(addUnits, addUnitsDelay, multUnits,
 				multUnitsDelay, loadUnits, storeUnits, branchUnits,
 				branchUnitsDelay);
-		System.out.println("Enter ReorderBuffer Size :");
-		ReorderBuffer.init(Integer.parseInt(sc.nextLine()));
-		System.out.println("Enter Processor's max issues per cycle :");
-		int maxIssuesPerCycle = Integer.parseInt(sc.nextLine());
-		System.out.println("Enter Instruction Buffer Size :");
-		int maxNumOfInstInBuffer = Integer.parseInt(sc.nextLine());
-		Processor p = new Processor(maxIssuesPerCycle, maxNumOfInstInBuffer);
-		while (true) {
-			p.nextClockCycle();
-			Instruction in = new Instruction(
-					Caches.fetchInstruction(p.getPc()), p.getPc());
-			p.setPc((short) (p.getPc() + 1));
-			System.out.println(in.toString());
-			if (p.isHalted())
-				break;
-			sc.nextLine();
-		}
-		sc.close();
+
 	}
 }

@@ -17,9 +17,9 @@ public class RegisterFile {
 	}
 
 	public static short getCorrectRegisterData(int regNum) {
-		int robEntry = RegisterStats.getRegisterStats(regNum);
+		int robEntry = RegisterStat.getRegisterStats(regNum);
 		short regValue = 0;
-		if (robEntry == 0) {
+		if (robEntry == -1) {
 			// No ROB entry is using this register as destination so
 			// use the value in register file
 			regValue = RegisterFile.getRegisterData(regNum);

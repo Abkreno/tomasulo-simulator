@@ -111,5 +111,5 @@ public abstract class ReservationStation {
 
 	public abstract int execute();
 
-	public abstract void reserve(Instruction instruction);
+	public abstract void reserve(Instruction instruction,int robEntry);
 }

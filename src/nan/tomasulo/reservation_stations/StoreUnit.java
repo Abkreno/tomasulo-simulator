@@ -14,8 +14,7 @@ public class StoreUnit extends ReservationStation {
 	}
 
 	@Override
-	public void reserve(Instruction instruction) {
-		// TODO Auto-generated method stub
-
+	public void reserve(Instruction instruction, int robEntry) {
+		
 	}
 }
