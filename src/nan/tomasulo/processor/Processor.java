@@ -132,10 +132,11 @@ public class Processor {
 
 		for (int i = 0; i < reservationStationsQueue.size(); i++) {
 			ReservationStation currStation = reservationStationsQueue.get(i);
-			if (!currStation.isBusy()) {
+			if (currStation.getCurrStage() == ReservationStation.FINISHED) {
 				// Printing log for commited instruction
 				System.out.println(currStation.getInstruction().getLog());
-				reservationStationsQueue.remove(currStation);
+				currStation.reset();
+				reservationStationsQueue.remove(i);
 				i--;
 			} else {
 				currStation.update();

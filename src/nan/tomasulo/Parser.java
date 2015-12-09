@@ -25,8 +25,7 @@ public class Parser {
 
 		for (int i = org; i < lines.length; i++) {
 			try {
-				Memory.writeDataEntry(startingLocation + i - org,
-						lines[i - org]);
+				Memory.writeDataEntry(startingLocation + i - org, lines[i]);
 			} catch (InvalidWriteException e) {
 				e.printStackTrace();
 			}

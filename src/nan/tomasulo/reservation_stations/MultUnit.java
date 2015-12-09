@@ -40,7 +40,7 @@ public class MultUnit extends ReservationStation {
 						getResult());
 				getInstruction().setCommitedTime(Processor.getClock());
 				ReorderBuffer.getEntries()[getDst()].resetEntry();
-				reset();
+				setCurrStage(FINISHED);
 			}
 		}
 	}

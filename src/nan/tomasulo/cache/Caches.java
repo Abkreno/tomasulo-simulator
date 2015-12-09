@@ -148,6 +148,14 @@ public class Caches {
 
 	public static Short fetchData(short address) throws InvalidReadException,
 			InvalidWriteException {
+		if (address >= Memory.getProgramBeginning()
+				&& address < Memory.getProgramBeginning()
+						+ Memory.getProgramSize()) {
+			throw new InvalidReadException(
+					String.format(
+							"Attempt to read data from instruction space for address %d",
+							address));
+		}
 		CacheBlock block = Caches.readCacheBlock(address, 0,
 				Caches.getDataCaches());
 		short offset = (short) (address % block.getSize());
@@ -159,11 +167,17 @@ public class Caches {
 			throws InvalidReadException, InvalidWriteException {
 		short address = (short) (instructionNumber + Memory
 				.getProgramBeginning());
+		if ((address < Memory.getProgramBeginning() || address >= Memory
+				.getProgramBeginning() + Memory.getProgramSize())) {
+			throw new InvalidReadException(
+					String.format(
+							"Attempt to read instruction from data space for address %d",
+							address));
+		}
 		CacheBlock block = Caches.readCacheBlock(address, 0,
 				Caches.getInstructionCaches());
 		short offset = (short) (address % block.getSize());
 		String instruction = (String) block.getEntries()[offset].getData();
 		return instruction;
 	}
-
 }
