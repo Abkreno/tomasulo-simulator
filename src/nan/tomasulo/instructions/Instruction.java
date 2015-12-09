@@ -4,6 +4,7 @@ import nan.tomasulo.Parser;
 
 public class Instruction {
 	private String type;
+	private String instructionFormat;
 	private int rd, rs, rt, imm, address;
 	private int issuedTime, executedTime, writtenTime, commitedTime;
 	private boolean issued;
@@ -13,6 +14,7 @@ public class Instruction {
 	}
 
 	public Instruction(String instruction, int address) {
+		this.instructionFormat = instruction;
 		this.address = address;
 		String[] split = instruction.split(" ");
 		this.type = split[0];
@@ -27,9 +29,15 @@ public class Instruction {
 
 	public void initializeRegistersValues(int a, int b, int c) {
 		if (Parser.checkTypeCondBranch(type) || Parser.checkTypeLoadStore(type)) {
-			rd = a;
-			rs = b;
-			imm = c;
+			if (type.equals("SW")) {
+				rs = a;
+				rt = b;
+				imm = c;
+			} else {
+				rd = a;
+				rs = b;
+				imm = c;
+			}
 		} else if (Parser.checkTypeCall(type)) {
 			rd = a;
 			rs = b;
@@ -146,7 +154,7 @@ public class Instruction {
 	}
 
 	public String toString() {
-		return type + " " + rd + " " + rs + " " + rt + " " + imm;
+		return instructionFormat;
 	}
 
 	public String getLog() {

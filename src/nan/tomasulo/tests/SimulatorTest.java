@@ -31,12 +31,12 @@ public class SimulatorTest {
 		// salama
 		// is
 		// here
-		ReorderBuffer.init(4);
+		ReorderBuffer.init(4, 1);
 		RegisterStat.init(8);
 		RegisterFile.init();
 		CommonDataBus.setMaxNumOfWritesPerCycle(1);
-		Parser.copyProgramToMemory("program_3.in");
-		Memory.getMemoryData()[14] = new Short("123");
+		Parser.copyProgramToMemory("program_4.in");
+		Memory.getMemoryData()[14] = new Short("13");
 		Processor p = new Processor(pipelineWidth, 4);
 		Scanner sc = new Scanner(System.in);
 		while (true) {
@@ -45,6 +45,6 @@ public class SimulatorTest {
 				break;
 			// sc.nextLine();
 		}
-		System.out.println(RegisterFile.getRegisterData(1));
+		System.out.println(Memory.getMemoryData()[14]);
 	}
 }

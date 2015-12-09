@@ -1,17 +1,23 @@
 package nan.tomasulo.reorderbuffer;
 
 public class ReorderBuffer {
-	private static int head, tail, size, freeSlots;
+	private static int maxCommitsPerCycle;
+	private static int head, tail, size, freeSlots, commitsPerCycle;
 	private static ROBEntry[] entries;
 
-	public static void init(int s) {
+	public static void init(int s, int maxCommitsPerC) {
 		size = s;
 		freeSlots = s;
 		entries = new ROBEntry[s];
+		maxCommitsPerCycle = maxCommitsPerC;
 		for (int i = 0; i < entries.length; i++) {
 			entries[i] = new ROBEntry();
 		}
 		head = tail = 0;
+	}
+
+	public static void resetCommitsPerCycle() {
+		commitsPerCycle = maxCommitsPerCycle;
 	}
 
 	public static int getHead() {
@@ -35,13 +41,15 @@ public class ReorderBuffer {
 	}
 
 	public static boolean emptySlot(int entry) {
-		if (head != entry || !entries[entry].isReady())
+		if (commitsPerCycle == 0 || head != entry || !entries[entry].isReady())
 			return false;
+		commitsPerCycle--;
 		entries[entry].resetEntry();
 		head = (head + 1) % size;
 		freeSlots++;
 		return true;
 	}
+
 	public static int reserveSlot() {
 		if (freeSlots == 0)
 			return -1;

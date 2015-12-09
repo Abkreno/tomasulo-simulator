@@ -63,8 +63,7 @@ public class Caches {
 	}
 
 	public static int calculateWriteAccessDelay(short address, int currLevel,
-			LinkedList<Cache> caches) throws InvalidReadException,
-			InvalidWriteException {
+			LinkedList<Cache> caches) {
 		if (currLevel == caches.size())
 			return Memory.getAccessDelay();
 		Cache currCache = caches.get(currLevel);

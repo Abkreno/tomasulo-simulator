@@ -21,7 +21,10 @@ public class Simulator {
 		getFuncUnitsInputs(sc);
 
 		System.out.println("Enter ReorderBuffer Size :");
-		ReorderBuffer.init(Integer.parseInt(sc.nextLine()));
+		int robSize = Integer.parseInt(sc.nextLine());
+		System.out.println("Max Commits per cycle :");
+		int maxCommits = Integer.parseInt(sc.nextLine());
+		ReorderBuffer.init(robSize, maxCommits);
 		RegisterStat.init(8);
 
 		System.out.println("Enter Pipeline width :");

@@ -8,7 +8,7 @@ import org.junit.Test;
 public class ReorderBufferTests {
 	@Test
 	public void testReserveSlot() {
-		ReorderBuffer.init(10);
+		ReorderBuffer.init(10, 1);
 		for (int i = 0; i < 10; i++) {
 			int slot = ReorderBuffer.reserveSlot();
 			assertTrue(slot == i);
@@ -18,7 +18,7 @@ public class ReorderBufferTests {
 
 	@Test
 	public void testEmptySlot() {
-		ReorderBuffer.init(10);
+		ReorderBuffer.init(10, 1);
 		for (int i = 0; i < 10; i++) {
 			ReorderBuffer.reserveSlot();
 		}

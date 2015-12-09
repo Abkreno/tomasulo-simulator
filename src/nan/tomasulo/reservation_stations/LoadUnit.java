@@ -35,10 +35,9 @@ public class LoadUnit extends ReservationStation {
 		} else if (getCurrStage() == EXECUTE) {
 			setTimer(getTimer() - 1);
 			if (getTimer() == 0) {
-				short data;
 				try {
-					data = Caches.fetchData(getAddress());
-					setResult(data);
+					Short data = Caches.fetchData(getAddress());
+					setResult(data == null ? 0 : data);
 					setCurrStage(WRITE_BACK);
 					getInstruction().setExecutedTime(Processor.getClock());
 				} catch (InvalidReadException e) {
@@ -99,9 +98,10 @@ public class LoadUnit extends ReservationStation {
 		setCurrStage(ISSUED);
 		RegisterStat.updateRegisterStats(instruction.getRd(), robEntry);
 		try {
-			short correctData = Memory
+			Short correctData = Memory
 					.readDataWord((short) (getAddress() + vj));
-			ReorderBuffer.getEntries()[getDst()].setCorrectValue(correctData);
+			ReorderBuffer.getEntries()[getDst()]
+					.setCorrectValue(correctData == null ? 0 : correctData);
 		} catch (InvalidReadException e) {
 			System.err.println(e.getMessage());
 		} catch (InvalidWriteException e) {

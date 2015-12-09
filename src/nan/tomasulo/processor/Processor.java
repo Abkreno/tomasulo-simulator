@@ -17,6 +17,7 @@ import nan.tomasulo.reservation_stations.LoadUnit;
 import nan.tomasulo.reservation_stations.LogicalUnit;
 import nan.tomasulo.reservation_stations.MultUnit;
 import nan.tomasulo.reservation_stations.ReservationStation;
+import nan.tomasulo.reservation_stations.StoreUnit;
 
 public class Processor {
 	private static int clock = 1;
@@ -111,6 +112,7 @@ public class Processor {
 	public void nextClockCycle() throws InvalidReadException,
 			InvalidWriteException {
 		CommonDataBus.resetCommonDataBus();
+		ReorderBuffer.resetCommitsPerCycle();
 		int numOfFetches = 0;
 		Instruction insruction;
 		while (instructionsQueue.size() < instructionQueueMaxSize
@@ -182,6 +184,8 @@ public class Processor {
 	}
 
 	private boolean issueLogicalInstruction(Instruction instruction) {
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
 		LogicalUnit[] logicalUnits = FunctionalUnits.getLogicalUnits();
 		for (int i = 0; i < logicalUnits.length; i++) {
 			if (!logicalUnits[i].isBusy()) {
@@ -195,11 +199,23 @@ public class Processor {
 	}
 
 	private boolean issueStoreInstruction(Instruction instruction) {
-		// TODO Auto-generated method stub
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
+		StoreUnit[] storeUnits = FunctionalUnits.getStoreUnits();
+		for (int i = 0; i < storeUnits.length; i++) {
+			if (!storeUnits[i].isBusy()) {
+				int robEntry = ReorderBuffer.reserveSlot();
+				storeUnits[i].reserve(instruction, robEntry);
+				reservationStationsQueue.add(storeUnits[i]);
+				return true;
+			}
+		}
 		return false;
 	}
 
 	private boolean issueLoadInstruction(Instruction instruction) {
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
 		LoadUnit[] loadUnits = FunctionalUnits.getLoadUnits();
 		for (int i = 0; i < loadUnits.length; i++) {
 			if (!loadUnits[i].isBusy()) {
