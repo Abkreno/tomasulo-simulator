@@ -42,9 +42,9 @@ public class LoadUnit extends ReservationStation {
 					setCurrStage(WRITE_BACK);
 					getInstruction().setExecutedTime(Processor.getClock());
 				} catch (InvalidReadException e) {
-					e.printStackTrace();
+					System.err.println(e.getMessage());
 				} catch (InvalidWriteException e) {
-					e.printStackTrace();
+					System.err.println(e.getMessage());
 				}
 			}
 		} else if (getCurrStage() == WRITE_BACK) {
@@ -103,7 +103,9 @@ public class LoadUnit extends ReservationStation {
 					.readDataWord((short) (getAddress() + vj));
 			ReorderBuffer.getEntries()[getDst()].setCorrectValue(correctData);
 		} catch (InvalidReadException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
+		} catch (InvalidWriteException e) {
+			System.err.println(e.getMessage());
 		}
 
 	}

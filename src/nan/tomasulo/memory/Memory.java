@@ -42,9 +42,17 @@ public final class Memory {
 	}
 
 	public static Short readDataWord(int wordAddress)
-			throws InvalidReadException {
-		Object[] block = readDataBlock(wordAddress);
-		return (Short) block[wordAddress % blockSize];
+			throws InvalidReadException, InvalidWriteException {
+		if ((wordAddress >= programBeginning && wordAddress < programBeginning
+				+ programSize)) {
+			throw new InvalidWriteException(
+					String.format(
+							"Attempt to read data from instruction space for address %d",
+							wordAddress));
+		} else {
+			Object[] block = readDataBlock(wordAddress);
+			return (Short) block[wordAddress % blockSize];
+		}
 	}
 
 	/**
