@@ -39,7 +39,6 @@ public class MultUnit extends ReservationStation {
 				RegisterFile.setRegisterData(getInstruction().getRd(),
 						getResult());
 				getInstruction().setCommitedTime(Processor.getClock());
-				System.out.println(getInstruction().getLog());
 				ReorderBuffer.getEntries()[getDst()].resetEntry();
 				reset();
 			}
@@ -48,21 +47,27 @@ public class MultUnit extends ReservationStation {
 
 	@Override
 	public void reserve(Instruction instruction, int robEntry) {
+		int vj = 0;
 		int srcRegROBEntry = RegisterStat.getRegisterROBEntry(instruction
 				.getRs());
 		if (srcRegROBEntry == -1) {
-			setVj(RegisterFile.getRegisterData(instruction.getRs()));
+			vj = RegisterFile.getRegisterData(instruction.getRs());
+			setVj(vj);
 			setQj(-1);
 		} else {
+			vj = ReorderBuffer.getEntries()[srcRegROBEntry].getCorrectValue();
 			setQj(srcRegROBEntry);
 		}
 
+		int vk = 0;
 		int tmpRegROBEntry = RegisterStat.getRegisterROBEntry(instruction
 				.getRt());
 		if (tmpRegROBEntry == -1) {
-			setVk(RegisterFile.getRegisterData(instruction.getRt()));
+			vk = RegisterFile.getRegisterData(instruction.getRt());
+			setVk(vk);
 			setQk(-1);
 		} else {
+			vk = ReorderBuffer.getEntries()[tmpRegROBEntry].getCorrectValue();
 			setQk(tmpRegROBEntry);
 		}
 
@@ -73,6 +78,7 @@ public class MultUnit extends ReservationStation {
 		setInstruction(instruction);
 		setCurrStage(ISSUED);
 		RegisterStat.updateRegisterStats(instruction.getRd(), robEntry);
+		ReorderBuffer.getEntries()[getDst()].setCorrectValue((short) (vj * vk));
 	}
 
 }
