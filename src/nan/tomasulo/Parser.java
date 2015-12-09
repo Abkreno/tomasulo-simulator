@@ -68,7 +68,7 @@ public class Parser {
 	}
 
 	public static boolean checkTypeCondBranch(String type) {
-		return type.equalsIgnoreCase("BREQ");
+		return type.equalsIgnoreCase("BEQ");
 	}
 
 	public static int parseRegisters(String in) {

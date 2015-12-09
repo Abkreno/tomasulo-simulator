@@ -12,6 +12,7 @@ import nan.tomasulo.memory.Memory;
 import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.AddUnit;
+import nan.tomasulo.reservation_stations.BranchUnit;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 import nan.tomasulo.reservation_stations.LoadUnit;
 import nan.tomasulo.reservation_stations.LogicalUnit;
@@ -20,6 +21,8 @@ import nan.tomasulo.reservation_stations.ReservationStation;
 import nan.tomasulo.reservation_stations.StoreUnit;
 
 public class Processor {
+	private static boolean reset;
+	private static short correctAddress;
 	private static int clock = 1;
 
 	private int pipeLineWidth, instructionQueueMaxSize;
@@ -114,19 +117,19 @@ public class Processor {
 		CommonDataBus.resetCommonDataBus();
 		ReorderBuffer.resetCommitsPerCycle();
 		int numOfFetches = 0;
-		Instruction insruction;
+		Instruction instruction;
 		while (instructionsQueue.size() < instructionQueueMaxSize
 				&& numOfFetches < pipeLineWidth && pc < Memory.getProgramSize()) {
-			insruction = new Instruction(Caches.fetchInstruction(pc), pc);
-			instructionsQueue.addLast(insruction);
+			instruction = new Instruction(Caches.fetchInstruction(pc), pc);
+			instructionsQueue.addLast(instruction);
 			numOfFetches++;
-			updatePC(insruction);
+			updatePC(instruction);
 		}
 
 		int numOfIssues = 0;
 		while (instructionsQueue.size() > 0 && numOfIssues < pipeLineWidth) {
-			insruction = instructionsQueue.getFirst();
-			if (issueInstruction(insruction)) {
+			instruction = instructionsQueue.getFirst();
+			if (issueInstruction(instruction)) {
 				numOfIssues++;
 				instructionsQueue.removeFirst().setIssuedTime(clock);
 			} else {
@@ -145,6 +148,15 @@ public class Processor {
 				i--;
 			} else {
 				currStation.update();
+				if (reset) {
+					reset = false;
+					while (reservationStationsQueue.size() > 1)
+						reservationStationsQueue.removeLast().reset();
+					while (!instructionsQueue.isEmpty())
+						instructionsQueue.remove();
+					setPc(correctAddress);
+					break;
+				}
 			}
 		}
 		if (instructionsQueue.isEmpty() && pc >= Memory.getProgramSize()
@@ -234,7 +246,17 @@ public class Processor {
 	}
 
 	private boolean issueCondBranchInstruction(Instruction instruction) {
-		// TODO Auto-generated method stub
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
+		BranchUnit[] branchUnits = FunctionalUnits.getBranchUnits();
+		for (int i = 0; i < branchUnits.length; i++) {
+			if (!branchUnits[i].isBusy()) {
+				int robEntry = ReorderBuffer.reserveSlot();
+				branchUnits[i].reserve(instruction, robEntry);
+				reservationStationsQueue.add(branchUnits[i]);
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -294,6 +316,11 @@ public class Processor {
 
 	public static int getClock() {
 		return clock;
+	}
+
+	public static void resetExectution(short address) {
+		reset = true;
+		correctAddress = address;
 	}
 
 }

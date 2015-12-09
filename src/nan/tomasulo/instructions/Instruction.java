@@ -29,13 +29,13 @@ public class Instruction {
 
 	public void initializeRegistersValues(int a, int b, int c) {
 		if (Parser.checkTypeCondBranch(type) || Parser.checkTypeLoadStore(type)) {
-			if (type.equals("SW")) {
-				rs = a;
-				rt = b;
-				imm = c;
-			} else {
+			if (type.equals("LW")) {
 				rd = a;
 				rs = b;
+				imm = c;
+			} else {
+				rs = a;
+				rt = b;
 				imm = c;
 			}
 		} else if (Parser.checkTypeCall(type)) {

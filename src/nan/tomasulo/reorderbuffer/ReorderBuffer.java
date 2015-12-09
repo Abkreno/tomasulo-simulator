@@ -58,4 +58,12 @@ public class ReorderBuffer {
 		freeSlots--;
 		return res;
 	}
+
+	public static void flush() {
+		freeSlots = size;
+		for (int i = 0; i < entries.length; i++) {
+			entries[i].resetEntry();
+		}
+		head = tail = 0;
+	}
 }

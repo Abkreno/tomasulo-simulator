@@ -15,7 +15,7 @@ import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class SimulatorTest {
-	static int memAccessDelay = 10;
+	static int memAccessDelay = 3;
 	static int pipelineWidth = 4;
 
 	public static void main(String[] args) throws InvalidReadException,
@@ -35,8 +35,7 @@ public class SimulatorTest {
 		RegisterStat.init(8);
 		RegisterFile.init();
 		CommonDataBus.setMaxNumOfWritesPerCycle(1);
-		Parser.copyProgramToMemory("program_4.in");
-		Memory.getMemoryData()[14] = new Short("13");
+		Parser.copyProgramToMemory("program_5.in");
 		Processor p = new Processor(pipelineWidth, 4);
 		Scanner sc = new Scanner(System.in);
 		while (true) {
@@ -45,6 +44,6 @@ public class SimulatorTest {
 				break;
 			// sc.nextLine();
 		}
-		System.out.println(Memory.getMemoryData()[14]);
+		System.out.println(RegisterFile.getRegisterData(6));
 	}
 }

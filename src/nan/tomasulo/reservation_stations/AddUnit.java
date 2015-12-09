@@ -64,7 +64,7 @@ public class AddUnit extends ReservationStation {
 		} else {
 			ROBEntry srcRegROB = ReorderBuffer.getEntries()[srcRegROBEntry];
 			vj = srcRegROB.getCorrectValue();
-			if (false && srcRegROB.isReady()) {
+			if (srcRegROB.isReady()) {
 				setVj(srcRegROB.getValue());
 				setQj(-1);
 			} else {

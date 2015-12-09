@@ -24,4 +24,10 @@ public class RegisterStat {
 		RegisterStat.registerStats[index] = value;
 	}
 
+	public static void reset() {
+		for (int i = 0; i < registerStats.length; i++) {
+			registerStats[i] = -1;
+		}
+	}
+
 }
