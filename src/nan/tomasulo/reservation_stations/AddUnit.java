@@ -1,7 +1,9 @@
 package nan.tomasulo.reservation_stations;
 
 import nan.tomasulo.Parser;
+import nan.tomasulo.common_data_bus.CommonDataBus;
 import nan.tomasulo.instructions.Instruction;
+import nan.tomasulo.processor.Processor;
 import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.registers.RegisterStat;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
@@ -15,7 +17,33 @@ public class AddUnit extends ReservationStation {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		if (getCurrStage() == ISSUED) {
+			if (getQj() == -1 && getQk() == -1) {
+				setCurrStage(EXECUTE);
+			}
+		} else if (getCurrStage() == EXECUTE) {
+			setTimer(getTimer() - 1);
+			if (getTimer() == 0) {
+				setResult(calculate(getVj(), getVk(), getOperation()));
+				setCurrStage(WRITE_BACK);
+				getInstruction().setExecutedTime(Processor.getClock());
+			}
+		} else if (getCurrStage() == WRITE_BACK) {
+			if (CommonDataBus.deliver(getDst(), getResult())) {
+				ReorderBuffer.getEntries()[getDst()].setValue(getResult());
+				ReorderBuffer.getEntries()[getDst()].setReady(true);
+				setCurrStage(COMMIT);
+				getInstruction().setWrittenTime(Processor.getClock());
+			}
+		} else if (getCurrStage() == COMMIT) {
+			if (ReorderBuffer.emptySlot(getDst())) {
+				RegisterFile.setRegisterData(getInstruction().getRd(),
+						getResult());
+				getInstruction().setCommitedTime(Processor.getClock());
+				ReorderBuffer.getEntries()[getDst()].resetEntry();
+				setCurrStage(FINISHED);
+			}
+		}
 	}
 
 	@Override

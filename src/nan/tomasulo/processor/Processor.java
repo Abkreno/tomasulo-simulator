@@ -11,6 +11,7 @@ import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
+import nan.tomasulo.reservation_stations.AddUnit;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 import nan.tomasulo.reservation_stations.MultUnit;
 import nan.tomasulo.reservation_stations.ReservationStation;
@@ -164,12 +165,17 @@ public class Processor {
 	}
 
 	private boolean issueArithmeticInstruction(Instruction instruction) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private boolean issueImmArithmeticInstruction(Instruction instruction) {
-		// TODO Auto-generated method stub
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
+		AddUnit[] addUnits = FunctionalUnits.getAddUnits();
+		for (int i = 0; i < addUnits.length; i++) {
+			if (!addUnits[i].isBusy()) {
+				int robEntry = ReorderBuffer.reserveSlot();
+				addUnits[i].reserve(instruction, robEntry);
+				reservationStationsQueue.add(addUnits[i]);
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -204,10 +210,9 @@ public class Processor {
 			return issueMultInstruction(instruction);
 		} else if (Parser.checkTypeLogical(instruction.getType())) {
 			return issueLogicalInstruction(instruction);
-		} else if (Parser.checkTypeArithmetic(instruction.getType())) {
+		} else if (Parser.checkTypeImmArithmetic(instruction.getType())
+				|| Parser.checkTypeArithmetic(instruction.getType())) {
 			return issueArithmeticInstruction(instruction);
-		} else if (Parser.checkTypeImmArithmetic(instruction.getType())) {
-			return issueImmArithmeticInstruction(instruction);
 		} else if (Parser.checkTypeLoadStore(instruction.getType())) {
 			return instruction.getType().equals("LW") ? issueLoadInstruction(instruction)
 					: issueStoreInstruction(instruction);
