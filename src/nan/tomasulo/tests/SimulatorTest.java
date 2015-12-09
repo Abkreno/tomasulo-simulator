@@ -43,7 +43,7 @@ public class SimulatorTest {
 			p.nextClockCycle();
 			if (p.isHalted())
 				break;
-			sc.nextLine();
+			//sc.nextLine();
 		}
 	}
 }

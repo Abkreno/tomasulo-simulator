@@ -41,6 +41,10 @@ public class AddUnit extends ReservationStation {
 						getResult());
 				getInstruction().setCommitedTime(Processor.getClock());
 				ReorderBuffer.getEntries()[getDst()].resetEntry();
+				if (RegisterStat.getRegisterROBEntry(getInstruction().getRd()) == getDst()) {
+					RegisterStat.updateRegisterStats(getInstruction().getRd(),
+							-1);
+				}
 				setCurrStage(FINISHED);
 			}
 		}
