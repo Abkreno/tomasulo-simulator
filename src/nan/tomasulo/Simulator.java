@@ -97,14 +97,27 @@ public class Simulator {
 		System.out.println("Enter BranchUnits Delay");
 		int branchUnitsDelay = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of LogicalUnits");
+		System.out.println("Enter Number of Logical Units");
 		int logicalUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter LogicalUnits Delay");
+		System.out.println("Enter Logical Units Delay");
 		int logicalUnitsDelay = Integer.parseInt(sc.nextLine());
+
+		System.out.println("Enter Number of Call Units");
+		int callUnits = Integer.parseInt(sc.nextLine());
+
+		System.out.println("Enter Call Units Delay");
+		int callUnitsDelay = Integer.parseInt(sc.nextLine());
+		
+		System.out.println("Enter Number of Jump Units");
+		int jumpUnits = Integer.parseInt(sc.nextLine());
+
+		System.out.println("Enter Jump Units Delay");
+		int jumpUnitsDelay = Integer.parseInt(sc.nextLine());
 
 		FunctionalUnits.initFunctionalUnits(addUnits, addUnitsDelay, multUnits,
 				multUnitsDelay, loadUnits, storeUnits, branchUnits,
-				branchUnitsDelay, logicalUnits, logicalUnitsDelay);
+				branchUnitsDelay, logicalUnits, logicalUnitsDelay, callUnits,
+				callUnitsDelay,jumpUnits,jumpUnitsDelay);
 	}
 }

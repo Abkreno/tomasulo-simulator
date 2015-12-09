@@ -26,7 +26,8 @@ public class SimulatorTest {
 		cachesInfo[0] = new int[] { 128, 16, 1, 1, 0 };
 		Caches.initCaches(cachesInfo);
 
-		FunctionalUnits.initFunctionalUnits(2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+		FunctionalUnits.initFunctionalUnits(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+				2, 2);
 		// sherif
 		// salama
 		// is

@@ -13,7 +13,9 @@ import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.AddUnit;
 import nan.tomasulo.reservation_stations.BranchUnit;
+import nan.tomasulo.reservation_stations.CallUnit;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
+import nan.tomasulo.reservation_stations.JumpUnit;
 import nan.tomasulo.reservation_stations.LoadUnit;
 import nan.tomasulo.reservation_stations.LogicalUnit;
 import nan.tomasulo.reservation_stations.MultUnit;
@@ -241,7 +243,17 @@ public class Processor {
 	}
 
 	private boolean issueCallInstruction(Instruction instruction) {
-		// TODO Auto-generated method stub
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
+		CallUnit[] callUnits = FunctionalUnits.getCallUnits();
+		for (int i = 0; i < callUnits.length; i++) {
+			if (!callUnits[i].isBusy()) {
+				int robEntry = ReorderBuffer.reserveSlot();
+				callUnits[i].reserve(instruction, robEntry);
+				reservationStationsQueue.add(callUnits[i]);
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -254,6 +266,21 @@ public class Processor {
 				int robEntry = ReorderBuffer.reserveSlot();
 				branchUnits[i].reserve(instruction, robEntry);
 				reservationStationsQueue.add(branchUnits[i]);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean issueJumpInstruction(Instruction instruction) {
+		if (ReorderBuffer.getFreeSlots() == 0)
+			return false;
+		JumpUnit[] jumpUnits = FunctionalUnits.getJumpUnits();
+		for (int i = 0; i < jumpUnits.length; i++) {
+			if (!jumpUnits[i].isBusy()) {
+				int robEntry = ReorderBuffer.reserveSlot();
+				jumpUnits[i].reserve(instruction, robEntry);
+				reservationStationsQueue.add(jumpUnits[i]);
 				return true;
 			}
 		}
@@ -278,7 +305,7 @@ public class Processor {
 			return issueCallInstruction(instruction);
 		} else {
 			// JMP / RET
-			return true;
+			return issueJumpInstruction(instruction);
 		}
 	}
 
