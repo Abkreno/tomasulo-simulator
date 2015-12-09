@@ -41,6 +41,12 @@ public final class Memory {
 		init();
 	}
 
+	public static Short readDataWord(int wordAddress)
+			throws InvalidReadException {
+		Object[] block = readDataBlock(wordAddress);
+		return (Short) block[wordAddress % blockSize];
+	}
+
 	/**
 	 * Reads the block that contains the provided word address from data space
 	 * 

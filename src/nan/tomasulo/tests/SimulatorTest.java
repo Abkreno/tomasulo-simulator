@@ -16,7 +16,7 @@ import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class SimulatorTest {
 	static int memAccessDelay = 10;
-	static int pipelineWidth = 1;
+	static int pipelineWidth = 4;
 
 	public static void main(String[] args) throws InvalidReadException,
 			InvalidWriteException {
@@ -31,19 +31,20 @@ public class SimulatorTest {
 		// salama
 		// is
 		// here
-
 		ReorderBuffer.init(4);
 		RegisterStat.init(8);
 		RegisterFile.init();
 		CommonDataBus.setMaxNumOfWritesPerCycle(1);
-		Parser.copyProgramToMemory("program_2.in");
+		Parser.copyProgramToMemory("program_3.in");
+		Memory.getMemoryData()[14] = new Short("123");
 		Processor p = new Processor(pipelineWidth, 4);
 		Scanner sc = new Scanner(System.in);
 		while (true) {
 			p.nextClockCycle();
 			if (p.isHalted())
 				break;
-			//sc.nextLine();
+			// sc.nextLine();
 		}
+		System.out.println(RegisterFile.getRegisterData(1));
 	}
 }

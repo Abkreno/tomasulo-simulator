@@ -6,6 +6,7 @@ import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.processor.Processor;
 import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.registers.RegisterStat;
+import nan.tomasulo.reorderbuffer.ROBEntry;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 
 public class AddUnit extends ReservationStation {
@@ -41,7 +42,8 @@ public class AddUnit extends ReservationStation {
 						getResult());
 				getInstruction().setCommitedTime(Processor.getClock());
 				ReorderBuffer.getEntries()[getDst()].resetEntry();
-				if (RegisterStat.getRegisterROBEntry(getInstruction().getRd()) == getDst()) {
+				if (RegisterStat.getRegisterROBEntryNumber(getInstruction()
+						.getRd()) == getDst()) {
 					RegisterStat.updateRegisterStats(getInstruction().getRd(),
 							-1);
 				}
@@ -53,15 +55,21 @@ public class AddUnit extends ReservationStation {
 	@Override
 	public void reserve(Instruction instruction, int robEntry) {
 		int vj = 0;
-		int srcRegROBEntry = RegisterStat.getRegisterROBEntry(instruction
+		int srcRegROBEntry = RegisterStat.getRegisterROBEntryNumber(instruction
 				.getRs());
 		if (srcRegROBEntry == -1) {
 			vj = RegisterFile.getRegisterData(instruction.getRs());
 			setVj(vj);
 			setQj(-1);
 		} else {
-			vj = ReorderBuffer.getEntries()[srcRegROBEntry].getCorrectValue();
-			setQj(srcRegROBEntry);
+			ROBEntry srcRegROB = ReorderBuffer.getEntries()[srcRegROBEntry];
+			vj = srcRegROB.getCorrectValue();
+			if (false && srcRegROB.isReady()) {
+				setVj(srcRegROB.getValue());
+				setQj(-1);
+			} else {
+				setQj(srcRegROBEntry);
+			}
 		}
 
 		int vk = 0;
@@ -70,16 +78,21 @@ public class AddUnit extends ReservationStation {
 			setVk(vk);
 			setQk(-1);
 		} else {
-			int tmpRegROBEntry = RegisterStat.getRegisterROBEntry(instruction
-					.getRt());
+			int tmpRegROBEntry = RegisterStat
+					.getRegisterROBEntryNumber(instruction.getRt());
 			if (tmpRegROBEntry == -1) {
 				vk = RegisterFile.getRegisterData(instruction.getRt());
 				setVk(vk);
 				setQk(-1);
 			} else {
-				vk = ReorderBuffer.getEntries()[tmpRegROBEntry]
-						.getCorrectValue();
-				setQk(tmpRegROBEntry);
+				ROBEntry tmpRegROB = ReorderBuffer.getEntries()[tmpRegROBEntry];
+				vk = tmpRegROB.getCorrectValue();
+				if (tmpRegROB.isReady()) {
+					setVk(tmpRegROB.getValue());
+					setQk(-1);
+				} else {
+					setQk(tmpRegROBEntry);
+				}
 			}
 		}
 

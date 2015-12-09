@@ -18,6 +18,7 @@ public abstract class ReservationStation {
 	private static int stationID = 1;
 	private int executionTime;
 	private int currStage;
+	private short address;
 	private short result;
 	private Instruction instruction;
 
@@ -72,6 +73,14 @@ public abstract class ReservationStation {
 
 	public void setQk(int qk) {
 		this.qk = qk;
+	}
+
+	public short getAddress() {
+		return address;
+	}
+
+	public void setAddress(short address) {
+		this.address = address;
 	}
 
 	public int getIndex() {

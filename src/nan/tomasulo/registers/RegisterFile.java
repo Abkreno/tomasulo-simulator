@@ -22,7 +22,7 @@ public class RegisterFile {
 	}
 
 	public static short getCorrectRegisterData(int regNum) {
-		int robEntry = RegisterStat.getRegisterROBEntry(regNum);
+		int robEntry = RegisterStat.getRegisterROBEntryNumber(regNum);
 		short regValue = 0;
 		if (robEntry == -1) {
 			// No ROB entry is using this register as destination so
