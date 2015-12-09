@@ -71,4 +71,8 @@ public class FunctionalUnits {
 	public static ReservationStation[] getReservationStations() {
 		return reservationStations;
 	}
+
+	public static LogicalUnit[] getLogicalUnits() {
+		return logicalUnits;
+	}
 }

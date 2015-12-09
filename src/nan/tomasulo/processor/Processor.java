@@ -13,6 +13,7 @@ import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.AddUnit;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
+import nan.tomasulo.reservation_stations.LogicalUnit;
 import nan.tomasulo.reservation_stations.MultUnit;
 import nan.tomasulo.reservation_stations.ReservationStation;
 
@@ -180,7 +181,15 @@ public class Processor {
 	}
 
 	private boolean issueLogicalInstruction(Instruction instruction) {
-		// TODO Auto-generated method stub
+		LogicalUnit[] logicalUnits = FunctionalUnits.getLogicalUnits();
+		for (int i = 0; i < logicalUnits.length; i++) {
+			if (!logicalUnits[i].isBusy()) {
+				int robEntry = ReorderBuffer.reserveSlot();
+				logicalUnits[i].reserve(instruction, robEntry);
+				reservationStationsQueue.add(logicalUnits[i]);
+				return true;
+			}
+		}
 		return false;
 	}
 
