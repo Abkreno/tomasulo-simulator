@@ -162,6 +162,27 @@ public abstract class ReservationStation {
 		this.instruction = instruction;
 	}
 
+	public short calculate(int vj, int vk, String operation) {
+		switch (operation) {
+		case "ADD":
+		case "ADDI":
+			return (short) (vj + vk);
+
+		case "SUB":
+			return (short) (vj - vk);
+
+		case "MUL":
+			return (short) (vj * vk);
+
+		case "NAND":
+			return (short) ~(vj & vk);
+
+		default:
+			break;
+		}
+		return 0;
+	}
+
 	public abstract void update();
 
 	public abstract void reserve(Instruction instruction, int robEntry);

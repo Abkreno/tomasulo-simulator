@@ -23,7 +23,7 @@ public class MultUnit extends ReservationStation {
 		} else if (getCurrStage() == EXECUTE) {
 			setTimer(getTimer() - 1);
 			if (getTimer() == 0) {
-				setResult((short) (getVj() * getVk()));
+				setResult(calculate(getVj(), getVk(), getOperation()));
 				setCurrStage(WRITE_BACK);
 				getInstruction().setExecutedTime(Processor.getClock());
 			}
@@ -78,7 +78,8 @@ public class MultUnit extends ReservationStation {
 		setInstruction(instruction);
 		setCurrStage(ISSUED);
 		RegisterStat.updateRegisterStats(instruction.getRd(), robEntry);
-		ReorderBuffer.getEntries()[getDst()].setCorrectValue((short) (vj * vk));
+		ReorderBuffer.getEntries()[getDst()].setCorrectValue(calculate(vj, vk,
+				getOperation()));
 	}
 
 }
