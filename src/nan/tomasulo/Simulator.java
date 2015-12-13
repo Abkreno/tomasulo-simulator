@@ -1,7 +1,9 @@
 package nan.tomasulo;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
+import nan.tomasulo.cache.Cache;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.common_data_bus.CommonDataBus;
 import nan.tomasulo.exceptions.InvalidReadException;
@@ -47,11 +49,31 @@ public class Simulator {
 		Processor p = new Processor(pipeLineWidth, maxNumOfInstInBuffer);
 		while (true) {
 			p.nextClockCycle();
-			if (p.isHalted())
+			if (p.isHalted()) {
+				displayResults(p);
 				break;
-			sc.nextLine();
+			}
+			// sc.nextLine();
 		}
 		sc.close();
+	}
+
+	private static void displayResults(Processor processor) {
+		System.out.println("-------------Results------------");
+		System.out.println("Total Execution Time = "
+				+ Math.max(Processor.getClock() - 2, 1) + "");
+		System.out.println("IPC = " + String.format("%.3f", processor.getIPC())
+				+ "");
+		System.out.println("Branch Miss Prediction Percentage = "
+				+ String.format("%.3f",
+						processor.getBranchMissPredictionPercentage()) + "%");
+		System.out.println("Global AMAT = "
+				+ String.format("%.3f", Caches.getAMAT(0)));
+		LinkedList<Cache> caches = Caches.getDataCaches();
+		for (int i = 0; i < caches.size(); i++) {
+			System.out.println("Cache level " + (i + 1) + " Hit Ratio is : "
+					+ String.format("%.3f", caches.get(i).getHitRatio()));
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -91,10 +113,10 @@ public class Simulator {
 	}
 
 	static void getFuncUnitsInputs(Scanner sc) {
-		System.out.println("Enter Number of AddUnits");
+		System.out.println("Enter Number of AddUnits :");
 		int addUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter AddUnits Delay");
+		System.out.println("Enter AddUnits Delay :");
 		int addUnitsDelay = Integer.parseInt(sc.nextLine());
 
 		System.out.println("Enter Number of MultUnits :");
