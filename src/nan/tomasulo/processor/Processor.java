@@ -33,7 +33,7 @@ public class Processor {
 
 	private boolean halted;
 
-	private LinkedList<Instruction> instructionsQueue;
+	private LinkedList<Instruction> instructionsQueue, finishedInstructions;
 
 	private static LinkedList<ReservationStation> reservationStationsQueue = new LinkedList<>();;
 
@@ -44,6 +44,7 @@ public class Processor {
 		this.halted = false;
 		this.instructionQueueMaxSize = instructionQueueSize;
 		this.instructionsQueue = new LinkedList<>();
+		this.finishedInstructions = new LinkedList<>();
 		this.totalBranches = 0;
 		this.missPredictedBranches = 0;
 	}
@@ -120,6 +121,15 @@ public class Processor {
 		this.pc += value;
 	}
 
+	public LinkedList<Instruction> getFinishedInstructions() {
+		return finishedInstructions;
+	}
+
+	public void setFinishedInstructions(
+			LinkedList<Instruction> finishedInstructions) {
+		this.finishedInstructions = finishedInstructions;
+	}
+
 	public double getBranchMissPredictionPercentage() {
 		if (totalBranches == 0)
 			return 0;
@@ -128,7 +138,7 @@ public class Processor {
 	}
 
 	public double getIPC() {
-		return ((double) totalInstructions) / ((double) clock);
+		return ((double) totalInstructions) / ((double) Math.max(clock - 2, 1));
 	}
 
 	public void writeData(short address, Short data)
@@ -174,11 +184,12 @@ public class Processor {
 			if (currStation.getCurrStage() == ReservationStation.FINISHED) {
 				// Printing log for commited instruction
 				// System.out.println(currStation.getInstruction().getLog());
-				currStation.reset();
-				String type = reservationStationsQueue.remove(i).getOperation();
-				if (Parser.checkTypeCondBranch(type))
+				finishedInstructions.add(currStation.getInstruction());
+				if (Parser.checkTypeCondBranch(currStation.getOperation()))
 					totalBranches++;
 				totalInstructions++;
+				currStation.reset();
+				reservationStationsQueue.remove(i);
 				i--;
 			} else {
 				currStation.update();

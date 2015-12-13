@@ -31,6 +31,7 @@ import nan.tomasulo.cache.Cache;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
+import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.processor.Processor;
 import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.reservation_stations.ReservationStation;
@@ -103,16 +104,26 @@ public class OutputsWindow extends JFrame {
 	private void displayReservationStations() {
 		LinkedList<ReservationStation> reservationStations = Processor
 				.getReservationStationsQueue();
-		Object[][] info = new Object[reservationStations.size()][5];
-		for (int i = 0; i < info.length; i++) {
-			info[i][0] = reservationStations.get(i).getInstruction().toString();
-			info[i][1] = reservationStations.get(i).getInstruction()
+		LinkedList<Instruction> finishedInstructions = processor.getFinishedInstructions();
+		Object[][] info = new Object[reservationStations.size()
+				+ finishedInstructions.size()][5];
+		for (int i = 0; i < finishedInstructions.size(); i++) {
+			info[i][0] = finishedInstructions.get(i).toString();
+			info[i][1] = finishedInstructions.get(i).getIssuedTime();
+			info[i][2] = finishedInstructions.get(i).getExecutedTime();
+			info[i][3] = finishedInstructions.get(i).getWrittenTime();
+			info[i][4] = finishedInstructions.get(i).getCommitedTime();
+		}
+		int c=0;
+		for (int i = finishedInstructions.size(); i < info.length; i++,c++) {
+			info[i][0] = reservationStations.get(c).getInstruction().toString();
+			info[i][1] = reservationStations.get(c).getInstruction()
 					.getIssuedTime();
-			info[i][2] = reservationStations.get(i).getInstruction()
+			info[i][2] = reservationStations.get(c).getInstruction()
 					.getExecutedTime();
-			info[i][3] = reservationStations.get(i).getInstruction()
+			info[i][3] = reservationStations.get(c).getInstruction()
 					.getWrittenTime();
-			info[i][4] = reservationStations.get(i).getInstruction()
+			info[i][4] = reservationStations.get(c).getInstruction()
 					.getCommitedTime();
 			for (int j = 1; j < info[i].length; j++) {
 				if (info[i][j].toString().equals("0")) {
@@ -129,14 +140,14 @@ public class OutputsWindow extends JFrame {
 	}
 
 	private void displayResults() {
-		lblExecTimeVal.setText(Processor.getClock() - 1 + "");
+		lblExecTimeVal.setText(Math.max(Processor.getClock() - 2, 1) + "");
 		lblIPCVal.setText(String.format("%.3f", processor.getIPC()) + "");
 		lblBranchMissPredictionValue.setText(processor
 				.getBranchMissPredictionPercentage() + "%");
 		lblGlobalAmatVal.setText(String.format("%.3f", Caches.getAMAT(0)));
 		LinkedList<Cache> caches = Caches.getDataCaches();
 		for (int i = 0; i < caches.size(); i++) {
-			System.out.println("Cache level " + (i + 1) + " Hit Ration is : "
+			System.out.println("Cache level " + (i + 1) + " Hit Ratio is : "
 					+ String.format("%.3f", caches.get(i).getHitRatio()));
 		}
 	}
