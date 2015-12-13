@@ -23,6 +23,24 @@ public class Parser {
 		}
 		Memory.setProgramSize(lines.length - org);
 		Memory.setProgramBeginning(startingLocation);
+		if (lines[1].split(" ")[0].equalsIgnoreCase(".Data")) {
+			org++;
+			Memory.setProgramSize(lines.length - org);
+			String[] memdata = lines[1].split(" ");
+			int key;
+			Short value;
+			for (int i = 1; i < memdata.length; i++) {
+				String[] keyValue = memdata[i].split(",");
+				key = Integer.parseInt(keyValue[0]);
+				value = Short.parseShort(keyValue[1]);
+				try {
+					Memory.writeDataEntry(key, value);
+				} catch (InvalidWriteException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
 		for (int i = org; i < lines.length; i++) {
 			try {
 				Memory.writeDataEntry(startingLocation + i - org, lines[i]);
