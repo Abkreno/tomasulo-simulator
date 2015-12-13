@@ -7,7 +7,6 @@ import nan.tomasulo.common_data_bus.CommonDataBus;
 import nan.tomasulo.exceptions.InvalidReadException;
 import nan.tomasulo.exceptions.InvalidWriteException;
 import nan.tomasulo.gui.InputsWindow;
-import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
 import nan.tomasulo.registers.RegisterFile;
@@ -23,8 +22,10 @@ public class Simulator {
 		Scanner sc = new Scanner(System.in);
 
 		getMemoryInputs(sc);
-		Memory.init(16);
-		Parser.copyProgramToMemory("program_1.in");
+		System.out.println("Enter Memory Block Size :");
+		Memory.init(Integer.parseInt(sc.nextLine()));
+		System.out.println("Enter program name :");
+		Parser.copyProgramToMemory(sc.nextLine() + ".in");
 
 		getFuncUnitsInputs(sc);
 
@@ -96,40 +97,40 @@ public class Simulator {
 		System.out.println("Enter AddUnits Delay");
 		int addUnitsDelay = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of MultUnits");
+		System.out.println("Enter Number of MultUnits :");
 		int multUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter MultUnits Delay");
+		System.out.println("Enter MultUnits Delay :");
 		int multUnitsDelay = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of LoadUnits");
+		System.out.println("Enter Number of LoadUnits :");
 		int loadUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of StoreUnits");
+		System.out.println("Enter Number of StoreUnits :");
 		int storeUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of BranchUnits");
+		System.out.println("Enter Number of BranchUnits :");
 		int branchUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter BranchUnits Delay");
+		System.out.println("Enter BranchUnits Delay :");
 		int branchUnitsDelay = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of Logical Units");
+		System.out.println("Enter Number of Logical Units :");
 		int logicalUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Logical Units Delay");
+		System.out.println("Enter Logical Units Delay :");
 		int logicalUnitsDelay = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of Call Units");
+		System.out.println("Enter Number of Call Units :");
 		int callUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Call Units Delay");
+		System.out.println("Enter Call Units Delay :");
 		int callUnitsDelay = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Number of Jump Units");
+		System.out.println("Enter Number of Jump Units :");
 		int jumpUnits = Integer.parseInt(sc.nextLine());
 
-		System.out.println("Enter Jump Units Delay");
+		System.out.println("Enter Jump Units Delay :");
 		int jumpUnitsDelay = Integer.parseInt(sc.nextLine());
 
 		FunctionalUnits.initFunctionalUnits(addUnits, addUnitsDelay, multUnits,
