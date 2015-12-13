@@ -212,6 +212,7 @@ public class Processor {
 						instructionsQueue.remove();
 					setPc(correctAddress);
 					missPredictedBranches++;
+					totalBranches++;
 					break;
 				}
 			}

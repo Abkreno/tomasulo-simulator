@@ -104,7 +104,8 @@ public class OutputsWindow extends JFrame {
 	private void displayReservationStations() {
 		LinkedList<ReservationStation> reservationStations = Processor
 				.getReservationStationsQueue();
-		LinkedList<Instruction> finishedInstructions = processor.getFinishedInstructions();
+		LinkedList<Instruction> finishedInstructions = processor
+				.getFinishedInstructions();
 		Object[][] info = new Object[reservationStations.size()
 				+ finishedInstructions.size()][5];
 		for (int i = 0; i < finishedInstructions.size(); i++) {
@@ -114,8 +115,8 @@ public class OutputsWindow extends JFrame {
 			info[i][3] = finishedInstructions.get(i).getWrittenTime();
 			info[i][4] = finishedInstructions.get(i).getCommitedTime();
 		}
-		int c=0;
-		for (int i = finishedInstructions.size(); i < info.length; i++,c++) {
+		int c = 0;
+		for (int i = finishedInstructions.size(); i < info.length; i++, c++) {
 			info[i][0] = reservationStations.get(c).getInstruction().toString();
 			info[i][1] = reservationStations.get(c).getInstruction()
 					.getIssuedTime();
@@ -142,8 +143,9 @@ public class OutputsWindow extends JFrame {
 	private void displayResults() {
 		lblExecTimeVal.setText(Math.max(Processor.getClock() - 2, 1) + "");
 		lblIPCVal.setText(String.format("%.3f", processor.getIPC()) + "");
-		lblBranchMissPredictionValue.setText(processor
-				.getBranchMissPredictionPercentage() + "%");
+		lblBranchMissPredictionValue.setText(String.format("%.3f",
+				processor.getBranchMissPredictionPercentage())
+				+ "%");
 		lblGlobalAmatVal.setText(String.format("%.3f", Caches.getAMAT(0)));
 		LinkedList<Cache> caches = Caches.getDataCaches();
 		for (int i = 0; i < caches.size(); i++) {
