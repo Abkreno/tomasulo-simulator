@@ -1,0 +1,398 @@
+JFDML JFormDesigner: "5.2.2.2.228" Java: "1.8.0_31" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
+			"$columnSpecs": "55dlu, labelcompgap, 24dlu, labelcompgap, 33dlu, labelcompgap, 24dlu, labelcompgap, default, labelcompgap, 36dlu, labelcompgap, default, labelcompgap, 34dlu, labelcompgap, 39dlu, labelcompgap, 33dlu, labelcompgap, 32dlu, labelcompgap, 34dlu"
+			"$rowSpecs": "15dlu, linegap, pref, linegap, default, linegap, default, linegap, default, linegap, default, linegap, default, linegap, 12dlu, linegap, 17dlu, linegap, default, linegap, default, linegap, default, linegap, default, linegap, default, linegap, default, linegap, default"
+			"$rowGroupIds": "0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+		} ) {
+			name: "this"
+			"title": "Tomasulo-Simulator"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "Reservation Stations"
+				"border": sfield com.jgoodies.forms.factories.Borders DIALOG_BORDER
+				"font": new java.awt.Font( "Tahoma", 1, 11 )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridWidth": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblAddUnits"
+				"text": "Add Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfAddUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 3
+				"gridY": 3
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblAddUnitsDelay"
+				"text": "Delay"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridY": 3
+				"gridX": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfAddUDelay"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 3
+				"gridX": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblROBSize"
+				"text": "Reorder Buffer Size :"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 15
+				"gridY": 3
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
+				"gridWidth": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfROBSize"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 19
+				"gridY": 3
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblMultUnits"
+				"text": "Mult Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfMultUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 3
+				"gridY": 5
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblMultUnitsDelay"
+				"text": "Delay"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridY": 5
+				"gridX": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfMultUDelay"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 5
+				"gridX": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblMxCommits"
+				"text": "Max Commits Per Cycle :"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 15
+				"gridY": 5
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
+				"gridWidth": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfMxCommitsPerCycle"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 19
+				"gridY": 5
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblBranchUnits"
+				"text": "Branch Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 7
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfBranchUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 3
+				"gridY": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbBranchUnitsDelay"
+				"text": "Delay"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridY": 7
+				"gridX": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfBranchUDelay"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 7
+				"gridX": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblPiplineWidth"
+				"text": "Pipeline Width :"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 15
+				"gridY": 7
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
+				"gridWidth": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfPipelineWidth"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 19
+				"gridY": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblLogicalUnits"
+				"text": "Logical Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 9
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfLogicalUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 3
+				"gridY": 9
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblLogicalUnitsDelay"
+				"text": "Delay"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridY": 9
+				"gridX": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfLogicalUDelay"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 9
+				"gridX": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblInstructionBfrSize"
+				"text": "Instruction Buffer Size :"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 15
+				"gridY": 9
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
+				"gridWidth": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfInstructionBufferSize"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 19
+				"gridY": 9
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblCallUnits"
+				"text": "Call Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 11
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfCallUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 3
+				"gridY": 11
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblCallUnitsDelay"
+				"text": "Delay"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridY": 11
+				"gridX": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "CallUDelay"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 11
+				"gridX": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblCommonDataBuses"
+				"text": "Common Data Buses # :"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 15
+				"gridY": 11
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
+				"gridWidth": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfNumOfCDBs"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 19
+				"gridY": 11
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblJumpUnits"
+				"text": "Jump Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 13
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfJumpUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 3
+				"gridY": 13
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblJumpUnitsDelay"
+				"text": "Delay"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridY": 13
+				"gridX": 5
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "JumpUDelay"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 13
+				"gridX": 7
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblMemAccessDelay"
+				"text": "Memory Access Delay :"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 13
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
+				"gridX": 15
+				"gridWidth": 3
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfMemAccessDelay"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 13
+				"gridX": 19
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblStoreUnits"
+				"text": "Store Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 15
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfStoreUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 15
+				"gridX": 3
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "Caches :"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 15
+				"gridY": 15
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+				"gridWidth": 3
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnAddCache"
+				"text": "+"
+				"focusable": false
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnAddCacheActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 19
+				"gridY": 15
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnRemoveCache"
+				"text": "-"
+				"focusable": false
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnRemoveCacheActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 21
+				"gridY": 15
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lblLoadUnits"
+				"text": "Load Units #"
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				"gridY": 17
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "tfLoadUnits"
+				"text": "2"
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 17
+				"gridX": 3
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "cachesScrollPane"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+					"columns": 1
+					"rows": 10
+				} ) {
+					name: "cachesPane"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+						"columns": 5
+					} ) {
+						name: "colNamesPane"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblS"
+							"text": "S"
+							"horizontalAlignment": 0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblL"
+							"text": "L"
+							"horizontalAlignment": 0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblM"
+							"text": "M"
+							"horizontalAlignment": 0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblD"
+							"text": "Delay"
+							"horizontalAlignment": 0
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "lblWP"
+							"text": "WB/WT"
+							"horizontalAlignment": 0
+						} )
+					} )
+				} )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 14
+				"gridY": 17
+				"gridWidth": 10
+				"gridHeight": 15
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 655, 490 )
+		} )
+	}
+}
