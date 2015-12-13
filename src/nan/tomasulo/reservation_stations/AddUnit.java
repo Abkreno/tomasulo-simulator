@@ -105,7 +105,6 @@ public class AddUnit extends ReservationStation {
 		RegisterStat.updateRegisterStats(instruction.getRd(), robEntry);
 		ReorderBuffer.getEntries()[getDst()].setCorrectValue(calculate(vj, vk,
 				getOperation()));
-
 	}
 
 }

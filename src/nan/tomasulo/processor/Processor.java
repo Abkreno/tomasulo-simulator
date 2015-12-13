@@ -158,16 +158,25 @@ public class Processor {
 		CommonDataBus.resetCommonDataBus();
 		ReorderBuffer.resetCommitsPerCycle();
 		int numOfFetches = 0;
+		int numOfIssues = 0;
 		Instruction instruction;
 		while (instructionsQueue.size() < instructionQueueMaxSize
 				&& numOfFetches < pipeLineWidth && pc < Memory.getProgramSize()) {
+			if (numOfIssues < pipeLineWidth && instructionsQueue.size() > 0
+					&& issueInstruction(instructionsQueue.getFirst())) {
+				numOfIssues++;
+				instructionsQueue.removeFirst().setIssuedTime(clock);
+			} else if (instructionsQueue.size() > 0) {
+				// Couldn't issue , stall
+				break;
+			}
 			instruction = new Instruction(Caches.fetchInstruction(pc), pc);
 			instructionsQueue.addLast(instruction);
 			numOfFetches++;
+
 			updatePC(instruction);
 		}
 
-		int numOfIssues = 0;
 		while (instructionsQueue.size() > 0 && numOfIssues < pipeLineWidth) {
 			instruction = instructionsQueue.getFirst();
 			if (issueInstruction(instruction)) {
@@ -369,11 +378,9 @@ public class Processor {
 			incrementPc(1 + regValue + imm);
 
 		} else if (Parser.checkTypeCall(fetchedInsruction.getType())) {
-
 			int regNum = fetchedInsruction.getRs();
 			short regValue = RegisterFile.getCorrectRegisterData(regNum);
 			setPc(regValue);
-
 		} else if (Parser.checkTypeRet(fetchedInsruction.getType())) {
 
 			int regNum = fetchedInsruction.getRd();

@@ -78,6 +78,7 @@ public class CallUnit extends ReservationStation {
 		setInstruction(instruction);
 		setCurrStage(ISSUED);
 		RegisterStat.updateRegisterStats(instruction.getRd(), robEntry);
+		ReorderBuffer.getEntries()[getDst()].setCorrectValue((short) (getInstruction().getAddress()+1));
 	}
 
 }

@@ -55,7 +55,15 @@ public class Simulator {
 	}
 
 	public static void main(String[] args) throws Exception {
-		new InputsWindow();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter 0 for console app or 1 for GUI");
+		int n = sc.nextInt();
+		sc.nextLine();
+		if (n == 0) {
+			console();
+		} else {
+			new InputsWindow();
+		}
 	}
 
 	static void getMemoryInputs(Scanner sc) {

@@ -29,7 +29,7 @@ public class RegisterFile {
 			// use the value in register file
 			regValue = RegisterFile.getRegisterData(regNum);
 		} else {
-			regValue = ReorderBuffer.getEntries()[regNum].getCorrectValue();
+			regValue = ReorderBuffer.getEntries()[robEntry].getCorrectValue();
 		}
 		return regValue;
 	}
