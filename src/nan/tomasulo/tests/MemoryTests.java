@@ -14,7 +14,7 @@ public class MemoryTests {
 
 	@Test
 	public void testReadFromDataSpace() throws InvalidReadException {
-		Memory.init(16, 256, 500);
+		Memory.init(16);
 
 		assertArrayEquals(new Short[16], Memory.readDataBlock(1));
 
@@ -23,7 +23,7 @@ public class MemoryTests {
 	@Test
 	public void testWriteToDataSpace() throws InvalidWriteException,
 			InvalidReadException {
-		Memory.init(16, 256, 500);
+		Memory.init(16);
 
 		for (int i = 0; i < 32; i++) {
 			Memory.writeDataEntry(i, (short) (i * 2));

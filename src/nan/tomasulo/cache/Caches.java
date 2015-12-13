@@ -35,6 +35,15 @@ public class Caches {
 		return instructionCaches;
 	}
 
+	public static double getAMAT(int currLevel) {
+		if (currLevel == dataCaches.size()) {
+			return Memory.getAccessDelay();
+		}
+		Cache currCache = dataCaches.get(currLevel);
+		return currCache.getAccessDelay() + currCache.getMissRatio()
+				* getAMAT(currLevel + 1);
+	}
+
 	/*
 	 * Recursive method to caculate the total access delay to read a certain
 	 * address without actually reading or changing the cache/main memory
@@ -87,8 +96,7 @@ public class Caches {
 			// Base case (reached main memory)
 			// when data is not found in any upper level
 			Object[] memData = Memory.readDataBlock(address);
-			CacheBlock block = new CacheBlock(memData, caches.get(0)
-					.getBlockSize());
+			CacheBlock block = new CacheBlock(memData, Memory.getBlockSize());
 			return block;
 		}
 		Cache currCache = caches.get(currLevel);

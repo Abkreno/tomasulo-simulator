@@ -21,8 +21,8 @@ public class Parser {
 			startingLocation = (short) Integer.parseInt(lines[0].split(" ")[1]);
 			org = 1;
 		}
-		Memory.init(16, lines.length - org, startingLocation);
-
+		Memory.setProgramSize(lines.length - org);
+		Memory.setProgramBeginning(startingLocation);
 		for (int i = org; i < lines.length; i++) {
 			try {
 				Memory.writeDataEntry(startingLocation + i - org, lines[i]);

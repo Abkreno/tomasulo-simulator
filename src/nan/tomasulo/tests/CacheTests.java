@@ -28,7 +28,7 @@ public class CacheTests {
 		LinkedList<Cache> dataCaches = Caches.getDataCaches();
 		Cache cacheL1 = dataCaches.get(0);
 		Cache cacheL2 = dataCaches.get(1);
-		Memory.init(16, 128, 1024);
+		Memory.init(16);
 		Memory.writeDataEntry(0, new Short((short) 9771));
 		Memory.writeDataEntry(15, new Short((short) 9799));
 		CacheBlock block = Caches.readCacheBlock((short) 0, 0, dataCaches);
@@ -82,7 +82,7 @@ public class CacheTests {
 		// 512 words , 16 word per block , direct map , write through
 		cachesInfo[0] = new int[] { 512, 16, 1, 1, 0 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
-		Memory.init(16, 128, 1024);
+		Memory.init(16);
 		Processor p = new Processor(1, 4);
 
 		// 0 at block (0/16 = 0 % 32 = 0)
@@ -102,7 +102,7 @@ public class CacheTests {
 		// 512 words , 16 word per block , direct map , write back
 		cachesInfo[0] = new int[] { 512, 16, 1, 1, 1 }; // 32 blocks
 		Caches.initCaches(cachesInfo);
-		Memory.init(16, 128, 1024);
+		Memory.init(16);
 		Processor p = new Processor(1, 4);
 
 		// 0 at block (0/16 = 0 % 32 = 0)

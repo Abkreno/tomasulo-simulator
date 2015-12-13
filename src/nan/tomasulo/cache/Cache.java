@@ -124,6 +124,22 @@ public class Cache {
 		this.accessDelay = accessDelay;
 	}
 
+	public double getHitRatio() {
+		if (hits + misses == 0)
+			return 1;
+		double hits = this.hits;
+		double misses = this.misses;
+		return hits / (hits + misses);
+	}
+
+	public double getMissRatio() {
+		if (hits + misses == 0)
+			return 0;
+		double hits = this.hits;
+		double misses = this.misses;
+		return misses / (hits + misses);
+	}
+
 	public short getIndex(short address) {
 		address /= blockSize; // remove the offset bits
 		return (short) (address % numOfSets);
@@ -168,4 +184,5 @@ public class Cache {
 		}
 		return LRU;
 	}
+
 }

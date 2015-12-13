@@ -16,6 +16,7 @@ public class Simulator {
 		Scanner sc = new Scanner(System.in);
 
 		getMemoryInputs(sc);
+		Memory.init(16);
 		Parser.copyProgramToMemory("program_1.in");
 
 		getFuncUnitsInputs(sc);
@@ -108,7 +109,7 @@ public class Simulator {
 
 		System.out.println("Enter Call Units Delay");
 		int callUnitsDelay = Integer.parseInt(sc.nextLine());
-		
+
 		System.out.println("Enter Number of Jump Units");
 		int jumpUnits = Integer.parseInt(sc.nextLine());
 
@@ -118,6 +119,6 @@ public class Simulator {
 		FunctionalUnits.initFunctionalUnits(addUnits, addUnitsDelay, multUnits,
 				multUnitsDelay, loadUnits, storeUnits, branchUnits,
 				branchUnitsDelay, logicalUnits, logicalUnitsDelay, callUnits,
-				callUnitsDelay,jumpUnits,jumpUnitsDelay);
+				callUnitsDelay, jumpUnits, jumpUnitsDelay);
 	}
 }

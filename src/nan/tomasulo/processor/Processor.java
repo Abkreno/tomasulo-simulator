@@ -28,7 +28,7 @@ public class Processor {
 	private static int clock = 1;
 
 	private int pipeLineWidth, instructionQueueMaxSize;
-
+	private int totalInstructions, totalBranches, missPredictedBranches;
 	private short pc;
 
 	private boolean halted;
@@ -44,6 +44,8 @@ public class Processor {
 		this.halted = false;
 		this.instructionQueueMaxSize = instructionQueueSize;
 		this.instructionsQueue = new LinkedList<>();
+		this.totalBranches = 0;
+		this.missPredictedBranches = 0;
 	}
 
 	public LinkedList<Instruction> getInstructionsQueue() {
@@ -90,6 +92,22 @@ public class Processor {
 		this.pipeLineWidth = pipeLineWidth;
 	}
 
+	public int getTotalBranches() {
+		return totalBranches;
+	}
+
+	public void setTotalBranches(int totalBranches) {
+		this.totalBranches = totalBranches;
+	}
+
+	public int getMissPredictedBranches() {
+		return missPredictedBranches;
+	}
+
+	public void setMissPredictedBranches(int missPredictedBranches) {
+		this.missPredictedBranches = missPredictedBranches;
+	}
+
 	public boolean isHalted() {
 		return halted;
 	}
@@ -100,6 +118,17 @@ public class Processor {
 
 	private void incrementPc(int value) {
 		this.pc += value;
+	}
+
+	public double getBranchMissPredictionPercentage() {
+		if (totalBranches == 0)
+			return 0;
+		return ((double) missPredictedBranches) / ((double) totalBranches)
+				* 100.0;
+	}
+
+	public double getIPC() {
+		return ((double) totalInstructions) / ((double) clock);
 	}
 
 	public void writeData(short address, Short data)
@@ -144,9 +173,12 @@ public class Processor {
 			ReservationStation currStation = reservationStationsQueue.get(i);
 			if (currStation.getCurrStage() == ReservationStation.FINISHED) {
 				// Printing log for commited instruction
-				System.out.println(currStation.getInstruction().getLog());
+				// System.out.println(currStation.getInstruction().getLog());
 				currStation.reset();
-				reservationStationsQueue.remove(i);
+				String type = reservationStationsQueue.remove(i).getOperation();
+				if (Parser.checkTypeCondBranch(type))
+					totalBranches++;
+				totalInstructions++;
 				i--;
 			} else {
 				currStation.update();
@@ -157,6 +189,7 @@ public class Processor {
 					while (!instructionsQueue.isEmpty())
 						instructionsQueue.remove();
 					setPc(correctAddress);
+					missPredictedBranches++;
 					break;
 				}
 			}
@@ -348,6 +381,10 @@ public class Processor {
 	public static void resetExectution(short address) {
 		reset = true;
 		correctAddress = address;
+	}
+
+	public static void setClock(int i) {
+		clock = i;
 	}
 
 }
