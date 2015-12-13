@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.common_data_bus.CommonDataBus;
+import nan.tomasulo.exceptions.InvalidReadException;
+import nan.tomasulo.exceptions.InvalidWriteException;
+import nan.tomasulo.gui.InputsWindow;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
@@ -12,7 +15,8 @@ import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class Simulator {
-	public static void main(String[] args) throws Exception {
+	public static void console() throws InvalidReadException,
+			InvalidWriteException {
 		Scanner sc = new Scanner(System.in);
 
 		getMemoryInputs(sc);
@@ -48,6 +52,10 @@ public class Simulator {
 			sc.nextLine();
 		}
 		sc.close();
+	}
+
+	public static void main(String[] args) throws Exception {
+		new InputsWindow();
 	}
 
 	static void getMemoryInputs(Scanner sc) {
