@@ -10,11 +10,14 @@ import nan.tomasulo.gui.InputsWindow;
 import nan.tomasulo.instructions.Instruction;
 import nan.tomasulo.memory.Memory;
 import nan.tomasulo.processor.Processor;
+import nan.tomasulo.registers.RegisterFile;
 import nan.tomasulo.registers.RegisterStat;
 import nan.tomasulo.reorderbuffer.ReorderBuffer;
 import nan.tomasulo.reservation_stations.FunctionalUnits;
 
 public class Simulator {
+	public static boolean console = false;
+
 	public static void console() throws InvalidReadException,
 			InvalidWriteException {
 		Scanner sc = new Scanner(System.in);
@@ -31,7 +34,7 @@ public class Simulator {
 		int maxCommits = Integer.parseInt(sc.nextLine());
 		ReorderBuffer.init(robSize, maxCommits);
 		RegisterStat.init(8);
-
+		RegisterFile.init();
 		System.out.println("Enter Pipeline width :");
 		int pipeLineWidth = Integer.parseInt(sc.nextLine());
 		System.out.println("Enter Instruction Buffer Size :");
@@ -43,10 +46,6 @@ public class Simulator {
 		Processor p = new Processor(pipeLineWidth, maxNumOfInstInBuffer);
 		while (true) {
 			p.nextClockCycle();
-			Instruction in = new Instruction(
-					Caches.fetchInstruction(p.getPc()), p.getPc());
-			p.setPc((short) (p.getPc() + 1));
-			System.out.println(in.toString());
 			if (p.isHalted())
 				break;
 			sc.nextLine();
@@ -60,6 +59,7 @@ public class Simulator {
 		int n = sc.nextInt();
 		sc.nextLine();
 		if (n == 0) {
+			console = true;
 			console();
 		} else {
 			new InputsWindow();

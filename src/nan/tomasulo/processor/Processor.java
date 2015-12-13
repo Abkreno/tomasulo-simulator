@@ -3,6 +3,7 @@ package nan.tomasulo.processor;
 import java.util.LinkedList;
 
 import nan.tomasulo.Parser;
+import nan.tomasulo.Simulator;
 import nan.tomasulo.cache.Caches;
 import nan.tomasulo.common_data_bus.CommonDataBus;
 import nan.tomasulo.exceptions.InvalidReadException;
@@ -192,7 +193,8 @@ public class Processor {
 			ReservationStation currStation = reservationStationsQueue.get(i);
 			if (currStation.getCurrStage() == ReservationStation.FINISHED) {
 				// Printing log for commited instruction
-				// System.out.println(currStation.getInstruction().getLog());
+				if (Simulator.console)
+					System.out.println(currStation.getInstruction().getLog());
 				finishedInstructions.add(currStation.getInstruction());
 				if (Parser.checkTypeCondBranch(currStation.getOperation()))
 					totalBranches++;
